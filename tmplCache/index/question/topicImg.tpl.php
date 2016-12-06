@@ -1,0 +1,1 @@
+topicImg.tpl.php

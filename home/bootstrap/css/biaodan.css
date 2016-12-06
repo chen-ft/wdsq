@@ -1,0 +1,33 @@
+html{
+	font-family: "Microsoft YaHei";
+}
+.detail{
+	padding-left: 30px;
+	font-family: "Microsoft YaHei";
+	margin:0 auto;
+}
+.detail .detail-left{
+	float: left;
+}
+.detail-left .kehu{
+	
+}
+.detailTitle{
+	float: left;
+}
+/*输入框*/
+.detailPut{
+	padding-left: 80px;
+	
+}
+.phone input{
+	margin-bottom: 8px;
+	background: #eee;
+	
+}
+/*上下间距*/
+.space{
+	margin-bottom: 8px;
+}
+
+
