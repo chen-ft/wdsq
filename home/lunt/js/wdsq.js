@@ -1,5 +1,5 @@
 $(function(){
-   
+    
 	$('.summernote').summernote({
 		  height:100,
 		  placeholder: '问题背景、条件等详细信息',
@@ -13,22 +13,6 @@ $(function(){
 
 	});
 
-    $('#main_contents').append('<p style="padding: 15px 0" align="center"><img src="home/lunt/css/img/loading_b.gif" alt="" /></p>');
-    $.ajax({
-          type     : 'post',
-          dataType : 'json',
-          url      : '/index.php?module=sql&action=loadData',
-          data     : {'page':'1'},
-          success  : function(data){
-                var content={
-                    list : data,
-                };
-                var html = template('qList',content);
-                $('#main_contents').html(html);
-  
-        }
-
-     });
 
 	$('.select2').select2();
 

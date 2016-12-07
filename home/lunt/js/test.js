@@ -9,7 +9,6 @@ var AWS =
 
   		$(document).on('mouseover',selector,function(){
   			var _this = $(this);
-        console.log(_this);
   			clearTimeout(AWS.G.card_box_hide_timer);
 
   			AWS.G.card_box_show_timer = setTimeout(function(){
@@ -29,7 +28,6 @@ var AWS =
 
             case 'topic':
               if (AWS.G.cashUserData.length == 0) {
-                console.log('1');
                 _getdata();
               }else{
                 var flag = 0;
@@ -191,12 +189,40 @@ var AWS =
                         $('#bp_more').find('span').html('出现错误');
                         alert('1');
               }
-         
-
            });
+      break;
+      case 'answer_form':
+          $.ajax({
+              type     : 'post',
+              dataType : 'json',
+              url      : '/index.php?module=sql&action=replay',
+              data     : {qsId:'10015',userId:'201005',content:$('#answer').summernote('code')},
+              success  : function(data){
+                     
+
+              }
+          });
+
+      break;
 
       }
 
+    },
+
+    //转义html文本
+    htmlDecode:function(str1)
+    { 
+        console.log(str1);
+        var s = "";   
+        if (str1.length == 0) return "";   
+        s = str1.replace(/&gt;/g, "&");   
+        s = s.replace(/&lt;/g, "<");   
+        s = s.replace(/&gt;/g, ">");   
+        s = s.replace(/&nbsp;/g, " ");   
+        s = s.replace(/&#39;/g, "\'");   
+        s = s.replace(/&quot;/g, "\"");   
+        s = s.replace(/<br>/g, "\n");   
+        return s;   
     }
 }
  // 全局变量
@@ -266,4 +292,6 @@ AWS.Init =
 
 	}
 }
+
+
 	      

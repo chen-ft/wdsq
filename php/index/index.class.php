@@ -15,6 +15,11 @@ class Index  extends Home_Public
       
         $this->display();
     }
+    Function showLogin(){
+
+        $this->display();
+    }
+
     Function showAnswer() 
     {
       
@@ -32,12 +37,10 @@ class Index  extends Home_Public
     }
     Function showTopic() 
     {
-
         $this->display();
     }
     Function showQuestion() 
     {
-        
         $this->display();
     }
 

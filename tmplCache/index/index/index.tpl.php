@@ -39,7 +39,7 @@
 		          						<img src="home/topicImg/topicImg_{{item['tpId']}}.jpg"/>
 		          					</a> 
 		          					<p class="text-color-999">
-		          						来自话题•   <a class="aw-topic-name" href="/index.php?module=question&action=question&id={{item['tpId']}}">{{item['tpName']}}</a>
+		          						来自话题•   <a class="aw-topic-name" href="/index.php?module=question&action=topicImg&id={{item['tpId']}}">{{item['tpName']}}</a>
 		          					</p>
 	          						<h4>
 	          							<a href="/index.php?module=question&action=question&id={{item['qsId']}}">{{item['qsTitle']}}</a>
@@ -47,7 +47,6 @@
 	          			      	</div>
 	          			      	{{if item['strUserId']}}
 	          			      	<div class="mod-body ">
-
 	          			      		<span>
 	          							<a href={{item['strUserId']}} style="font-weight:bold;color:#222">{{item['strName']}}</a> •                  
 	          							<small>{{item['strDetail']}}</small>
@@ -55,7 +54,7 @@
 	          						<div class="media" style="margin-top: 2px;" >
 	          							<div class="media-left">
 	          								<a href="#">
-	          								<img style="width: 198px;height: 115px;border-radius: 3px; " class="media-object" src={{item['strAnsId']}} alt="...">
+	          								<img style="width: 198px;height: 115px;border-radius: 3px; " class="media-object" src="/" alt="...">
 	          								</a>
 	          							</div>
 	          							<div class="media-body">
@@ -189,6 +188,22 @@
 	<?php $this->loadTmplate(TEMPLATE_PATH . "public/footer.tpl.php")?>
 	
     <?php $this->loadTmplate(TEMPLATE_PATH . "public/js.tpl.php"); ?>
-    
+    <script>
+    	$('#main_contents').append('<p style="padding: 15px 0" align="center"><img src="home/lunt/css/img/loading_b.gif" alt="" /></p>');
+	    $.ajax({
+	          type     : 'post',
+	          dataType : 'json',
+	          url      : '/index.php?module=sql&action=loadData',
+	          data     : {'page':'1'},
+	          success  : function(data){
+	                var content={
+	                    list : data,
+	                };
+	                var html = template('qList',content);
+	                template.config("escape", false);
+	                $('#main_contents').html(html);
+	            }
+	     });
+    </script>
   </body>
 </html>

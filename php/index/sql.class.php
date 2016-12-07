@@ -14,21 +14,23 @@ class Sql extends Home_Public
 		if ($_POST['title']) {
 			//连接数据库
 			$pdo = $this->getConnect();
-
 			// 获取数据
 			$title = "'".$_POST['title']."'";
-			$content = "'".$_POST['content']."'";
+			$content = "'".htmlspecialchars_decode($_POST['content'])."'";
 			$topic = $_POST['topic'];
-			$num = '10016';
-			$sql = "insert into wd_question(qsId,tpId,qsTitle,qsContent,qsCreateTime) values($num,$topic[0],$title,$content,CURDATE())";
+			$num = 100100;
+			$userId = '201002';
+			$sql = "insert into wd_question(qsId,tpId,strUserId,qsTitle,qsContent,qsCreateTime) values($num,$topic[0],$userId,$title,$content,CURDATE())";
 			$rs = $pdo->prepare($sql);
 			$rs->execute();
+			echo $sql;
 
 			if ($rs) {
 				echo json_encode('0000');
-			}else{
+			}else{	
 				echo json_encode('1111');
 			}
+
 		}
 	}
 
@@ -65,9 +67,10 @@ class Sql extends Home_Public
    			$pdo = $this->getConnect();
    			$page= $_POST['page']*10;
    			$sql = 'SELECT q.tpId,t.tpName,q.qsId,a.strAnsAgree,q.qsTitle,u.strUserId,u.strName,
-	   				u.strDetail,a.strAnsId,a.strAnsContent,a.strAnsComment FROM wd_question AS q 
-	   				LEFT JOIN wd_answer AS a ON q.qsId = a.strQsId LEFT JOIN wd_topic AS t ON 
-	   				q.tpId = t.tpId LEFT JOIN wd_user AS u ON a.strUserId = u.strUserId';
+	   				u.strDetail,a.strAnsContent,a.strAnsComment,a.strAnsAttentions  FROM 
+	   				wd_question AS q LEFT JOIN (select * from wd_answer ORDER BY strAnsAttentions
+	   				 desc) AS a ON q.qsId = a.strQsId LEFT JOIN wd_topic AS t ON q.tpId = t.tpId LEFT JOIN wd_user AS u ON a.strUserId = u.strUserId  GROUP BY q.qsId';
+
 	   		$limit = ' limit 0,'.$page;
 
 	   		$rs = $pdo->prepare($sql.$limit);
@@ -92,7 +95,7 @@ class Sql extends Home_Public
     	$pdo = $this->getConnect();
     	$dataId = $_POST['id'];
 
-    	$sql = "select tpId,tpName,tpQuestions,tpAttentions,tpDetail from wd_topic where tpId=".$dataId;
+    	$sql = "SELECT tpId,tpName,tpQuestions,tpAttentions,tpDetail from wd_topic where tpId=".$dataId;
     	$rs = $pdo->prepare($sql);
    		$rs->execute();
         $array = [];
@@ -101,10 +104,49 @@ class Sql extends Home_Public
    		}
 
    		echo json_encode($array);
+    }
 
+    Function showLoadQuestiton(){
+
+    	
+    	$dataId = $_POST['id'];
+
+    	$sql = "SELECT tpName,qsTitle,qsContent,qsCreateTime FROM wd_question AS q LEFT JOIN wd_topic AS t ON q.tpId = t.tpId WHERE qsId=".$dataId;
+    	$array = $this->myQuery($sql);
+
+    	$array2 = $this->myQuery("SELECT a.strUserId,u.strName,strAnsContent,strAnsAgree,strAnsAttentions,strAnsComment FROM wd_answer AS a INNER JOIN wd_user AS u ON a.strUserId = u.strUserId WHERE a.strQsId=".$dataId);
+
+    	$array['questions'] = $array2;
+   		echo json_encode($array);
+
+    }
+    Function showReplay(){
+    	$pdo = $this->getConnect();
+    	$content = "'".htmlspecialchars_decode($_POST['content'])."'";
+    	$id = $_POST['qsId'];
+    	$userId = $_POST['userId'];
+    	
+    	$sql = "insert into wd_answer(strQsId,strUserId,strAnsContent) values($id,$userId,$content)";
+    	$rs = $pdo->prepare($sql);
+   		$rs->execute();
 
     }
 
+
+    Function myQuery($sql){
+    	$pdo = $this->getConnect();
+    	$rs = $pdo->prepare($sql);
+   		$rs->execute();
+        $array = [];
+   		while ( $row = $rs->fetchAll(PDO::FETCH_ASSOC)) {
+   			$array  = $row;
+   		}
+   		return $array;
+    }
+
+
 	
 }
+
+
 

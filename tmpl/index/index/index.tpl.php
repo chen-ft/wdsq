@@ -54,7 +54,7 @@
 	          						<div class="media" style="margin-top: 2px;" >
 	          							<div class="media-left">
 	          								<a href="#">
-	          								<img style="width: 198px;height: 115px;border-radius: 3px; " class="media-object" src={{item['strAnsId']}} alt="...">
+	          								<img style="width: 198px;height: 115px;border-radius: 3px; " class="media-object" src="/" alt="...">
 	          								</a>
 	          							</div>
 	          							<div class="media-body">
@@ -188,6 +188,22 @@
 	<?php $this->loadTmplate(TEMPLATE_PATH . "public/footer.tpl.php")?>
 	
     <?php $this->loadTmplate(TEMPLATE_PATH . "public/js.tpl.php"); ?>
-    
+    <script>
+    	$('#main_contents').append('<p style="padding: 15px 0" align="center"><img src="home/lunt/css/img/loading_b.gif" alt="" /></p>');
+	    $.ajax({
+	          type     : 'post',
+	          dataType : 'json',
+	          url      : '/index.php?module=sql&action=loadData',
+	          data     : {'page':'1'},
+	          success  : function(data){
+	                var content={
+	                    list : data,
+	                };
+	                var html = template('qList',content);
+	                template.config("escape", false);
+	                $('#main_contents').html(html);
+	            }
+	     });
+    </script>
   </body>
 </html>
