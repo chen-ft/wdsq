@@ -12,7 +12,7 @@ class Index  extends Home_Public
 
     Function showIndex() 
     {
-      
+        $this->publicCheckLogin();
         $this->display();
     }
     Function showLogin(){

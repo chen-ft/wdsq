@@ -41,7 +41,7 @@ var AW_TEMPLATE = {
   						'</textarea>'+
   						'<div class="aw-comment-box-btn">'+
   							'<span class="pull-right">'+
-  								'<a href="javascript:;" class="btn btn-mini btn-success" onclick="AWS.User.save_comment($(this));">'+'评论'+'</a>'+
+  								'<a href="javascript:;" class="btn btn-mini btn-success" onclick="AWS.form_submit($(this))">'+'评论'+'</a>'+
   								'<a href="javascript:;" class="btn btn-mini btn-gray close-comment-box">'+'取消'+'</a>'+
   							'</span>'+
   						'</div>'+

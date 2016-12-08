@@ -61,7 +61,7 @@
 				<!-- 登陆&注册栏 -->
 				<a href="http://wenda.bootcss.com/people/_TimChen" class="aw-user-nav-dropdown">
 						<img alt="_TimChen" src="http://wenda.bootcss.com/static/common/avatar-mid-img.png" />
-						<span style="color: #fff">陈飞艇</span>
+						<span style="color: #fff"><?=$_SESSION['login']['strName']?></span>
 						
 					</a>
 					<div class="aw-dropdown dropdown-list pull-right">
@@ -75,13 +75,7 @@
 			</div>
 			<!-- end 用户栏 -->
 			<div class="aw-publish-btn">
-				<a id="header_publish" href="javascript:void(0)" class="btn-primary"><i class="icon icon-ask"></i>发起</a>
-				<div class="dropdown-list pull-right">
-					<ul>
-						<li><a href="javascript:" onclick="AWS.dialog()">问题</a></li>
-						<li><a href="http://wenda.bootcss.com/publish/article/">文章</a></li>
-					</ul>
-				</div>
+				<a class="btn-primary" onclick="AWS.dialog()"><i class="icon icon-ask"></i>提问</a>
 			</div>
 		</div>
 	</div>

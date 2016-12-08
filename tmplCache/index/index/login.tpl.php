@@ -15,13 +15,12 @@
 		<form class="register-form">
 		  <input type="text" placeholder="用户名" id="r_user_name"/>
 		  <input type="password" placeholder="密码" id="r_password" />
-		  <input type="text" placeholder="电子邮件" id="r_emial"/>
 		  <button id="create">创建账户</button>
 		  <p class="message">已经有了一个账户? <a href="#">立刻登录</a></p>
 		</form>
 		<form class="login-form">
-		  <input type="text" placeholder="用户名" id="user_name"/>
-		  <input type="password" placeholder="密码" id="password"/>
+		  <input type="text" placeholder="用户名" id="user_name"/ value="陈先生">
+		  <input type="password" placeholder="密码" id="password"/ value="12345678">
 		  <button id="login">登　录</button>
 		  <p class="message">还没有账户? <a href="#">立刻创建</a></p>
 		</form>
@@ -35,40 +34,39 @@ function check_login()
 {
  var name=$("#user_name").val();
  var pass=$("#password").val();
- if(name=="123" && pass=="123")
- {
-  alert("登录成功！");
-  $("#user_name").val("");
-  $("#password").val("");
+ $.post('/index.php?module=sql&action=loginYz',{name:name,pass:pass},function(data){
+ 	if (data == '0000') {
+ 		alert("登录成功！");
+		window.location.href='/index.php';
+ 	}else{
+ 		$("#login_form").removeClass('shake_effect');  
+ 		setTimeout(function()
+ 		{
+ 			$("#login_form").addClass('shake_effect')
+ 		},1); 
+ 	}
+ },'json');
 
- }
- else
- {
-  $("#login_form").removeClass('shake_effect');  
-  setTimeout(function()
-  {
-   $("#login_form").addClass('shake_effect')
-  },1);  
- }
 }
+
 function check_register(){
 	var name = $("#r_user_name").val();
 	var pass = $("#r_password").val();
-	var email = $("r_email").val();
-	if(name!="" && pass=="" && email != "")
-	 {
-	  alert("注册成功！");
-	  $("#user_name").val("");
-	  $("#password").val("");
-	 }
-	 else
-	 {
-	  $("#login_form").removeClass('shake_effect');  
-	  setTimeout(function()
-	  {
-	   $("#login_form").addClass('shake_effect')
-	  },1);  
-	 }
+	$.post('/index.php?module=sql&action=register',{name:name,pass:pass},function(data){
+		if (data == '0000') {
+			 alert("注册成功！");
+		}else if(data == '2222'){
+			 alert("用户已存在");
+		}else{
+			$("#login_form").removeClass('shake_effect');  
+			setTimeout(function()
+			{
+				$("#login_form").addClass('shake_effect')
+			},1);  
+		}
+
+	},'json');
+
 }
 $(function(){
 	$("#create").click(function(){

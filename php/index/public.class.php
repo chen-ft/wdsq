@@ -7,10 +7,11 @@ class Home_Public extends Cortrol {
         header("Access-Control-Allow-Origin:*");
     }
 
-    Function Admin_Public() {
+    Function Home_Public() {
+        session_start();
         $this->Cortrol();
         $moduleAction = ACTION_PREFIX . ucfirst(ACTION_NAME);
-        $this->$moduleAction();
+        //$this->$moduleAction();
         return;
     }
     /**
@@ -26,15 +27,16 @@ class Home_Public extends Cortrol {
         }
           return $pdo;
     }
-
+  
 
     /**
      * 验证是否登录
      */
     Function publicCheckLogin() {
-        if (empty($_SESSION['user']['strPass'])) {
+        if (empty($_SESSION['login']['strPass'])) {
             //goBack('亲，请登录帐号', 'top|/admin.php?module=index&action=login');
-            goBack('', 'top|/admin.php?module=index&action=login');
+
+            goBack('', 'top|/index.php?module=index&action=login');
         }
         //$this->getWebPriv();
     }

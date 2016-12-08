@@ -35,6 +35,7 @@ function vCode($num = 4, $size = 20, $width = 0, $height = 0) {
     //@imagefttext($im, $size, 0, 5, $size + 3, $text_color, 'c:\\WINDOWS\\Fonts\\simsun.ttc', $code);
     //setcookie("code", strtolower($code));
     $_SESSION['code'] = strtolower($code);
+
     header("Cache-Control: max-age=1, s-maxage=1, no-cache, must-revalidate");
     header("Content-type: image/png;charset=utf-8");
     imagepng($im);

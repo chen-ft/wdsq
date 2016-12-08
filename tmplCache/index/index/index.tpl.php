@@ -66,15 +66,16 @@
 	          			      	<div class="mod-footer">
 	          			      		<div class="meta clearfix">
 	          			      			<p>
-	          			      			<a href="#" onclick="" class="text-color-999 "><i class="icon icon-plus"></i>添加关注
+	          			      			    <a  class="text-color-999 "><i class="icon icon-plus"></i>添加关注
 	          			      				</a> &nbsp&nbsp  
-	          			      				<a href="javascript:" onclick="" class="text-color-999 add-comment" datatype="answer"><i class="icon icon-comment"></i>
+	          			      				<a class="text-color-999 add-comment" datatype="answer" data-id={{item['strAnsId']}}><i class="icon icon-comment"></i>
 	          			      					{{item['strAnsComment']}}条评论
 	          			      				</a> &nbsp&nbsp  
-	          			      				<a href="javascript:" onclick="" class="text-color-999"><i class="icon icon-share"></i>
-	          			      					分享
+	          			      				<a onclick="AWS.User.answer_user_rate($(this), 'thanks', 1055);" class="aw-icon-thank-tips text-color-999" data-original-title="感谢热心的回复者" data-toggle="tooltip" title="" data-placement="bottom"><i class="icon icon-thank"></i>赞
 	          			      				</a> &nbsp&nbsp 
-	          			      				<a href="javascript:;" onclick="AWS.User.answer_user_rate($(this), 'thanks', 1055);" class="aw-icon-thank-tips text-color-999" data-original-title="感谢热心的回复者" data-toggle="tooltip" title="" data-placement="bottom"><i class="icon icon-thank"></i>赞</a>
+	          			      				<a onclick="" class="text-color-999"><i class="icon icon-share"></i>
+	          			      					分享
+	          			      				</a> 
 	          			      			</p>
 	          			      		</div>
 	          			      	</div>

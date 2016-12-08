@@ -148,13 +148,21 @@ var AWS =
       
       $('#askModal').modal('show');
     },
-
-    ajax_post:function(type)
+    
+    // 表单提交
+    form_submit:function(selector)
     {
+      var content = decodeURIComponent(selector.parents('form').serialize());
+      AWS.ajax_post('commentBox',content,selector.parents('form')[0].action);
+    },
+
+    ajax_post:function(type,data,url)
+    { 
       switch(type){
         case 'publish':
+           AWS.G.num++;
            $.post('/index.php?module=sql&action=publish',
-                {title:$('#qsTitle').val(),content:$('#qsContent').summernote('code'),topic:$('#qsTopic').select2('val')},
+                {title:$('#qsTitle').val(),content:$('#qsContent').summernote('code'),topic:$('#qsTopic').select2('val'),qsId:AWS.G.num},
                 function(data){
                   if (data == '0000') {alert('发布成功')}else{alert('出现错误')}
            },'json');
@@ -191,39 +199,44 @@ var AWS =
               }
            });
       break;
-      case 'answer_form':
-          $.ajax({
+      case 'replay':
+        $.ajax({
               type     : 'post',
               dataType : 'json',
               url      : '/index.php?module=sql&action=replay',
-              data     : {qsId:'10015',userId:'201005',content:$('#answer').summernote('code')},
+              data     : {qsId:data,content:$('#answer').summernote('code')},
               success  : function(data){
-                     
-
+                if (data == '0000') {
+                  alert('回复成功');
+                }
+              },
+              error    : function(){
+                  alert('出现错误');
               }
           });
 
+      break;
+      case 'commentBox':
+        $.ajax({
+              type     : 'post',
+              dataType : 'json',
+              url      : url,
+              data     : {content:data},
+              success  : function(data){
+                if (data == '0000') {
+                  alert('回复成功');
+                }
+              },
+              error    : function(){
+                  alert('出现错误');
+              }
+          });
       break;
 
       }
 
     },
 
-    //转义html文本
-    htmlDecode:function(str1)
-    { 
-        console.log(str1);
-        var s = "";   
-        if (str1.length == 0) return "";   
-        s = str1.replace(/&gt;/g, "&");   
-        s = s.replace(/&lt;/g, "<");   
-        s = s.replace(/&gt;/g, ">");   
-        s = s.replace(/&nbsp;/g, " ");   
-        s = s.replace(/&#39;/g, "\'");   
-        s = s.replace(/&quot;/g, "\"");   
-        s = s.replace(/<br>/g, "\n");   
-        return s;   
-    }
 }
  // 全局变量
 AWS.G =
@@ -236,7 +249,10 @@ AWS.G =
 	loading_timer: '',
 	loading_bg_count: 12,
 	loading_mini_bg_count: 9,
-	notification_timer: ''
+	notification_timer: '',
+  qsId: '100100',
+  strUserId: '201000',
+  strAnsId: '1000',
 }
 
 //初始化
@@ -246,7 +262,7 @@ AWS.Init =
 	init_comment_box:function(selector){
 		$(document).on("click",selector,function(){
 
-			var comment_box_id = '#aw-comment-box-answer-12';
+			var comment_box_id = '#aw-comment-box-answer-'+$(this).attr('data-id');
 
 			if ($(comment_box_id).length) { //判断是否已经插入模版
 
@@ -260,29 +276,43 @@ AWS.Init =
 
 			}else{
 
-				$(this).parents(".aw-item").find(".mod-footer").append(Hogan.compile(AW_TEMPLATE.commentBox).render({
-					'comment_form_id': comment_box_id.replace('#',''),
-					'comment_form_action': 'http://www.baidu.com',
-				}));
+         // 动态插入commentBox
+         switch ($(this).attr('data-type'))
+         {
+            case 'question':
+            var comment_form_action = '/index.php?module=sql&action=saveQsComment&ques_id=' + $(this).attr('data-id');
+            var comment_data_url =  '/index.php?module=sql&action=getQsComment&ques_id=' + $(this).attr('data-id');
+            break;
 
-	            var result = '<div align="center" class="aw-padding10">' + '暂无评论' + '</div>';
-	            $('.aw-comment-list').html(result);
+            case 'answer':
+                //var comment_form_action = G_BASE_URL + '/question/ajax/save_answer_comment/answer_id-' + $(this).attr('data-id');
+                //var comment_data_url = G_BASE_URL + '/question/ajax/get_answer_comments/answer_id-' + $(this).attr('data-id');
+                break;
+          }
 
-	            $(comment_box_id).find('aw-comment-txt').bind({
-	            	focus:function(){
-	            		$(comment_box_id).find('.aw-comment-box-btn').show();
-	            	},
-	            	blur:function(){
-	            	    $(comment_box_id).find('.aw-comment-box-btn').hide();
-	            	}
-	            });
+          $(this).parents(".aw-item").find(".mod-footer").append(Hogan.compile(AW_TEMPLATE.commentBox).render({
+             'comment_form_id': comment_box_id.replace('#',''),
+             'comment_form_action': comment_form_action,
+           }));
+
+          $.post(comment_data_url,function(data){
+                console.log(data);
+                if (data == '1111') {
+                   var result = '<div align="center" class="aw-padding10">' + '暂无评论' + '</div>';
+                }else{
+                   var comments = {
+                        list:data,
+                   }
+                   var result = template('commentList',comments);
+                }
+                   $(comment_box_id).find('.aw-comment-list').html(result);
 
 
-	            $(comment_box_id).fadeIn();
+          },'json');
 
+          $(comment_box_id).fadeIn();
 
-
-			}
+        }
 
 			
 
@@ -294,4 +324,3 @@ AWS.Init =
 }
 
 
-	      

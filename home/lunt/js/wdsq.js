@@ -1,15 +1,9 @@
 $(function(){
     
 	$('.summernote').summernote({
-		  height:100,
+		  height:150,
 		  placeholder: '问题背景、条件等详细信息',
-		  toolbar: [
-		    ['style', ['bold', 'italic', 'underline']],
-		    ['insert',['picture','video']],
-		    ['fontsize', ['fontsize']],
-		    ['para', ['ul', 'ol', 'paragraph']],
-		    ['music',['codeview','fullscreen']]
-          ],
+		 
 
 	});
 

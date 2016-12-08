@@ -8,6 +8,7 @@ class Admin_Public extends Cortrol {
     }
 
     Function Admin_Public() {
+        session_start();
         $this->Cortrol();
         $moduleAction = ACTION_PREFIX . ucfirst(ACTION_NAME);
         $this->$moduleAction();
@@ -20,7 +21,9 @@ class Admin_Public extends Cortrol {
     Function publicCheckLogin() {
         if (empty($_SESSION['user']['strPass'])) {
             //goBack('亲，请登录帐号', 'top|/admin.php?module=index&action=login');
-            goBack('', 'top|/admin.php?module=index&action=login');
+            var_dump($_SESSION);
+            var_dump('1');
+            // goBack('', 'top|/admin.php?module=index&action=login');
         }
         //$this->getWebPriv();
     }

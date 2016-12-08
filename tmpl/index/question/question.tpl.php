@@ -47,7 +47,7 @@
                             <div class="meta">
                                 <span class="text-color-999">{{list['qsCreateTime']}}</span>
 
-                                <a data-id="2374" data-type="question" class="aw-add-comment text-color-999 " data-comment-count="0"><i class="icon icon-comment"></i>添加评论</a>
+                                <a data-id={{list['qsId']}} data-type="question" class="add-comment text-color-999 " data-comment-count="0"><i class="icon icon-comment"></i>添加评论</a>
 
                                 <a class="text-color-999 aw-invite-replay"><i class="icon icon-invite"></i>邀请 </a>
                                 
@@ -150,15 +150,20 @@
                                        </div>
                                    </div>
                                    <div class="mod-footer">
-                                        <p>
-                                            <a href="javascript:" onclick="" class="text-color-999 add-comment" datatype="answer"><i class="icon icon-comment"></i>
-                                                1条评论
-                                            </a> &nbsp;&nbsp;  
-                                            <a href="javascript:" onclick="" class="text-color-999"><i class="icon icon-share"></i>
-                                                分享
-                                            </a> &nbsp;&nbsp; 
-                                            <a href="javascript:;" onclick="AWS.User.answer_user_rate($(this), 'thanks', 1055);" class="aw-icon-thank-tips text-color-999" data-original-title="感谢热心的回复者" data-toggle="tooltip" title="" data-placement="bottom"><i class="icon icon-thank"></i>赞</a>
-                                        </p>
+                                        <div class="meta clearfix">
+                                            <p>
+                                                <a href="javascript:;" onclick="AWS.User.answer_user_rate($(this), 'thanks', 1055);" class="aw-icon-thank-tips text-color-999" data-original-title="感谢热心的回复者" data-toggle="tooltip" title="" data-placement="bottom"><i class="icon icon-thank"></i>
+                                                    赞
+                                                </a> &nbsp;&nbsp;
+                                                <a class="text-color-999 add-comment" datatype="answer" data-id={{item['strAnsId']}}><i class="icon icon-comment"></i>
+                                                    1条评论
+                                                </a> &nbsp;&nbsp;  
+                                                <a href="javascript:" onclick="" class="text-color-999"><i class="icon icon-share"></i>
+                                                    分享
+                                                </a>  
+                                               
+                                            </p>
+                                        </div>
                                     </div>
                                  </div>
                                  {{/each}}
@@ -182,9 +187,9 @@
                                 <input type="hidden" name="question_id" value="2374">
                                 <input type="hidden" name="attach_access_key" value="f1f84eef080dae8a7b99a5063600aff1">
                                 <div class="mod-head">
-                                    <a href="http://wenda.bootcss.com/people/" class="aw-user-name"><img alt="_TimChen" src="http://wenda.bootcss.com/static/common/avatar-mid-img.png"></a>
+                                    <a href="http://wenda.bootcss.com/people/" class="aw-user-name"><img alt="无" src="http://wenda.bootcss.com/static/common/avatar-mid-img.png"></a>
                                     <p>
-                                        _TimChen                            
+                                        <?=$_SESSION['login']['strName']?>                           
                                     </p>
                                 </div>
                                 <div class="mod-body">
@@ -194,7 +199,7 @@
                                     </div>
                                     <div class="mod-body clearfix">
                                         <span class="pull-right">
-                                            <a type="button" onclick="AWS.ajax_post('answer_form')"  class="btn btn-normal btn-success">回复</a>
+                                            <a type="button" onclick="AWS.ajax_post('replay',<?=$_GET['id']?>)"  class="btn btn-normal btn-success">回复</a>
                                         </span>
                                     </div>
                                 </div>
@@ -257,6 +262,28 @@
          });
 
 
+    </script>
+    <script type="text/html" id="commentList">
+    	<ul>
+	    	{{each list as item i}}
+			<li>
+			  <a class="aw-user-name" href="#" alt="">
+			  	<img src="http://wenda.bootcss.com/static/common/avatar-min-img.png" alt="">
+			  </a>
+			  <div>
+			      <p class="clearfix">
+			    <span class="pull-right"> 
+			      <a href="javascript:;" onclick="$(this).parents('.aw-comment-box').find('form textarea').insertAtCaret('@chenchao:');$(this).parents('.aw-comment-box').find('form').show().find('textarea').focus();$.scrollTo($(this).parents('.aw-comment-box').find('form'), 300, {queue:true});">回复</a>
+			    </span>
+			      <a href="#" class="aw-user-name author" data-id="">{{item['strName']}}</a>
+			  </p>
+			  <p class="clearfix">{{item['strCmtContent']}}</p>
+			  </div>
+			</li>
+			{{/each}}
+		</ul>
+
+	      
     </script>
   
   </body>
