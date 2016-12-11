@@ -3,8 +3,6 @@ $(function(){
 	$('.summernote').summernote({
 		  height:150,
 		  placeholder: '问题背景、条件等详细信息',
-		 
-
 	});
 
 
@@ -31,13 +29,14 @@ $(function(){
 		
 
 
-
-
 	//详情提示框
 	AWS.show_card_box('.aw-user-img, .aw-topic-name','topic');
 
 	//评论框
 	AWS.Init.init_comment_box('.add-comment');
+
+    //邀请框
+    AWS.Init.init_invite_box('.aw-invite-replay');
 
     //小卡片mouseover
     $(document).on('mouseover', '#aw-card-tips', function ()
@@ -61,7 +60,6 @@ $(function(){
     });
 
 
-
 });
 
 function formatState (state) {
@@ -73,3 +71,4 @@ function formatState (state) {
     );//将API返回的结果转换为模板
     return $state;
 }
+

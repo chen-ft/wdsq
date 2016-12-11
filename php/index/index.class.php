@@ -22,25 +22,30 @@ class Index  extends Home_Public
 
     Function showAnswer() 
     {
-      
+         $this->publicCheckLogin();
         $this->display();
     }
     Function showHot() 
     {
-      
+        $this->publicCheckLogin();
         $this->display();
     }
     Function showInvite() 
     {
-      
+        $this->publicCheckLogin();
         $this->display();
     }
     Function showTopic() 
     {
+        $this->publicCheckLogin();
         $this->display();
     }
     Function showQuestion() 
     {
+        $this->publicCheckLogin();
+        $this->display();
+    }
+    Function showTest(){
         $this->display();
     }
 

@@ -6,10 +6,9 @@
 <script src="home/plugins/summernote/summernote.js"></script>
 <script src="home/plugins/select2/select2.min.js"></script>
 <script src="home/plugins/tabCloud/js/tab.js"></script>
-<script src="home/template/template.js"></script>
-<script src="home/lunt/js/test.js"></script>
+<script src="home/arttemplate/template.js"></script>
+<script src="home/lunt/js/fn.js"></script>
 <script src="home/lunt/js/wdsq.js"></script>
-<script src="home/lunt/js/aw_template.js"></script>
-<script src="home/lunt/js/plug-in.js"></script>
+<script src="home/lunt/js/zan.js"></script>
 
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->

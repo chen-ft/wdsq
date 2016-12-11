@@ -12,6 +12,9 @@ class Home_Public extends Cortrol {
         $this->Cortrol();
         $moduleAction = ACTION_PREFIX . ucfirst(ACTION_NAME);
         //$this->$moduleAction();
+        if (ACTION_NAME!=login) {
+            $this->publicCheckLogin();
+        }
         return;
     }
     /**
