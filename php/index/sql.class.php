@@ -62,21 +62,21 @@ class Sql extends Home_Public
 
     Function showLoadData(){
 
-   			$pdo = $this->getConnect();
-   			$page= $_POST['page']*10;
-   			$sql = 'SELECT q.tpId,t.tpName,q.qsId,a.strAnsAgree,q.qsTitle,u.strUserId,u.strName,
-	   				u.strDetail,a.strAnsContent,a.strAnsId,a.strAnsComment,a.strAnsAttentions  FROM 
-	   				wd_question AS q LEFT JOIN (select * from wd_answer ORDER BY strAnsAttentions
-	   				 desc) AS a ON q.qsId = a.strQsId LEFT JOIN wd_topic AS t ON q.tpId = t.tpId LEFT JOIN wd_user AS u ON a.strUserId = u.strUserId  GROUP BY q.qsId';
+		$pdo = $this->getConnect();
+		$page= $_POST['page']*10;
+		$sql = 'SELECT q.tpId,t.tpName,q.qsId,a.strAnsAgree,q.qsTitle,u.strUserId,u.strName,
+				u.strDetail,a.strAnsContent,a.strAnsId,a.strAnsComment,a.strAnsAttentions  FROM 
+				wd_question AS q LEFT JOIN (select * from wd_answer ORDER BY strAnsAttentions
+				 desc) AS a ON q.qsId = a.strQsId LEFT JOIN wd_topic AS t ON q.tpId = t.tpId LEFT JOIN wd_user AS u ON a.strUserId = u.strUserId  GROUP BY q.qsId';
 
-	   		$limit = ' limit 0,'.$page;
+		$limit = ' limit 0,'.$page;
 
-	   		$rs = $pdo->prepare($sql.$limit);
-	   		$rs->execute();
-	   		$array = [];
-	   		while ( $row = $rs->fetchAll(PDO::FETCH_ASSOC)) {
-	   			$array  = $row;
-	   		}
+		$rs = $pdo->prepare($sql.$limit);
+		$rs->execute();
+		$array = [];
+		while ( $row = $rs->fetchAll(PDO::FETCH_ASSOC)) {
+			$array  = $row;
+		}
 
 	  
 	   	foreach ($array as $key => $value) {
@@ -111,23 +111,25 @@ class Sql extends Home_Public
     	$sql = "SELECT tpName,qsId,qsTitle,qsContent,qsCreateTime FROM wd_question AS q LEFT JOIN wd_topic AS t ON q.tpId = t.tpId WHERE qsId=".$dataId;
     	$array = $this->myFetchAll($sql);
 
-    	$array2 = $this->myFetchAll("SELECT a.strUserId,u.strName,a.strAnsId,strAnsContent,strAnsAgree,strAnsAttentions,strAnsComment FROM wd_answer AS a INNER JOIN wd_user AS u ON a.strUserId = u.strUserId WHERE a.strQsId=".$dataId);
+    	$ansArr = $this->myFetchAll("SELECT a.strUserId,u.strName,a.strAnsId,strAnsContent,strAnsAgree,strAnsAttentions,strAnsComment FROM wd_answer AS a INNER JOIN wd_user AS u ON a.strUserId = u.strUserId WHERE a.strQsId=".$dataId);
 
-    	$array['questions'] = $array2;
+    	$array['questions'] = $ansArr;
    		echo json_encode($array);
 
     }
     Function showReplay(){
-    	$pdo = $this->getConnect();
-    	$content = "'".htmlspecialchars_decode($_POST['content'])."'";
-    	$qsId = $_POST['qsId'];
-    	$userId = $_SESSION['login']['strUserId'];
-    	$ansId = $this->getLastId('strAnsId','wd_answer');
-    	$sql = "insert into wd_answer(strAnsId,strQsId,strUserId,strAnsContent,createTime) values($ansId,$qsId,$userId,$content,CURDATE())";
-    	$rs = $pdo->prepare($sql);
-   		if ($rs->execute()) {
-   			echo json_encode('0000');
-   		}
+        if ($_POST['content']) {
+        	$pdo = $this->getConnect();
+        	$content = "'".htmlspecialchars_decode($_POST['content'])."'";
+        	$qsId = $_POST['qsId'];
+        	$userId = $_SESSION['login']['strUserId'];
+        	$ansId = $this->getLastId('strAnsId','wd_answer');
+        	$sql = "insert into wd_answer(strAnsId,strQsId,strUserId,strAnsContent,createTime) values($ansId,$qsId,$userId,$content,CURDATE())";
+        	$rs = $pdo->prepare($sql);
+       		if ($rs->execute()) {
+       			echo json_encode('0000');
+       		}
+        }
 
     }
 
@@ -162,6 +164,7 @@ class Sql extends Home_Public
     	}
     }
 
+    // 问题评论
     Function showGetQsComment(){
     	$sql = "SELECT strQsCmtId,qsId,u.strName,u.strUserId,strCmtContent,tCreateTime FROM wd_q_comment as c INNER JOIN wd_user as u on c.strUserId = u.strUserId WHERE qsId=".$_GET['ques_id'];
     	$array = $this->myFetchAll($sql);
@@ -187,6 +190,52 @@ class Sql extends Home_Public
 			echo json_encode('1111');
 		}
     }
+
+    //问答评论
+    Function showGetAnsComment(){
+        $sql = "SELECT strAnsCmtId,strAnsId,u.strName,u.strUserId,strCmtContent,tCreateTime FROM wd_a_comment as c INNER JOIN wd_user as u on c.strUserId = u.strUserId WHERE strAnsId=".$_GET['ques_id'];
+        $array = $this->myFetchAll($sql);
+
+        if (count($array)) {
+            echo json_encode($array);
+        }else{
+            echo json_encode('1111');
+        }
+
+    }
+
+    Function showSaveAnsComment(){
+        $pdo = $this->getConnect();
+        $cmtId = $this->getLastId('strAnsCmtId','wd_a_comment');
+        $qsId  = $_GET['ques_id'];
+        $userId = $_SESSION['login']['strUserId'];
+        $content = "'".$_POST['content']."'";
+        $sql = "insert into wd_a_comment(strAnsCmtId,strAnsId,strUserId,strCmtContent,tCreateTime) values($cmtId,$qsId,$userId,$content,CURDATE())";
+        $rs = $pdo->prepare($sql);
+        if ($rs->execute()) {
+            echo json_encode('0000');
+        }else{  
+            echo json_encode('1111');
+        }
+    }
+
+    Function showGetInvitor(){
+        
+        $sql = "SELECT qsId FROM wd_question WHERE tpId = 10006";
+        $arr = $this->myFetchAll($sql);
+        $where = $this->getWhere($arr,'strQsId','qsId');
+            
+        $sql = "SELECT strUserId FROM wd_answer ".$where." GROUP BY strUserId";
+        $array = $this->myFetchAll($sql);
+        $where = $this->getWhere($array,'strUserId','strUserId');
+
+        $sql = "SELECT strUserId,strName,strDetail FROM wd_user ".$where;
+        $arr = $this->myFetchAll($sql);
+
+        echo json_encode($arr);
+
+    }
+
 
 
 
@@ -220,9 +269,24 @@ class Sql extends Home_Public
         $lastId =  $strLastId['lastId'];
         $lastId++;
         return $lastId;
-
-
     }
+   
+    /**
+    * 多条件拼接,二维数组
+    */
+    Function getWhere($arr,$condition,$key){
+        $string = '';
+        for ($i=0; $i < count($arr); $i++) { 
+            if ($i == 0) {
+                $string .= $arr[$i][$key];
+            }else{
+                $string .= " || ".$condition." = ".$arr[$i][$key];
+            }
+        }
+        $where = "WHERE ".$condition." = ".$string;
+        return $where;
+    }
+
 
 
 

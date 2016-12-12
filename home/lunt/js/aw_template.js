@@ -49,10 +49,28 @@ var AW_TEMPLATE = {
   				'</form>'+
       		'</div>',
       		
-     'loadingBox':
+    'loadingBox':
 		'<div id="aw-loading" class="hide">'+
 			'<div id="aw-loading-box"></div>'+
 		'</div>',
+
+    'inviteBox':
+        '<div class="aw-invite-box" style="display: none;">'+
+            '<div class="mod-head clearfix">'+
+                '<div class="search-box pull-left">'+
+                    '<input id="invite-input" class="form-control" type="text" placeholder="搜索你想邀请的人...">'+
+                    '<div class="aw-dropdown">'+
+                        '<p class="title">没有找到相关结果</p>'+
+                        '<ul class="aw-dropdown-list"></ul>'+
+                    '</div>'+
+                    '<i class="icon icon-search"></i>'+
+                '</div>'+
+            '</div>'+
+            '<div class="mod-body clearfix" id="inviteGuy"></div>'+
+            '<div class="mod-footer">'+
+                '<a class="next pull-right">&gt;</a> <a class="prev active pull-right">&lt;</a>'+
+            '</div>'+
+        '</div>',
 
 
 

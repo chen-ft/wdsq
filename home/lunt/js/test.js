@@ -143,7 +143,7 @@ var AWS =
     },
 
     /*弹窗*/
-    dialog:function(type)
+    dialog:function()
     {
       
       $('#askModal').modal('show');
@@ -152,8 +152,17 @@ var AWS =
     // 表单提交
     form_submit:function(selector)
     {
-      var content = decodeURIComponent(selector.parents('form').serialize());
+      var content = decodeURIComponent(selector.parents('form').find('textarea').val());
       AWS.ajax_post('commentBox',content,selector.parents('form')[0].action);
+    },
+
+    //回复@
+    operateReplay:function(selector)
+    {
+      var text = selector.parents('li').find('.author').text();
+      var box = selector.parents('.aw-comment-box').find('textarea');
+      var html = "回复: "+text+" ";
+      box.val(html);
     },
 
     ajax_post:function(type,data,url)
@@ -164,7 +173,7 @@ var AWS =
            $.post('/index.php?module=sql&action=publish',
                 {title:$('#qsTitle').val(),content:$('#qsContent').summernote('code'),topic:$('#qsTopic').select2('val'),qsId:AWS.G.num},
                 function(data){
-                  if (data == '0000') {alert('发布成功')}else{alert('出现错误')}
+                  if (data == '0000') {alert('发布成功');location.reload();}else{alert('出现错误')}
            },'json');
         break;
         case 'bp_more':
@@ -208,6 +217,7 @@ var AWS =
               success  : function(data){
                 if (data == '0000') {
                   alert('回复成功');
+                  location.reload();
                 }
               },
               error    : function(){
@@ -225,6 +235,7 @@ var AWS =
               success  : function(data){
                 if (data == '0000') {
                   alert('回复成功');
+                  location.reload() 
                 }
               },
               error    : function(){
@@ -234,7 +245,6 @@ var AWS =
       break;
 
       }
-
     },
 
 }
@@ -259,11 +269,13 @@ AWS.G =
 AWS.Init =
 {
 	// 初始化评论框
-	init_comment_box:function(selector){
-		$(document).on("click",selector,function(){
-
+	init_comment_box:function(selector)
+  {
+		$(document).on("click",selector,function()
+    {
+      
 			var comment_box_id = '#aw-comment-box-answer-'+$(this).attr('data-id');
-
+      $('.aw-question-detail .aw-invite-box, .aw-question-detail .aw-question-related-box').hide();
 			if ($(comment_box_id).length) { //判断是否已经插入模版
 
 				if ($(comment_box_id).css('display') == 'none') {
@@ -280,14 +292,14 @@ AWS.Init =
          switch ($(this).attr('data-type'))
          {
             case 'question':
-            var comment_form_action = '/index.php?module=sql&action=saveQsComment&ques_id=' + $(this).attr('data-id');
-            var comment_data_url =  '/index.php?module=sql&action=getQsComment&ques_id=' + $(this).attr('data-id');
+                var comment_form_action = '/index.php?module=sql&action=saveQsComment&ques_id=' + $(this).attr('data-id');
+                var comment_data_url =  '/index.php?module=sql&action=getQsComment&ques_id=' + $(this).attr('data-id');
             break;
 
             case 'answer':
-                //var comment_form_action = G_BASE_URL + '/question/ajax/save_answer_comment/answer_id-' + $(this).attr('data-id');
-                //var comment_data_url = G_BASE_URL + '/question/ajax/get_answer_comments/answer_id-' + $(this).attr('data-id');
-                break;
+                var comment_form_action = '/index.php?module=sql&action=saveAnsComment&ques_id=' + $(this).attr('data-id');
+                var comment_data_url = '/index.php?module=sql&action=getAnsComment&ques_id=' + $(this).attr('data-id');
+            break;
           }
 
           $(this).parents(".aw-item").find(".mod-footer").append(Hogan.compile(AW_TEMPLATE.commentBox).render({
@@ -313,14 +325,38 @@ AWS.Init =
           $(comment_box_id).fadeIn();
 
         }
-
-			
-
-
-			
 		})
+	},
 
-	}
+  init_invite_box:function(selector)
+  { 
+
+    $(document).on('click',selector,function(){
+       $('.aw-question-detail .aw-comment-box, .aw-question-detail .aw-question-related-box').hide();
+        if ($('.aw-question-detail .aw-invite-box').is(':visible'))
+        {
+          $('.aw-question-detail .aw-invite-box').fadeOut();
+        }
+        else
+        {
+           $.post('/index.php?module=sql&action=getInvitor',function(data){
+             console.log(data['0']);
+             var invitors = {
+                  list:data
+             }
+             var html = template('guyList',invitors);
+             $('#inviteGuy').html(html);
+
+          },'json');
+          $('.aw-question-detail .aw-invite-box').fadeIn();
+        }
+
+
+
+    });
+
+
+  }
 }
 
 
