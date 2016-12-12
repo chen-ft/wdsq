@@ -2,7 +2,7 @@
 		<div class="container">
 			<!-- logo -->
 			<div class="aw-logo hidden-xs">
-				<a href="http://wenda.bootcss.com"></a>
+				<a href=""></a>
 			</div>
 			<!-- end logo -->
 			<!-- 搜索框 -->
@@ -55,8 +55,6 @@
 			</div>
 			<!-- end 导航 -->
 			<!-- 用户栏 -->
-
-
 			<div class="aw-user-nav">
 				<!-- 登陆&注册栏 -->
 				<a href="http://wenda.bootcss.com/people/_TimChen" class="aw-user-nav-dropdown">
@@ -67,15 +65,16 @@
 					<div class="aw-dropdown dropdown-list pull-right">
 						<ul class="aw-dropdown-list">
 							<li><a href="http://wenda.bootcss.com/inbox/"><i class="icon icon-inbox"></i> 私信<span class="badge badge-important hide" id="inbox_unread">0</span></a></li>
-							<li class="hidden-xs"><a href="http://wenda.bootcss.com/setting/profile/"><i class="icon icon-setting"></i> 设置</a></li>
-														<li><a href="http://wenda.bootcss.com/logout/"><i class="icon icon-logout"></i> 退出</a></li>
+							<li class="hidden-xs"><a href="/index.php?module=user&action=profile"><i class="icon icon-setting"></i> 设置</a>
+							</li>
+							<li><a href="/index.php?module=sql&action=logOut"><i class="icon icon-logout"></i> 退出</a></li>
 						</ul>
 					</div>
-			<!-- end 登陆&注册栏 -->
+				<!-- end 登陆&注册栏 -->
 			</div>
 			<!-- end 用户栏 -->
 			<div class="aw-publish-btn">
-				<a class="btn-primary" onclick="AWS.dialog()"><i class="icon icon-ask"></i>提问</a>
+				<a class="btn-primary" onclick="AWS.dialog('askModal')"><i class="icon icon-ask"></i>提问</a>
 			</div>
 		</div>
 	</div>

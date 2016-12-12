@@ -25,7 +25,7 @@
 		          <ul class="nav nav-tabs aw-nav-tabs active hidden-xs">
 		          	<li><a href="http://wenda.ghostchina.com/sort_type-unresponsive">写文章</a></li>
 		          	<li><a href="/index.php?module=index&action=answer">回答</a></li>
-		          	<li class=""><a href="">提问</a></li>
+		          	<li class=""><a onclick="AWS.dialog('askModal')">提问</a></li>
 		          	<h2 class="hidden-xs"><i class="fa fa-list-ul"></i> 动态</h2>
 		          </ul>
 		          <!-- end tab切换 -->
@@ -39,7 +39,7 @@
 		          						<img src="home/topicImg/topicImg_{{item['tpId']}}.jpg"/>
 		          					</a> 
 		          					<p class="text-color-999">
-		          						来自话题•   <a class="aw-topic-name" href="/index.php?module=question&action=topicImg&id={{item['tpId']}}">{{item['tpName']}}</a>
+		          						来自话题•   <a data-id={{item['tpId']}} class="aw-topic-name" href="/index.php?module=question&action=topicImg&id={{item['tpId']}}">{{item['tpName']}}</a>
 		          					</p>
 	          						<h4>
 	          							<a href="/index.php?module=question&action=question&id={{item['qsId']}}">{{item['qsTitle']}}</a>
@@ -54,7 +54,7 @@
 	          						<div class="media" style="margin-top: 2px;" >
 	          							<div class="media-left">
 	          								<a href="#">
-	          								<img style="width: 198px;height: 115px;border-radius: 3px; " class="media-object" src="/" alt="...">
+	          								<img style="width: 198px;height: 115px;border-radius: 3px; " class="media-object" src={{item['strAnsImg']}} alt="...">
 	          								</a>
 	          							</div>
 	          							<div class="media-body">
@@ -205,6 +205,37 @@
 	                $('#main_contents').html(html);
 	            }
 	     });
+    </script>
+
+    <script type="text/html" id="topicCard">
+    	<div id="aw-card-tips" class="aw-card-tips aw-card-tips-topic">
+			<div class="aw-mod">
+				<div class="mod-head">
+					<a href="javascript:void(0)" class="img">
+						<img src="home/topicImg/topicImg_{{topic_id}}.jpg" style="width:45px;height:45px"/>
+					</a>
+					<p class="title">
+						'<a href="javascript:void(0)" class="name">{{topic_title}}</a>
+					</p>
+					<p class="aw-user-center-follow-meta" style="font-size:10px">
+						{{topic_detail}}
+					</p>
+				</div>
+				<div class="mod-footer clearfix">
+					<a href={{topic_id}} class="item">
+						<span class="value">{{topic_questions}}</span>
+						<span class="key">问题</span>
+					</a>
+					<a href={{topic_id}} class="item">
+						<span class="value">{{topic_attemtions}}</span>
+						<span class="key">关注者</span>
+					</a>
+					<a class="btn btn-normal btn-success btn-sm follow pull-right">
+						<span>关注</span>
+					</a>
+				</div>
+			</div>
+		</div>
     </script>
   </body>
 </html>

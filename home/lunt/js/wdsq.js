@@ -3,8 +3,6 @@ $(function(){
 	$('.summernote').summernote({
 		  height:150,
 		  placeholder: '问题背景、条件等详细信息',
-		 
-
 	});
 
 	$('.select2').select2();

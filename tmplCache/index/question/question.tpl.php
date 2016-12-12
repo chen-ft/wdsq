@@ -32,7 +32,7 @@
                         </div>
                     </div>
                     <!-- end 话题bar -->
-                    <div class="aw-mod aw-question-detail aw-item">
+                    <div class="aw-mod aw-question-detail aw-item" id="title">
                         <div class="mod-head">
                             <h1>
                                 {{list['qsTitle']}}                        
@@ -48,22 +48,24 @@
                                 <span class="text-color-999">{{list['qsCreateTime']}}</span>
 
                                 <a data-id={{list['qsId']}} data-type="question" class="add-comment text-color-999 " data-comment-count="0"><i class="icon icon-comment"></i>添加评论</a>
-
-                                <a class="text-color-999 aw-invite-replay" ><i class="icon icon-invite"></i>邀请 </a>
-                                
+                                <a class="text-color-999 aw-invite-replay" >
+                                  <i class="icon icon-invite"></i>
+                                    邀请 
+                                  <em class="badge badge-info">0</em>
+                                </a>
                                 <div class="pull-right more-operate">
-                                    <a data-placement="bottom" title="" data-toggle="tooltip" data-original-title="感谢提问者" onclick="AWS.User.question_thanks($(this), 2374);" class="aw-icon-thank-tips text-color-999"><i class="icon icon-thank"></i>感谢</a>
+                                    <a onclick="AWS.User.question_thanks($(this));" class="aw-icon-thank-tips text-color-999"><i class="icon icon-thank"></i>感谢</a>
                                     <a class="text-color-999 dropdown-toggle" data-toggle="dropdown">
                                         <i class="icon icon-share"></i>分享                                   
                                     </a>
                                     <div aria-labelledby="dropdownMenu" role="menu" class="aw-dropdown shareout pull-right">
                                         <ul class="aw-dropdown-list">
-                                            <li><a onclick="AWS.User.share_out('tsina');"><i class="icon icon-weibo"></i> 新浪微博</a></li>
-                                            <li><a onclick="AWS.User.share_out('qzone');"><i class="icon icon-qzone"></i> QZONE</a></li>
-                                            <li><a onclick="AWS.User.share_out('weixin');"><i class="icon icon-wechat"></i> 微信</a></li>
+                                            <li><a onclick="AWS.User.share_out('tsina','<?=$_SESSION['login']['strName']?>');"><i class="icon icon-weibo"></i> 新浪微博</a></li>
+                                            <li><a onclick="AWS.User.share_out('qzone','<?=$_SESSION['login']['strName']?>');"><i class="icon icon-qzone"></i> QZONE</a></li>
+                                            <li><a onclick="AWS.User.share_out('weixin','<?=$_SESSION['login']['strName']?>');"><i class="icon icon-wechat"></i> 微信</a></li>
                                         </ul>
                                     </div>
-                                    <a href="javascript:;" class="text-color-999" onclick=""><i class="icon icon-report"></i>举报</a>                      
+                                    <a class="text-color-999" onclick="AWS.dialog('report')"><i class="icon icon-report"></i>举报</a>                      
                                 </div>
                             </div>
                         </div>
@@ -78,8 +80,11 @@
                                     </div>
                                     <i class="icon icon-search"></i>
                                 </div>
+                                <div class="invite-list pull-left" style="display: none;">
+                                    已邀请:
+                                </div>
                             </div>
-                            <div class="mod-body clearfix" id="inviteGuy">
+                            <div class="mod-body clearfix" id="inviteGuy" data-id={{list['tpId']}}>
                             </div>
                             <div class="mod-footer">
                                 <a class="next pull-right">&gt;</a> <a class="prev active pull-right">&lt;</a>
@@ -124,6 +129,7 @@
                                                 </a>
                                             </p>
                                             <p class="text-color-999 aw-agree-by">
+                                                <span></span>
                                                 {{item['strAnsAttentions']}} 人赞同
                                             </p>
                                         </div>
@@ -136,7 +142,7 @@
                                    <div class="mod-footer">
                                         <div class="meta clearfix">
                                             <p>
-                                                <a href="javascript:;" onclick="AWS.User.answer_user_rate($(this), 'thanks', 1055);" class="aw-icon-thank-tips text-color-999" data-original-title="感谢热心的回复者" data-toggle="tooltip" title="" data-placement="bottom"><i class="icon icon-thank"></i>
+                                                <a onclick="AWS.User.question_agree($(this));" class="aw-icon-agree-tips text-color-999" data-original-title="感谢热心的回复者" data-toggle="tooltip" title="" data-placement="bottom"><i class="icon icon-agree"></i>
                                                     赞
                                                 </a> &nbsp;&nbsp;
                                                 <a class="text-color-999 add-comment" data-type="answer" data-id={{item['strAnsId']}}><i class="icon icon-comment"></i>
@@ -178,7 +184,7 @@
                                 </div>
                                 <div class="mod-body">
                                     <div class="mod-head">
-                                        <div class="summernote" id="answer">
+                                        <div class="summernote1" id="answer">
                                         </div>
                                     </div>
                                     <div class="mod-body clearfix">
@@ -198,7 +204,6 @@
                         <a href="javascript:;" onclick="AWS.User.follow($(this), 'question', 2374);" class="follow btn btn-normal btn-success pull-left "><span>关注</span> <em>|</em> <b>1</b></a>
                         </div>
                     </div>
-
                     
                     <!-- 问题状态 -->
                     <div class="aw-mod question-status">
@@ -248,6 +253,31 @@
                 }
          });
 
+        $('.summernote1').summernote({
+          height:300,
+          callbacks:{
+             onImageUpload: function(files) {
+                img = sendFile(files[0]); 
+            }
+          }
+    });
+
+    function sendFile(file) {  
+        var data = new FormData();  
+        data.append("file", file);
+        $.ajax({  
+            data: data,  
+            type: 'post',  
+            url: "/index.php?module=sql&action=imgUpload&qsId="+<?=$_GET['id'] ?>+"&userId="+<?=$_SESSION['login']['strUserId']?>,  
+            cache: false,  
+            contentType: false,  
+            processData: false,  
+            success: function(url) {  
+                  $(".summernote1").summernote('insertImage', url, 'image name'); 
+            }  
+        });  
+    }
+
 
     </script>
     <script type="text/html" id="commentList">
@@ -275,10 +305,12 @@
         <ul>
             {{each list as item i}}
             <li style="display: list-item;">
-                <a class="aw-user-img pull-left" data-id="367" href="http://wenda.bootcss.com/people/rex"><img class="img" alt="" src="http://wenda.bootcss.com/uploads/avatar/000/00/03/67_avatar_mid.jpg"></a>
+                <a class="aw-user-img pull-left" href="http://wenda.bootcss.com/people/rex">
+                    <img class="img" alt="" src="http://wenda.bootcss.com/uploads/avatar/000/00/03/67_avatar_mid.jpg">
+                </a>
                 <div class="main">
-                    <a class="pull-right btn btn-mini btn-success" data-value="rew1011" data-id={{item['strUserId']}} onclick="AWS.User.invite_user($(this),$(this).parents('li').find('img').attr('src'));">邀请</a>
-                    <a class="aw-user-name" data-id="367" href="http://wenda.bootcss.com/people/rex">{{item['strName']}}</a>
+                    <a class="pull-right btn btn-mini btn-success" data-qs=<?=$_GET['id']?> data-id={{item['strUserId']}} data-value={{item['strName']}} onclick="AWS.invite_user($(this),$(this).parents('li').find('img').attr('src'));">邀请</a>
+                    <a class="aw-user-name" href="http://wenda.bootcss.com/people/rex">{{item['strName']}}</a>
                     <p>
                        {{item['strDetail']}}
                     </p>
@@ -286,6 +318,27 @@
             </li>
             {{/each}}
         </ul>
+    </script>
+    
+    <script type="text/html" id="commentBox">
+    	 <div class="aw-comment-box" id={{comment_form_id}} style="display:none">
+      		    <div class="aw-comment-list">
+      			</div>
+  				<form action={{comment_form_action}} method="post" onsubmit="return false">
+  					<div class="aw-comment-box-main">
+  						<div class="summernote">
+	                    </div>
+  						<textarea class="aw-comment-txt form-control" placeholder="评论一下..."  style="overflow: hidden; word-wrap: break-word; resize: none; ">
+  						</textarea>
+  						<div class="aw-comment-box-btn">
+  							<span class="pull-right">
+  								<a href="javascript:;" class="btn btn-mini btn-success" onclick="AWS.form_submit($(this))">评论</a>
+  								<a href="javascript:;" class="btn btn-mini btn-gray close-comment-box">取消</a>
+  							</span>
+  						</div>
+  					</div>
+  				</form>
+      		</div>
     </script>
   
   </body>
