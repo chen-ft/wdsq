@@ -324,8 +324,18 @@ class Sql extends Home_Public
                 echo "出现错误";
             }
         }
+    }
 
+    Function doImgUp(){
 
+    	$imgName = $_FILES['File1']['name'];
+    	$ext = strrchr($imgName,'.');
+    	$name = 'user-'.$_SESSION['login']['strUserId'].$ext;
+    	$tmp = $_FILES['File1']['tmp_name'];
+    	$path = "home/userImg/".$name;
+    	move_uploaded_file($tmp, $path);
+    	$_SESSION['user']['img'] = $path;
+    	goback('','/index.php?module=user&action=profile');
     }
 
 

@@ -24,6 +24,22 @@
 							</ul>
 						</div>
 						<div class="tab-content clearfix">
+							<ul>
+								<li>
+									<img class="aw-border-radius-5"  src=<?=$_SESSION['user']['img']?> alt="" id="avatar_src">
+								</li>
+								<li style="text-align: center;margin-top: 8px;">
+								<form method="post" id="imgForm" name="imgForm" action="/index.php" enctype="multipart/form-data">
+									<input type="hidden" name="module" value="sql">
+									<input type="hidden" name="action" value="imgUp">
+									<input type="button" class="btn btn-success" onclick="file.click()">
+							        <input id="File1" type="file" name="File1" onchange="this.form.submit()" style="" />  
+							        <span id="avatar_uploading_status" class="show">
+										<i class="aw-loading"></i> 上传中
+									</span>
+								</form>
+								</li>
+							</ul>
 							<!-- 基本信息 -->
 							<div class="aw-mod">
 								<form id="setting_form" method="post" action="/index.php">
@@ -90,23 +106,8 @@
 													</dd>
 												</dl>
 												<!-- 上传头像 -->
-												<div class="side-bar clearfix" style="margin-right: 25px">
-													<ul>
-														<li>
-															<img class="aw-border-radius-5" src="http://wenda.bootcss.com/uploads/avatar/000/00/32/36_avatar_max.jpg?3821" alt="" id="avatar_src">
-														</li>
-														<li style="text-align: center;margin-top: 8px;">
-														<form method="post" id="img" action="/index.php" enctype="multipart/form-data">
-															<input type="hidden" name="module" value="sql">
-															<input type="hidden" name="action" value="imgUp">
-													        <input type="button" class="btn btn-mini btn-success" value="上传头像" size="30" onclick="f.click()" />
-													        <input type="file" id="f" onchange="this.form.submit()" name="f" style="position:absolute; filter:alpha(opacity=0); opacity:0; width:30px; " size="1" />
-													        <span id="avatar_uploading_status" class="show">
-																<i class="aw-loading"></i> 上传中
-															</span>
-														</form>
-														</li>
-													</ul>
+												<div class="side-bar" style="margin-right: 25px">
+													
 												</div>
 												<!-- end 上传头像 -->
 											</div>
