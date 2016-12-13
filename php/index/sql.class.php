@@ -148,7 +148,8 @@ class Sql extends Home_Public
 
     Function showRegister(){
     	$pdo = $this->getConnect();
-    	$pass= $_POST['pass'];
+        $pass= $_POST['pass'];
+    	$email= $_POST['email'];
     	$name= "'".$_POST['name']."'";
     	$id = $this->getLastId('strUserId','wd_user');
     	//判断是否已存在用户
@@ -157,7 +158,7 @@ class Sql extends Home_Public
     		echo json_encode('2222');
     		return;
     	}
-    	$sql = "insert into wd_user(strUserId,strName,strPass) values($id,$name,$pass)";
+    	$sql = "insert into wd_user(strUserId,strName,strPass,strEmail) values($id,$name,$pass,$email)";
     	$rs  = $pdo->prepare($sql);
     	if ($rs->execute()) {
     		echo json_encode('0000');
@@ -244,6 +245,7 @@ class Sql extends Home_Public
 
     }
 
+
     Function showImgUpload(){
 
     	$imgName = $_FILES['file']['name'];
@@ -307,7 +309,6 @@ class Sql extends Home_Public
 
     //信息设置
     Function doUserSet(){
-        var_dump($_POST[info]);
         if (!empty($_POST[info])) {
             $birthday = "'".$_POST[info]['birthday_y']."-".$_POST[info]['birthday_m']."-".$_POST[info]['birthday_d']."'";
             $detail = "'".$_POST[info]['signature']."'";
@@ -327,16 +328,74 @@ class Sql extends Home_Public
     }
 
     Function doImgUp(){
-
-    	$imgName = $_FILES['File1']['name'];
-    	$ext = strrchr($imgName,'.');
-    	$name = 'user-'.$_SESSION['login']['strUserId'].$ext;
+    	$name = 'user-'.$_SESSION['login']['strUserId'].'.jpg';
     	$tmp = $_FILES['File1']['tmp_name'];
     	$path = "home/userImg/".$name;
     	move_uploaded_file($tmp, $path);
     	$_SESSION['user']['img'] = $path;
     	goback('','/index.php?module=user&action=profile');
     }
+
+    Function doSetPass(){
+        $pdo = $this->getConnect();
+        $sql = 'SELECT * FROM wd_user where strUserId = '.$_SESSION['login']['strUserId'].' and strPass = '.$_POST['old_password'];
+        $row = $this->myFetchOne($sql);
+        if (!$row) {
+            goback('当前密码不正确','/index.php?module=user&action=security');
+        }
+
+        $rs = $pdo->prepare('UPDATE wd_user SET strPass = '.$_POST['password'].' where strUserId = '.$_SESSION['login']['strUserId']);
+        if (!$rs->execute()) {
+            goback('修改失败,请重试','/index.php?module=user&action=security');
+        }   
+            session_destroy();
+            goback('修改成功,请重新登录','/index.php');
+    }
+
+    //search
+    Function showSearchData(){
+        $sql = "SELECT strUserId,strName,strDetail,strImg FROM wd_user where strName like '%".$_GET['q']."%' limit ".$_GET['limit'];
+        $row = $this->myFetchAll($sql);
+        foreach ($row as $key => $value) {
+            $res = $value;
+            $res['type'] = 'users';
+            $list[] = $res;
+        }
+
+        $sql = "SELECT tpId,tpName FROM wd_topic where tpName like '%".$_GET['q']."%' limit ".$_GET['limit'];
+        $row = $this->myFetchAll($sql);
+        foreach ($row as $key => $value) {
+            $res = $value;
+            $res['type'] = 'topics';
+            $list[] = $res;
+        }
+        $sql = "SELECT qsId,qsTitle FROM wd_question where qsTitle like '%".$_GET['q']."%' limit ".$_GET['limit'];
+        $row = $this->myFetchAll($sql);
+        foreach ($row as $key => $value) {
+            $res = $value;
+            $res['type'] = 'questions';
+            $list[] = $res;
+        }
+        echo json_encode($list);
+    }
+
+    //搜索邀请人
+    Function showSearchInvite(){
+        $sql = "SELECT strUserId,strName,strImg,strDetail FROM wd_user where strName like '%".$_GET['q']."%' limit ".$_GET['limit'];
+        $row = $this->myFetchAll($sql);
+        foreach ($row as $key => $value) {
+            $list[] = $value;
+        }
+        echo json_encode($list);
+        
+    }
+
+    Function showAllTopics(){
+    	$row = $this->myFetchAll('SELECT tpId,tpName,tpDetail FROM wd_topic');
+    	echo json_encode($row);
+    }
+
+
 
 
 

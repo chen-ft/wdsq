@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html> <html lang="en">
 <head>
 <meta charset=UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -24,22 +23,22 @@
 							</ul>
 						</div>
 						<div class="tab-content clearfix">
-							<ul>
-								<li>
-									<img class="aw-border-radius-5"  src=<?=$_SESSION['user']['img']?> alt="" id="avatar_src">
-								</li>
-								<li style="text-align: center;margin-top: 8px;">
-								<form method="post" id="imgForm" name="imgForm" action="/index.php" enctype="multipart/form-data">
-									<input type="hidden" name="module" value="sql">
-									<input type="hidden" name="action" value="imgUp">
-									<input type="button" class="btn btn-success" onclick="file.click()">
-							        <input id="File1" type="file" name="File1" onchange="this.form.submit()" style="" />  
-							        <span id="avatar_uploading_status" class="show">
-										<i class="aw-loading"></i> 上传中
-									</span>
-								</form>
-								</li>
-							</ul>
+							<div class="side-bar" style="margin-top: 25px;" >
+								<ul>
+									<li>
+										<img style="border-radius: 5px;width: 101px;height:101px" src="home/userImg/user-<?=$_SESSION['login']['strUserId']?>.jpg"  alt="" id="avatar_src">
+									</li>
+									<li style="margin-top: 8px;margin-left: 8px;">
+									<form method="post" id="imgForm" name="imgForm" action="/index.php" enctype="multipart/form-data">
+										<input type="hidden" name="module" value="sql">
+										<input type="hidden" name="action" value="imgUp">
+										<input type="button" class="btn btn-success" onclick="File1.click()" style="border: 1px solid #ccc" value="上传头像">
+										<input type="file" onchange="this.form.submit()"  name="File1" multiple="multiple" style=" position:absolute;top:-7px;left:-12px; width:80px; height:34px;filter:alpha(opacity=0)">
+									</form>
+									</li>
+								</ul>
+								</div>
+						 		
 							<!-- 基本信息 -->
 							<div class="aw-mod">
 								<form id="setting_form" method="post" action="/index.php">

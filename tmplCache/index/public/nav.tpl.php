@@ -7,20 +7,14 @@
 			<!-- end logo -->
 			<!-- 搜索框 -->
 			<div class="aw-search-box  hidden-xs hidden-sm">
-				<form class="navbar-search" action="http://wenda.bootcss.com/search/" id="global_search_form" method="post">
-					<input class="form-control search-query" type="text" placeholder="搜索问题、话题或人" autocomplete="off" name="q" id="aw-search-query" />
-					<span title="搜索" id="global_search_btns" onClick="$('#global_search_form').submit();"><i class="icon icon-search"></i></span>
-					<div class="aw-dropdown">
-						<div class="mod-body">
-							<p class="title">输入关键字进行搜索</p>
-							<ul class="aw-dropdown-list hide"></ul>
-							<p class="search"><span>搜索:</span><a onClick="$('#global_search_form').submit();"></a></p>
-						</div>
-						<div class="mod-footer">
-							<a href="" onClick="$('#header_publish').click();" class="pull-right btn btn-mini btn-success publish">发起问题</a>
-						</div>
+				<input class="form-control search-query" type="text" placeholder="搜索问题、话题或人" autocomplete="off" name="q" id="aw-search-query" />
+				<span title="搜索" id="global_search_btns"><i class="icon icon-search"></i></span>
+				<div class="aw-dropdown">
+					<div class="mod-body">
+						<p class="title" style="display: none;">没有找到相关结果</p>
+						<ul class="aw-dropdown-list" style="display: none;"></ul>
 					</div>
-				</form>
+				</div>
 			</div>
 			<!-- end 搜索框 -->
 			<!-- 导航 -->
@@ -78,3 +72,13 @@
 			</div>
 		</div>
 	</div>
+
+	<script type="text/html" id="dropdownList">
+		<div aria-labelledby="dropdownMenu" role="menu" class="aw-dropdown">
+			<ul class="aw-dropdown-list">
+			{{#items}}
+				<li><a data-value="{{id}}">{{title}}</a></li>
+			{{/items}}
+			</ul>
+		</div>
+	</script>

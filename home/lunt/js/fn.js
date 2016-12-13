@@ -418,7 +418,6 @@ AWS.Init =
         {  
            var id =  $('#inviteGuy').attr('data-id');
            $.post('/index.php?module=sql&action=getInvitor&id='+id,function(data){
-             console.log(data['0']);
              var invitors = {
                   list:data
              }
@@ -427,6 +426,10 @@ AWS.Init =
 
           },'json');
           $('.aw-question-detail .aw-invite-box').slideDown();
+
+          //邀请用户下拉绑定
+          AWS.Dropdown.bind_dropdown_list($('.aw-invite-box #invite-input'), 'invite');
+
         }
 
 
@@ -552,6 +555,162 @@ AWS.User =
 
       }, 'json');*/
   },
+}
 
+AWS.Dropdown = 
+{
+  // 下拉菜单功能绑定
+  bind_dropdown_list: function(selector,type)
+  {
+    $(selector).keyup(function(e)
+    {
+
+      if($(selector).val().length >= 1)
+      {
+         if (e.which != 38 && e.which != 40 && e.which != 13)
+         {
+           AWS.Dropdown.get_dropdown_list($(this), type, $(selector).val());
+         } 
+      }
+      else
+      {
+          $(selector).parent().find('.aw-dropdown').hide();
+      }
+
+      var list = $(selector).parent().find('.aw-dropdown-list li');
+
+      //键盘向下
+      if (e.which == 40 && list.is(':visible'))
+      {
+        var _index;
+        if (!list.hasClass('active')) { //如果没有选中，第一个为选中
+          list.eq(0).addClass('active');
+        }
+        else
+        {
+          $.each(list,function(i,e){
+              if ($(this).hasClass('active')) {
+                $(this).removeClass('active');
+                if ($(this).index() == list.length -1) {
+                  _index = 0;
+                }else{
+                  _index = $(this).index() + 1;
+                }
+              }            
+          });
+          list.eq(_index).addClass('active');
+        }
+      }
+
+      //键盘向上
+      if (e.which == 38 && list.is(':visible'))
+      {
+        var _index;
+        if (!list.hasClass('active')) { //如果没有选中，第一个为选中
+          list.eq(list.length -1).addClass('active');
+        }
+        else
+        {
+          $.each(list,function(i,e){
+              if ($(this).hasClass('active')) {
+                $(this).removeClass('active');
+                if ($(this).index() == 0) {
+                  _index = list.length -1;
+                }else{
+                  _index = $(this).index() - 1;
+                }
+              }            
+          });
+          list.eq(_index).addClass('active');
+        }
+      }
+
+
+
+    });
+
+    $(selector).blur(function()
+    {
+      $(selector).parent().find('.aw-dropdown').delay(500).fadeOut(300);
+    });
+  },
+
+  //下拉菜单获取数据
+  get_dropdown_list:function(selector,type,data)
+  {
+    if (AWS.G.dropdown_list_xhr != '')
+    { 
+       AWS.G.dropdown_list_xhr.abort(); // 中止上一次ajax请求
+    }
+
+    var url = '';
+    switch(type)
+    {
+      case 'search':
+        url = '/index.php?module=sql&action=searchData&q='+encodeURIComponent(data)+'&limit=10';
+      break;
+      case 'invite':
+        url = '/index.php?module=sql&action=searchInvite&q='+encodeURIComponent(data)+'&limit=10';
+      break;
+    }
+
+    AWS.G.dropdown_list_xhr = $.get(url,function(result)
+    {
+      if (result != null && AWS.G.dropdown_list_xhr != undefined) 
+      {
+        $(selector).parent().find('.aw-dropdown-list').html(''); // 清空内容
+        switch(type)
+        {
+          case 'search':
+              $.each(result, function (i, a)
+              {
+                  switch (a.type)
+                  {
+                      case 'questions':
+                          $(selector).parent().find('.aw-dropdown-list').append('<li class=" question clearfix"><i class="icon icon-bestbg pull-left"></i><a class="aw-hide-txt pull-left" href="/index.php?module=question&action=question&id='+a.qsId+'">'+a.qsTitle+'</a><span class="pull-right text-color-999">1 个回复</span></li>');
+                          break;
+
+                      case 'topics':
+                          $(selector).parent().find('.aw-dropdown-list').append('<li class="topic clearfix"><span class="topic-tag" data-id='+a.tpId+'><a href="" class="text">'+a.tpName+'</a></span> <span class="pull-right text-color-999">6 ' + '个讨论' + '</span></li>');
+                          break;
+
+                      case 'users':
+                          if (a.strDetail == '') {
+                             var signature = '暂无介绍';
+                          }else{
+                            var signature = a.strDetail;
+                          }
+                          $(selector).parent().find('.aw-dropdown-list').append('<li class="user clearfix"><a href=""><img src='+a.strImg+' />'+a.strName+'<span class="aw-hide-txt">'+signature+'</span></a></li>');
+                          break;
+                  }
+              });
+              $(selector).parent().find('.aw-dropdown-list').show();
+              $(selector).parent().find('.aw-dropdown').show();
+              $(selector).parent().find('.aw-dropdown').find('.title').hide();
+              break;
+
+          case 'invite':
+
+              $.each(result,function (i,a)
+              {
+                 if (a.strDetail == '') {
+                   var signature = '暂无介绍';
+                 }else{
+                   var signature = a.strDetail;
+                 }
+                 $(selector).parent().find('.aw-dropdown-list').append('<li class="user"><a data-qs="100101" data-id="201009"  data-value='+a.strName+'><img class="img" src='+a.strImg+' />'+a.strName+'<span class="aw-hide-txt">'+signature+'</span></a></li>');
+              });
+              $(selector).parent().find('.aw-dropdown-list').show();
+              $(selector).parent().find('.aw-dropdown').show();
+              $(selector).parent().find('.aw-dropdown').find('.title').hide();
+              break;
+
+        }
+      }else{
+          $(selector).parent().find('.aw-dropdown').show().end().find('.title').html('没有找到相关结果').show();
+          $(selector).parent().find('.aw-dropdown-list').hide();
+      }
+    },'json')
+  }
 }
 

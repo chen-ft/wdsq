@@ -26,58 +26,28 @@
 		          </ul>
 		          <!-- end tab切换 -->
 		          <div class="aw-mod aw-topic-list">
-		          	 <div class="mod-body clearfix">
-		          	 	<div class="aw-item">
-                            <!-- 话题图片 -->
-                            <a class="img aw-border-radius-5" href="http://wenda.bootcss.com/topic/bootstrap" data-id="5">
-                                <img src="http://wenda.bootcss.com/uploads/avatar/000/00/27/36_avatar_mid.jpg" alt="">
-                            </a>
-                            <!-- end 话题图片 -->
-                            <p class="clearfix">
-                                <!-- 话题内容 -->
-                                <span class="topic-tag" data-id="5">
-                                    <a class="text" href="http://wenda.bootcss.com/topic/bootstrap">bootstrap</a>
-                                </span>
-                                <!-- end 话题内容 -->
-                            </p>
-                            <p class="text-color-999">
-                               游戏 是一种基于物质满足之上的，在一种特定时间、空间范围内遵循…                               
-                            </p>
-                        </div>
-                        <div class="aw-item">
-                            <!-- 话题图片 -->
-                            <a class="img aw-border-radius-5" href="http://wenda.bootcss.com/topic/bootstrap" data-id="5">
-                                <img src="http://wenda.bootcss.com/uploads/avatar/000/00/27/36_avatar_mid.jpg" alt="">
-                            </a>
-                            <!-- end 话题图片 -->
-                            <p class="clearfix">
-                                <!-- 话题内容 -->
-                                <span class="topic-tag" data-id="5">
-                                    <a class="text" href="http://wenda.bootcss.com/topic/bootstrap">bootstrap</a>
-                                </span>
-                                <!-- end 话题内容 -->
-                            </p>
-                            <p class="text-color-999">
-                               游戏 是一种基于物质满足之上的，在一种特定时间、空间范围内遵循…                               
-                            </p>
-                        </div>
-                        <div class="aw-item">
-                            <!-- 话题图片 -->
-                            <a class="img aw-border-radius-5" href="http://wenda.bootcss.com/topic/bootstrap" data-id="5">
-                                <img src="http://wenda.bootcss.com/uploads/avatar/000/00/27/36_avatar_mid.jpg" alt="">
-                            </a>
-                            <!-- end 话题图片 -->
-                            <p class="clearfix">
-                                <!-- 话题内容 -->
-                                <span class="topic-tag" data-id="5">
-                                    <a class="text" href="http://wenda.bootcss.com/topic/bootstrap">bootstrap</a>
-                                </span>
-                                <!-- end 话题内容 -->
-                            </p>
-                            <p class="text-color-999">
-                               游戏 是一种基于物质满足之上的，在一种特定时间、空间范围内遵循…                               
-                            </p>
-                        </div>
+		          	 <div class="mod-body clearfix" id="topic">
+		          	 	<script type="text/html" id="sub">
+		          	 		{{each list as item i}}
+			          	 	<div class="aw-item">
+	                            <!-- 话题图片 -->
+	                            <a class="img aw-border-radius-5" href="" >
+	                                <img src="home/topicImg/topicImg_{{item['tpId']}}.jpg" alt="" style="width: 55px;height: 55px;">
+	                            </a>
+	                            <!-- end 话题图片 -->
+	                            <p class="clearfix">
+	                                <!-- 话题内容 -->
+	                                <span class="topic-tag" data-id="5">
+	                                    <a class="text" href="http://wenda.bootcss.com/topic/bootstrap">{{item['tpName']}}</a>
+	                                </span>
+	                                <!-- end 话题内容 -->
+	                            </p>
+	                            <p class="text-color-999">
+	                               {{item['tpDetail']}}                              
+	                            </p>
+	                        </div>
+	                        {{/each}}
+		          	 	</script>
 		          	 </div>
 		          </div>
 	          </div>
@@ -101,42 +71,6 @@
 	  </div>
 	</div>
 	<!--end container -->
-	<!-- 弹出框 -->
-	<div class="aw-ajax-box" id="aw-ajax-box">
-		<div id="aw-card-tips" class="aw-card-tips aw-card-tips-user" style="left: 215.5px; top: 244px; display: none;">
-			<div class="aw-mod">
-				<div class="mod-head">
-				    <a href="" class="img">
-				    	<img src="http://wenda.bootcss.com/uploads/avatar/000/00/27/36_avatar_mid.jpg">
-				    </a>
-				    <p class="title clearfix" data-id="12345">
-						<a href="" class="name pull-left">陈飞艇</a>
-						<i class="pull-left"></i>
-				    </p>
-				    <p class="aw-user-center-follow-meta">
-				    	<span>短租民宿分享预订平台</span>
-				    </p>
-				</div>
-				<div class="mod-body"></div>
-				<div class="mod-footer clearfix">
-					<a onclick="" class="item">
-						<span class="value">184K</span>
-						<span class="key">问题</span>
-					</a>
-					<a onclick="" class="item">
-						<span class="value">184K</span>
-						<span class="key">问题</span>
-					</a>
-					<a class="btn btn-normal btn-success btn-sm follow pull-right">
-						<span>关注</span>
-						<em>|</em>
-						<b>0</b>
-					</a>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- 弹出框 -->
 	<!-- foot -->
 	<footer style="margin-top: 70px;margin-bottom: 30px">
 	   <div class="container">
@@ -151,136 +85,21 @@
     <?php $this->loadTmplate(TEMPLATE_PATH . "public/js.tpl.php"); ?>
     <script>
     	$(document).ready(function(){
-    		$('.summernote').summernote({
-    			  toolbar: [
-				    ['style', ['bold', 'italic', 'underline']],
-				    ['insert',['picture','video']],
-				    ['fontsize', ['fontsize']],
-				    ['para', ['ul', 'ol', 'paragraph']],
-				    ['music',['codeview','fullscreen']]
-                  ]
-    		});
-    		$('.note-editable').focus(function(){
-    			$('.note-editable span').empty();
-    		});
-
-    		$('.select2').select2();
+    		$.post('/index.php?module=sql&action=allTopics',function(result){
+    			console.log(result);
+    			if (result != null) {
+    				var data = {
+    					list:result
+    				}
+    				var html = template('sub',data);
+    				$('#topic').append(html);
+    			}
 
 
-	    	AWS.show_card_box('.aw-user-img','user');
-
-	        //小卡片mouseover
-		    $(document).on('mouseover', '#aw-card-tips', function ()
-		    {
-		        clearTimeout(AWS.G.card_box_hide_timer);
-		        
-		        $(this).show();
-		    });
-
-		    //小卡片mouseout
-		    $(document).on('mouseout', '#aw-card-tips', function ()
-		    {
-		        $(this).hide();
-		    });
+    		},'json')
+    		
 
         });
-    		
-		    var AWS = {
-		      	show_card_box:function(selector,type,time){
-		      		if(!time){
-		      			var time = 300;
-		      		}
-
-		      		$(document).on('mouseover',selector,function(){
-		      			var _this = $(this);
-		      			clearTimeout(AWS.G.card_box_hide_timer);
-
-		      			AWS.G.card_box_show_timer = setTimeout(function(){
-		      				switch(type){
-		      					case 'user':
-		      						if (AWS.G.cashUserData.length == 0) {
-		      							_getdata();
-		      						}else{
-		      							var flag = 0;
-		      							_checkcash('user');
-		      							if (flag == 0) {
-		      								_getdata();
-
-		      							}
-		      						}
-		      					break;
-
-		      				}
-
-		      				function _getdata(){ //获取数据
-		      					if (type = 'user') {
-		      						_init();
-		      						AWS.G.cashUserData.push($('#aw-ajax-box').html());
-		      					}
-
-		      				}
-
-		      				function _checkcash(type){  //检测缓存
-		      					if (type == 'user') {
-		      						$.each(AWS.G.cashUserData,function(i,obj){
-		      							if (obj.match('data-id="'+12345+'"')) {
-		      								$('#aw-ajax-box').html(obj);
-		      								$('#aw-card-tips').removeAttr('style');
-		      								_init();
-		      								flag = 1;
-		      							}
-		      						});
-		      					}
-		      				}
-
-				      		function _init(){ //初始化元素的位置
-				      			var top = _this.offset().top + _this.height() + 5,
-				      				left = _this.offset().left,
-				      				nTop = _this.offset().top - $(window).scrollTop();
-
-				      			// 判断下遍距离不足的情况
-				      			if ( $(window).height() - nTop < $('#aw-card-tips').innerHeight()) {
-				      				// 不足弹出框将浮在元素上方
-				      				top = _this.offset().top - ($('#aw-card-tips').innerHeight()) -10;
-				      			}
-				      			// 判断右边距离不足
-				      			if ( $(window).width() - left < $('#aw-card-tips').innerWidth()) {
-				      				left = left - $('#aw-card-tips').innerWidth() + _this.innerWidth();
-				      			}
-
-				      			$('#aw-card-tips').css({left:left,top:top}).fadeIn(); 
-				      		}
-		      			},time);
-		      			
-		      		}); //mouseover
-
-		      		$(document).on('mouseout',selector,function(){
-		      			clearTimeout(AWS.G.card_box_show_timer);
-
-		      		    AWS.G.card_box_hide_timer = setTimeout(function(){
-		      				$('#aw-card-tips').fadeOut();
-		      			},600);
-		      			
-
-		      		});
-
-
-		      }
-		    }
-		     // 全局变量
-			AWS.G =
-			{
-				cashUserData: [],
-				cashTopicData: [],
-				card_box_hide_timer: '',
-				card_box_show_timer: '',
-				dropdown_list_xhr: '',
-				loading_timer: '',
-				loading_bg_count: 12,
-				loading_mini_bg_count: 9,
-				notification_timer: ''
-			}
-		      
     </script>
   </body>
 </html>

@@ -37,6 +37,14 @@ $(function(){
     //邀请框
     AWS.Init.init_invite_box('.aw-invite-replay');
 
+    //搜索下拉框
+    AWS.Dropdown.bind_dropdown_list('#aw-search-query','search');
+
+    //邀请用户回答点击事件
+    $(document).on('click', '.aw-invite-box .aw-dropdown-list a', function () {
+        AWS.invite_user($(this),$(this).find('img').attr('src'));
+    });
+
     //小卡片mouseover
     $(document).on('mouseover', '#aw-card-tips', function ()
     {
