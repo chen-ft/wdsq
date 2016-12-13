@@ -1,6 +1,3 @@
-<?php
-print_r($_SESSION);
-?>
 <!DOCTYPE html>
 <html lang="zh">
 <head>
@@ -18,6 +15,7 @@ print_r($_SESSION);
 		<form class="register-form">
 		  <input type="text" placeholder="用户名" id="r_user_name"/>
 		  <input type="password" placeholder="密码" id="r_password" />
+		  <input type="text" placeholder="邮箱" id="r_email" />
 		  <button id="create">创建账户</button>
 		  <p class="message">已经有了一个账户? <a href="#">立刻登录</a></p>
 		</form>
@@ -55,7 +53,8 @@ function check_login()
 function check_register(){
 	var name = $("#r_user_name").val();
 	var pass = $("#r_password").val();
-	$.post('/index.php?module=sql&action=register',{name:name,pass:pass},function(data){
+	var email = $("#r_email").val();
+	$.post('/index.php?module=sql&action=register',{name:name,pass:pass,email:email},function(data){
 		if (data == '0000') {
 			 alert("注册成功！");
 		}else if(data == '2222'){

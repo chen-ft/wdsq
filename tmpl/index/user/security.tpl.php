@@ -8,6 +8,8 @@
 <title>问答社区</title>
 <?php $this->loadTmplate(TEMPLATE_PATH . "public/css.tpl.php"); ?>
 <link rel="stylesheet" href="home/lunt/css/setting.css">
+<!-- 表单验证 -->
+<link rel="stylesheet" href="home/plugins/validator/bootstrapValidator.min.css">
 </head>
 <body>
 	<?php $this->loadTmplate(TEMPLATE_PATH . "public/nav.tpl.php"); ?>
@@ -25,12 +27,14 @@
 						</div>
 						<div class="tab-content clearfix">
 							<div class="aw-mod">
-								<div class="mod-body">
-									<div class="aw-mod aw-user-setting-bind">
-										<div class="mod-head">
-											<h3>修改密码</h3>
-										</div>
-										<form class="form-horizontal" action="http://wenda.bootcss.com/account/ajax/modify_password/" method="post" id="setting_form">
+								<form class="form-horizontal" action="/index.php" method="post" id="setting_form">
+									<input type="hidden" name="module" value="sql">
+									<input type="hidden" name="action" value="setPass">
+									<div class="mod-body">
+										<div class="aw-mod aw-user-setting-bind">
+											<div class="mod-head">
+												<h3>修改密码</h3>
+											</div>
 											<div class="mod-body">
 												<div class="form-group">
 													<label class="control-label" for="input-password-old">当前密码</label>
@@ -57,12 +61,12 @@
 													</div>
 												</div>      
 											</div>
-										</form>
+										</div>
 									</div>
-								</div>
-								<div class="mod-footer clearfix">
-									<a href="javascript:;" class="btn btn-large btn-success pull-right" onclick="AWS.ajax_post($('#setting_form'));">保存</a>
-								</div>
+									<div class="mod-footer clearfix">
+										<button type="submit" class="btn btn-large btn-success pull-right">保存</button>
+									</div>
+								</form>
 							</div>
 						</div>
 					</div>
@@ -71,5 +75,69 @@
 		</div>
 	</div>
 	<?php $this->loadTmplate(TEMPLATE_PATH . "public/js.tpl.php"); ?>
+	<!-- 表单验证 -->
+	<script src="home/plugins/validator/bootstrapValidator.min.js"></script>
+	<script>
+	$(function(){
+		  // 表单验证
+	    $('#setting_form').bootstrapValidator({
+	        message: '请输入有效值',
+	        feedbackIcons: {
+	            valid: 'glyphicon glyphicon-ok',
+	            invalid: 'glyphicon glyphicon-remove',
+	            validating: 'glyphicon glyphicon-refresh'
+	        },
+	        fields: {
+	            old_password: {
+	                message: '请输入有效值',
+	                validators: {
+	                    notEmpty: {
+	                        message: '当前密码不能为空'
+	                    },
+	                }
+	            },
+	            password: {
+	                validators: {
+	                    notEmpty: {
+	                        message: '不能为空'
+	                    },
+	                    stringLength: {
+	                        min: 6,
+	                        max: 30,
+	                        message: '密码不能少于6位'
+	                    },
+	                    identical: {
+	                        field: 're_password',
+	                        message: '确认密码不一致'
+	                    }
+	                }
+	            },
+	            re_password: {
+	                validators: {
+	                    notEmpty: {
+	                        message: '确认密码不能为空'
+	                    },
+	                    identical: {
+	                        field: 'password',
+	                        message: '确认密码不一致'
+	                    }
+	                }
+	            },
+	        }
+	    });
+	});
+/*
+	function save(obj){
+		 //判断是否验证成功
+	    $('#setting_form').data('bootstrapValidator').validate();  
+	        if(!$('#setting_form').data('bootstrapValidator').isValid()){
+	                return;
+	    } 
+	    $.post('/index.php?module=sql&action=setPass',{'oldPass':'','newPass':''},function(result){
+
+	    },'json');
+
+	}	*/	
+	</script>
 </body>
 </html>
