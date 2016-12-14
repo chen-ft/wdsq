@@ -23,9 +23,8 @@
 	          <div class="aw-mod clearfix">
 		          <!-- tab切换 -->
 		          <ul class="nav nav-tabs aw-nav-tabs active hidden-xs">
-		          	<li><a href="http://wenda.ghostchina.com/sort_type-unresponsive">写文章</a></li>
+		          	<li><a href="#">写文章</a></li>
 		          	<li><a href="/index.php?module=index&action=answer">回答</a></li>
-		          	<li class=""><a onclick="AWS.dialog('askModal')">提问</a></li>
 		          	<h2 class="hidden-xs"><i class="fa fa-list-ul"></i> 动态</h2>
 		          </ul>
 		          <!-- end tab切换 -->
@@ -40,9 +39,11 @@
 		          					</a> 
 		          					<p class="text-color-999">
 		          						来自话题•   <a data-id={{item['tpId']}} class="aw-topic-name" href="/index.php?module=question&action=topicImg&id={{item['tpId']}}">{{item['tpName']}}</a>
+		          					    <span class="pull-right more-operate"><a class="text-color-999" href="javascript:;" onclick="AWS.User.noinstrest($(this))">不感兴趣</a></span>
 		          					</p>
 	          						<h4>
-	          							<a href="/index.php?module=question&action=question&id={{item['qsId']}}">{{item['qsTitle']}}</a>
+	          							<a href="/index.php?module=question&action=question&id={{item['qsId']}}">{{item['qsTitle']}}
+	          							</a>
 	          						</h4>
 	          			      	</div>
 	          			      	{{if item['strUserId']}}
@@ -59,25 +60,8 @@
 	          							</div>
 	          							<div class="media-body">
 	          							{{item['shutAnsContent']}}
-	          								<a href="">显示全部</a>
 	          							</div>
 	          						</div>
-	          			      	</div>
-	          			      	<div class="mod-footer">
-	          			      		<div class="meta clearfix">
-	          			      			<p>
-	          			      			    <a  class="text-color-999 "><i class="icon icon-plus"></i>添加关注
-	          			      				</a> &nbsp&nbsp  
-	          			      				<a class="text-color-999 add-comment" datatype="answer" data-id={{item['strAnsId']}}><i class="icon icon-comment"></i>
-	          			      					{{item['strAnsComment']}}条评论
-	          			      				</a> &nbsp&nbsp  
-	          			      				<a onclick="AWS.User.answer_user_rate($(this), 'thanks', 1055);" class="aw-icon-thank-tips text-color-999" data-original-title="感谢热心的回复者" data-toggle="tooltip" title="" data-placement="bottom"><i class="icon icon-thank"></i>赞
-	          			      				</a> &nbsp&nbsp 
-	          			      				<a onclick="" class="text-color-999"><i class="icon icon-share"></i>
-	          			      					分享
-	          			      				</a> 
-	          			      			</p>
-	          			      		</div>
 	          			      	</div>
 	          			      	{{/if}}
 	          				</div>
@@ -99,17 +83,15 @@
 	            <div class="aw-mod side-nav">
 	              <div class="mod-body">
 					<ul>
-						<li><a href="http://wenda.bootcss.com/home/#draft_list__draft" rel="draft_list__draft"><i class="icon icon-draft"></i>我的草稿</a></li>
-						<li><a href="http://wenda.bootcss.com/favorite/"><i class="icon icon-favor"></i>我的收藏</a></li>
-						<li><a href="http://wenda.bootcss.com/home/#all__focus" rel="all__focus"><i class="icon icon-check"></i>我关注的问题</a></li>
-						<li><a href="http://wenda.bootcss.com/home/#focus_topic__focus" rel="focus_topic__focus"><i class="icon icon-mytopic"></i>我关注的话题</a></li>
-						<li><a href="http://wenda.bootcss.com/home/#invite_list__invite" rel="invite_list__invite"><i class="icon icon-invite"></i>邀请我回复的问题</a></li>
+						<li><a href="#" rel="all__focus"><i class="icon icon-check"></i>我关注的问题</a></li>
+						<li><a href="#" rel="focus_topic__focus"><i class="icon icon-mytopic"></i>我关注的话题</a></li>
+						<li><a href="#" rel="invite_list__invite"><i class="icon icon-invite"></i>邀请我回复的问题</a></li>
 					</ul>
 				  </div>
                 </div>
 	        	<div class="aw-mod aw-text-align-justify">
 	        		<div class="mod-head">
-	        			<a href="http://wenda.golaravel.com/topic/channel-hot" class="pull-right">更多 &gt;</a>
+	        			<a href="/index.php?module=topic&action=allTopic" class="pull-right">更多 &gt;</a>
 	        			<h3>热门话题</h3>
 	        		</div>
 	        		<div class="mod-body">
@@ -124,58 +106,6 @@
 	        						</span>
 	        					</p>
 	        					<p><b>44</b> 个问题, <b>7</b> 人关注</p>
-	        				</dd>
-	        			</dl>
-	        			<dl>
-	        				<dt class="pull-left aw-border-radius-5">
-	        					<a href="http://wenda.golaravel.com/topic/Composer"><img alt="" src="http://wenda.golaravel.com/static/common/topic-mid-img.png"></a>
-	        				</dt>
-	        				<dd class="pull-left">
-	        					<p class="clearfix">
-	        						<span class="topic-tag">
-	        							<a href="http://wenda.golaravel.com/topic/Composer" class="text" data-id="24">Composer</a>
-	        						</span>
-	        					</p>
-	        					<p><b>63</b> 个问题, <b>11</b> 人关注</p>
-	        				</dd>
-	        			</dl>
-	        			<dl>
-	        				<dt class="pull-left aw-border-radius-5">
-	        					<a href="http://wenda.golaravel.com/topic/laravel"><img alt="" src="http://wenda.golaravel.com/static/common/topic-mid-img.png"></a>
-	        				</dt>
-	        				<dd class="pull-left">
-	        					<p class="clearfix">
-	        						<span class="topic-tag">
-	        							<a href="http://wenda.golaravel.com/topic/laravel" class="text" data-id="57">laravel</a>
-	        						</span>
-	        					</p>
-	        					<p><b>229</b> 个问题, <b>34</b> 人关注</p>
-	        				</dd>
-	        			</dl>
-	        			<dl>
-	        				<dt class="pull-left aw-border-radius-5">
-	        					<a href="http://wenda.golaravel.com/topic/登录验证"><img alt="" src="http://wenda.golaravel.com/static/common/topic-mid-img.png"></a>
-	        				</dt>
-	        				<dd class="pull-left">
-	        					<p class="clearfix">
-	        						<span class="topic-tag">
-	        							<a href="http://wenda.golaravel.com/topic/登录验证" class="text" data-id="64">登录验证</a>
-	        						</span>
-	        					</p>
-	        					<p><b>4</b> 个问题, <b>1</b> 人关注</p>
-	        				</dd>
-	        			</dl>
-	        			<dl>
-	        				<dt class="pull-left aw-border-radius-5">
-	        					<a href="http://wenda.golaravel.com/topic/Guard"><img alt="" src="http://wenda.golaravel.com/static/common/topic-mid-img.png"></a>
-	        				</dt>
-	        				<dd class="pull-left">
-	        					<p class="clearfix">
-	        						<span class="topic-tag">
-	        							<a href="http://wenda.golaravel.com/topic/Guard" class="text" data-id="1148">Guard</a>
-	        						</span>
-	        					</p>
-	        					<p><b>1</b> 个问题, <b>1</b> 人关注</p>
 	        				</dd>
 	        			</dl>
 	        		</div>

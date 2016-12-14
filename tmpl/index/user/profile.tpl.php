@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html> <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -24,12 +23,12 @@
 							</ul>
 						</div>
 						<div class="tab-content clearfix">
-							<div class="side-bar" style="margin-top: 25px;" >
-								<ul>
+							<div class="" style="margin-top: 25px;">
+								<ul style="width:150px;margin-left: 86%">
 									<li>
-										<img style="border-radius: 5px;width: 101px;height:101px" src="home/userImg/user-<?=$_SESSION['login']['strUserId']?>.jpg"  alt="" id="avatar_src">
+										<img style="border-radius: 5px;width: 105px;height:101px" src="home/userImg/user-<?=$_SESSION['login']['strUserId']?>.jpg"  alt="" id="avatar_src">
 									</li>
-									<li style="margin-top: 8px;margin-left: 8px;">
+									<li style="margin-top: 8px;margin-left: 12px;">
 									<form method="post" id="imgForm" name="imgForm" action="/index.php" enctype="multipart/form-data">
 										<input type="hidden" name="module" value="sql">
 										<input type="hidden" name="action" value="imgUp">

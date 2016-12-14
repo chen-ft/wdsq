@@ -31,7 +31,7 @@
 		          	 		{{each list as item i}}
 			          	 	<div class="aw-item">
 	                            <!-- 话题图片 -->
-	                            <a class="img aw-border-radius-5" href="" >
+	                            <a class="img aw-border-radius-5" href="/index.php?module=topic&action=topic&tpId={{item['tpId']}}" >
 	                                <img src="home/topicImg/topicImg_{{item['tpId']}}.jpg" alt="" style="width: 55px;height: 55px;">
 	                            </a>
 	                            <!-- end 话题图片 -->

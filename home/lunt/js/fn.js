@@ -297,23 +297,20 @@ var AWS =
               }
           });
       break;
-      case 'imgUpload':
-        $.ajax({
-              type     : 'post',
-              dataType : 'json',
-              url      : '/index.php?module=sql&action=imgUpload',
-              data     : {name:data},
-              success  : function(data){
-                if (data == '0000') {
-                  alert('回复成功');
-                  location.reload() 
-                }
-              },
-              error    : function(){
-                  alert('出现错误');
-              }
-          });
-        alert('1');
+      case 'questionUp':
+        var data = new FormData();  
+        data.append("file", data);
+        $.ajax({  
+            data: data,  
+            type: 'post',  
+            url: url,  
+            cache: false,  
+            contentType: false,  
+            processData: false,  
+            success: function(url) {  
+                  $(".summernote").summernote('insertImage', url, 'image name'); 
+            }  
+        });  
       break;
 
       }
@@ -478,10 +475,10 @@ AWS.User =
   },
 
 
-  //添加关注
   // 关注
   follow: function(selector, type, data_id)
-  {
+  { 
+
     if (selector.html())
       {
           if (selector.hasClass('active'))
@@ -497,23 +494,11 @@ AWS.User =
             selector.find('b').html(parseInt(selector.find('b').html()) + 1);
           }
       }
-      else
-      {   
-          if (selector.hasClass('active'))
-          {
-              selector.attr('data-original-title', '关注');
-          }
-          else
-          {
-              selector.attr('data-original-title', '取消关注');
-          }
-      }
 
-
-      switch (type)
+    /*  switch (type)
       {
         case 'question':
-          var url = '/question/ajax/focus/question_id-';
+          var url = '/index.php?module=sql&action=focusQuestion&id='+data_id;
           break;
 
         case 'topic':
@@ -525,7 +510,7 @@ AWS.User =
         break;
       }
 
-     /* $.get(G_BASE_URL + url + data_id, function (result)
+     $.get(url, function (result)
       {
         if (result.errno == 1)
           {
@@ -555,6 +540,13 @@ AWS.User =
 
       }, 'json');*/
   },
+
+  //不感兴趣
+  noinstrest:function(selector){
+
+    selector.parents('.aw-item').fadeOut();
+
+  }
 }
 
 AWS.Dropdown = 
@@ -625,6 +617,10 @@ AWS.Dropdown =
         }
       }
 
+      if (e.which == 13) {
+        $(selector).parent().find('.aw-dropdown-list .active').click();
+      }
+
 
 
     });
@@ -671,7 +667,7 @@ AWS.Dropdown =
                           break;
 
                       case 'topics':
-                          $(selector).parent().find('.aw-dropdown-list').append('<li class="topic clearfix"><span class="topic-tag" data-id='+a.tpId+'><a href="" class="text">'+a.tpName+'</a></span> <span class="pull-right text-color-999">6 ' + '个讨论' + '</span></li>');
+                          $(selector).parent().find('.aw-dropdown-list').append('<li class="topic clearfix"><span class="topic-tag" data-id='+a.tpId+'><a href="/index.php?module=topic&action=topic&tpId='+a.tpId+'" class="text">'+a.tpName+'</a></span> <span class="pull-right text-color-999">6 ' + '个讨论' + '</span></li>');
                           break;
 
                       case 'users':
@@ -680,13 +676,11 @@ AWS.Dropdown =
                           }else{
                             var signature = a.strDetail;
                           }
-                          $(selector).parent().find('.aw-dropdown-list').append('<li class="user clearfix"><a href=""><img src='+a.strImg+' />'+a.strName+'<span class="aw-hide-txt">'+signature+'</span></a></li>');
+                           var imgUrl = 'home/userImg/user-'+a.strUserId+'.jpg';
+                          $(selector).parent().find('.aw-dropdown-list').append('<li class="user clearfix"><a href="/index.php?module=user&action=people&userId='+a.strUserId+'"><img src='+imgUrl+' />'+a.strName+'<span class="aw-hide-txt">'+signature+'</span></a></li>');
                           break;
                   }
               });
-              $(selector).parent().find('.aw-dropdown-list').show();
-              $(selector).parent().find('.aw-dropdown').show();
-              $(selector).parent().find('.aw-dropdown').find('.title').hide();
               break;
 
           case 'invite':
@@ -698,14 +692,15 @@ AWS.Dropdown =
                  }else{
                    var signature = a.strDetail;
                  }
-                 $(selector).parent().find('.aw-dropdown-list').append('<li class="user"><a data-qs="100101" data-id="201009"  data-value='+a.strName+'><img class="img" src='+a.strImg+' />'+a.strName+'<span class="aw-hide-txt">'+signature+'</span></a></li>');
+                 var imgUrl = 'home/userImg/user-'+a.strUserId+'.jpg';
+                 $(selector).parent().find('.aw-dropdown-list').append('<li class="user"><a data-qs="100101" data-id="201009"  data-value='+a.strName+'><img class="img" src='+imgUrl+' />'+a.strName+'<span class="aw-hide-txt">'+signature+'</span></a></li>');
               });
-              $(selector).parent().find('.aw-dropdown-list').show();
-              $(selector).parent().find('.aw-dropdown').show();
-              $(selector).parent().find('.aw-dropdown').find('.title').hide();
+           
               break;
-
         }
+          $(selector).parent().find('.aw-dropdown-list').show();
+          $(selector).parent().find('.aw-dropdown').show();
+          $(selector).parent().find('.aw-dropdown').find('.title').hide();
       }else{
           $(selector).parent().find('.aw-dropdown').show().end().find('.title').html('没有找到相关结果').show();
           $(selector).parent().find('.aw-dropdown-list').hide();

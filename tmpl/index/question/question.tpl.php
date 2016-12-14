@@ -120,7 +120,7 @@
                                     <div class="mod-head">
                                         <a class="anchor" name="answer_165"></a>
                                         <a class="aw-user-img aw-border-radius-5 pull-right" href="#" data-id="">
-                                            <img src="#" alt="">
+                                            <img src="home/userImg/user-{{item['strUserId']}}.jpg" alt="">
                                         </a>
                                         <div class="title">
                                             <p>
@@ -140,19 +140,22 @@
                                        </div>
                                    </div>
                                    <div class="mod-footer">
-                                        <div class="meta clearfix">
-                                            <p>
-                                                <a onclick="AWS.User.question_agree($(this));" class="aw-icon-agree-tips text-color-999" data-original-title="感谢热心的回复者" data-toggle="tooltip" title="" data-placement="bottom"><i class="icon icon-agree"></i>
-                                                    赞
-                                                </a> &nbsp;&nbsp;
-                                                <a class="text-color-999 add-comment" data-type="answer" data-id={{item['strAnsId']}}><i class="icon icon-comment"></i>
-                                                    评论
-                                                </a> &nbsp;&nbsp;  
-                                                <a href="javascript:" onclick="" class="text-color-999"><i class="icon icon-share"></i>
-                                                    分享
-                                                </a>  
-                                               
-                                            </p>
+                                        <div class="meta btn-group">
+                                            <a onclick="AWS.User.question_agree($(this));" class="aw-icon-agree-tips text-color-999" data-original-title="感谢热心的回复者" data-toggle="tooltip" title="" data-placement="bottom"><i class="icon icon-agree"></i>
+                                                赞
+                                            </a> &nbsp;&nbsp;
+                                            <a class="text-color-999 add-comment" data-type="answer" data-id={{item['strAnsId']}}><i class="icon icon-comment"></i>
+                                                评论
+                                            </a> &nbsp;&nbsp;  
+                                            <a class="text-color-999 dropdown-toggle" data-toggle="dropdown">
+                                                <i class="icon icon-share"></i> 分享                                                  </a>
+                                            <div aria-labelledby="dropdownMenu" role="menu" class="aw-dropdown shareout pull-right">
+                                                <ul class="aw-dropdown-list">
+                                                    <li><a onclick="AWS.User.share_out('tsina', $(this).parents('.aw-item').find('.markitup-box').text());"><i class="icon icon-weibo"></i> 新浪微博</a></li>
+                                                    <li><a onclick="AWS.User.share_out('qzone', $(this).parents('.aw-item').find('.markitup-box').text());"><i class="icon icon-qzone"></i> QZONE</a></li>
+                                                    <li><a onclick="AWS.User.share_out('weixin', $(this).parents('.aw-item').find('.markitup-box').text());"><i class="icon icon-wechat"></i> 微信</a></li>
+                                                </ul>
+                                            </div>
                                         </div>
                                     </div>
                                  </div>
@@ -177,7 +180,7 @@
                                 <input type="hidden" name="question_id" value="2374">
                                 <input type="hidden" name="attach_access_key" value="f1f84eef080dae8a7b99a5063600aff1">
                                 <div class="mod-head">
-                                    <a href="http://wenda.bootcss.com/people/" class="aw-user-name"><img alt="无" src="http://wenda.bootcss.com/static/common/avatar-mid-img.png"></a>
+                                    <a href="http://wenda.bootcss.com/people/" class="aw-user-name"><img alt="无" src="home/userImg/user-<?=$_SESSION['login']['strUserId']?>.jpg"></a>
                                     <p>
                                         <?=$_SESSION['login']['strName']?>                           
                                     </p>
@@ -201,7 +204,7 @@
                 <div class="col-md-3 aw-side-bar hidden-xs hidden-sm">
                     <div class="aw-mod">
                        <div class="operate clearfix">
-                        <a href="javascript:;" onclick="AWS.User.follow($(this), 'question', 2374);" class="follow btn btn-normal btn-success pull-left "><span>关注</span> <em>|</em> <b>1</b></a>
+                        <a href="javascript:;" onclick="AWS.User.follow($(this), 'question', <?=$_GET['id']?>);" class="follow btn btn-normal btn-success pull-left "><span>关注</span> <em>|</em> <b>1</b></a>
                         </div>
                     </div>
                     
@@ -285,7 +288,7 @@
 	    	{{each list as item i}}
 			<li>
 			  <a class="aw-user-name" href="#" alt="">
-			  	<img src="http://wenda.bootcss.com/static/common/avatar-min-img.png" alt="">
+			  	<img src="home/userImg/user-{{item['strUserId']}}.jpg" alt="">
 			  </a>
 			  <div>
 			      <p class="clearfix">
@@ -306,7 +309,7 @@
             {{each list as item i}}
             <li style="display: list-item;">
                 <a class="aw-user-img pull-left" href="http://wenda.bootcss.com/people/rex">
-                    <img class="img" alt="" src="http://wenda.bootcss.com/uploads/avatar/000/00/03/67_avatar_mid.jpg">
+                    <img class="img" alt="" src="home/userImg/user-{{item['strUserId']}}.jpg">
                 </a>
                 <div class="main">
                     <a class="pull-right btn btn-mini btn-success" data-qs=<?=$_GET['id']?> data-id={{item['strUserId']}} data-value={{item['strName']}} onclick="AWS.invite_user($(this),$(this).parents('li').find('img').attr('src'));">邀请</a>

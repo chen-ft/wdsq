@@ -1,24 +1,3 @@
-<?php
-try {
-	$pdo = new PDO('mysql:host=120.27.103.38;dbname=wdsq','xwsd','xwsdliu2016');
-	$pdo->query('set names utf8');
-	$rs = $pdo->prepare('select * from qs_content');
-	$rs->execute();
-
-	while ( $row = $rs->fetchAll(PDO::FETCH_NUM)) {
-		$array  = $row;
-	}
-
-} catch (PDOException $e) {
-	$e->getMessage();
-}
-foreach ($array as $key => $value) {
-	$text = strip_tags($value['6']);
-	$array[$key]['10'] = mb_substr($text,'0','130','utf-8').'...'; 
-}
-$dataJson = json_encode($array);
-
-?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -28,7 +7,7 @@ $dataJson = json_encode($array);
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>回答</title>
+    <title>问答社区</title>
     <?php $this->loadTmplate(TEMPLATE_PATH . "public/css.tpl.php"); ?>
   </head>
   <body>
@@ -174,36 +153,7 @@ $dataJson = json_encode($array);
       </div>
     </div>
     <!--end container -->
+    <?php $this->loadTmplate(TEMPLATE_PATH . "public/footer.tpl.php")?>
     <?php $this->loadTmplate(TEMPLATE_PATH . "public/js.tpl.php"); ?>
-    <script>
-    	$(document).ready(function(){
-    		$('.summernote').summernote({
-    			  toolbar: [
-				    ['style', ['bold', 'italic', 'underline']],
-				    ['insert',['picture','video']],
-				    ['fontsize', ['fontsize']],
-				    ['para', ['ul', 'ol', 'paragraph']],
-				    ['music',['codeview','fullscreen']]
-                  ]
-    		});
-    		$('.note-editable').focus(function(){
-    			$('.note-editable span').empty();
-    		});
-    		var data = [{ id: 0, text: '科学家' }, { id: 1, text: 'IT技术' }, { id: 2, text: '我们' }, { id: 3, text: 'invalid' }, { id: 4, text: 'wontfix' }, { id: 4, text: 'wontfix1' }, { id: 4, text: 'wontfix2' }, { id: 4, text: 'wontfix3' }, { id: 4, text: 'wontfix5' }, { id: 4, text: 'wontfix4' }, { id: 4, text: 'wontfix11' }, { id: 4, text: 'wontf1ix11' }, { id: 4, text: 'wont2fix11' }, { id: 4, text: 'wontf1ix11' }, { id: 4, text: '11' }];
-
-    		$('#single').select2({
-    			data: data,
- 			    allowClear: true,
-    		});
-
-	    	var content={
-
-	    		list : <?=$dataJson?>,
-	    	}
-	    	var html = template('qList',content);
-	        $('#main_contents').html(html);
-        });
-    		
-    </script>
   </body>
 </html>

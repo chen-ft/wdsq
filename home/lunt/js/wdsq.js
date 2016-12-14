@@ -3,29 +3,32 @@ $(function(){
 	$('.summernote').summernote({
 		  height:150,
 		  placeholder: '问题背景、条件等详细信息',
+          callbacks:{
+             onImageUpload: function(files) {
+                img = sendQuestion(files[0]); 
+                // AWS.ajax_post('questionUp',files[0],'');
+            }
+          },
 	});
+
+   function sendQuestion(file) {  
+        var data = new FormData();  
+        data.append("file", file);
+        $.ajax({  
+            data: data,  
+            type: 'post',  
+            url: "/index.php?module=sql&action=questionImg",  
+            cache: false,  
+            contentType: false,  
+            processData: false,  
+            success: function(url) {  
+                  $(".summernote").summernote('insertImage', url, 'image name'); 
+            }  
+        });  
+    }
 
 	$('.select2').select2();
 
-		 /* ajax: {
-
-                url     : "/index.php?module=sql&action=topic",//请求的API地址
-                delay   : 250,
-                dataType: 'json',//数据类型
-                data    : function(params){
-                    return {
-                        q   : params.term//此处是最终传递给API的参数
-                    }
-                },
-                id : function(rs) {  
-	            	console.log(rs);
-			        return rs.tpId;  
-			    },
-            },
-            
-		    results : function(data){ return data;}, 
-            templateResult: formatState//模板化*/
-		
 
 
 	//详情提示框

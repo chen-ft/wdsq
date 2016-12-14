@@ -257,6 +257,14 @@ class Sql extends Home_Public
     	echo $path;
     }
 
+    Function showQuestionImg(){
+        $imgName = $_FILES['file']['name'];
+        $tmp = $_FILES['file']['tmp_name'];
+        $path = "home/questionImg/".$imgName;
+        move_uploaded_file($tmp, $path);
+        echo $path;
+    }
+
     //邀请用户
     Function showInviterUser(){
     	// print_r($_POST);
@@ -354,7 +362,7 @@ class Sql extends Home_Public
 
     //search
     Function showSearchData(){
-        $sql = "SELECT strUserId,strName,strDetail,strImg FROM wd_user where strName like '%".$_GET['q']."%' limit ".$_GET['limit'];
+        $sql = "SELECT strUserId,strName,strDetail FROM wd_user where strName like '%".$_GET['q']."%' limit ".$_GET['limit'];
         $row = $this->myFetchAll($sql);
         foreach ($row as $key => $value) {
             $res = $value;
@@ -381,13 +389,54 @@ class Sql extends Home_Public
 
     //搜索邀请人
     Function showSearchInvite(){
-        $sql = "SELECT strUserId,strName,strImg,strDetail FROM wd_user where strName like '%".$_GET['q']."%' limit ".$_GET['limit'];
+        $sql = "SELECT strUserId,strName,strDetail FROM wd_user where strName like '%".$_GET['q']."%' limit ".$_GET['limit'];
         $row = $this->myFetchAll($sql);
         foreach ($row as $key => $value) {
             $list[] = $value;
         }
         echo json_encode($list);
         
+    }
+
+    Function showAllTopics(){
+    	$row = $this->myFetchAll('SELECT tpId,tpName,tpDetail FROM wd_topic');
+        foreach ($row as $key => $value) {
+            $text = strip_tags($value['tpDetail']);
+            $row[$key]['stortDetail'] = mb_substr($text,'0','15','utf-8').'..'; 
+        }
+    	echo json_encode($row);
+    }
+
+    Function showTopicQuestions(){
+
+        $row = $this->myFetchAll('SELECT qsId,q.strUserId,qsTitle,qsContent,strName,qsCreateTime FROM wd_question AS q LEFT JOIN wd_user AS u ON q.strUserId = u.strUserId  WHERE q.tpId = '.$_GET['id']);
+        $topic = $this->myFetchOne('SELECT tpName,tpDetail FROM wd_topic WHERE tpId = '.$_GET['id']);
+
+        $list['questions'] = $row;
+        $list['topic'] = $topic;
+
+        echo json_encode($list);
+    }
+
+    Function showSelectQuestion(){
+
+        $arr = $_POST['data'];
+        for ($i=0; $i < count($arr); $i++) { 
+            if ($i == 0) {
+                $string .= $arr[$i]."'";
+            }else{
+                $string .= " || tpName = '".$arr[$i]."'";
+            }
+        }
+        $where = "WHERE tpName = '".$string;
+        $sql = "SELECT tpId FROM wd_topic ".$where;
+        $row = $this->myFetchAll($sql);
+        $where = $this->getWhere($row,'q.tpId','tpId');
+
+        $sql = "SELECT q.qsId,t.tpName,t.tpId,qsTitle FROM wd_question as q LEFT JOIN wd_topic as t on q.tpId= t.tpId ".$where;
+        $row = $this->myFetchAll($sql);
+        echo json_encode($row);
+
     }
 
 

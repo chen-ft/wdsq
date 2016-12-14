@@ -14,4 +14,9 @@ class User extends Home_Public
 		
 		$this->display();
 	}
+
+	function showPeople(){
+		
+		$this->display();
+	}
 }

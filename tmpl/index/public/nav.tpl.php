@@ -29,7 +29,7 @@
 				<nav role="navigation" class="collapse navbar-collapse bs-navbar-collapse">
 			      <ul class="nav navbar-nav">
 			      	 <li><a href="/index.php?module=index&action=index" class=<?php if(ACTION_NAME == 'index') echo "active" ?>><i class="icon icon-home"></i> 动态</a></li>
-					 <li><a href="/index.php?module=index&action=topic" class=<?php if(ACTION_NAME == 'topic') echo "active" ?>><i class="icon icon-topic"></i> 话题</a></li>
+					 <li><a href="/index.php?module=topic&action=allTopic" class=<?php if(ACTION_NAME == 'allTopic') echo "active" ?>><i class="icon icon-topic"></i> 话题</a></li>
 					 <li>
 						<a href="javascript:void(0)"><i class="icon icon-bell"></i> 通知</a>
 						<span class="badge badge-important" style="display:none" id="notifications_unread">0</span>
@@ -51,14 +51,14 @@
 			<!-- 用户栏 -->
 			<div class="aw-user-nav">
 				<!-- 登陆&注册栏 -->
-				<a href="http://wenda.bootcss.com/people/_TimChen" class="aw-user-nav-dropdown">
-						<img alt="_TimChen" src="http://wenda.bootcss.com/static/common/avatar-mid-img.png" />
+				<a href="/index.php?module=user&action=people&userId=<?=$_SESSION['login']['strUserId']?>" class="aw-user-nav-dropdown">
+						<img alt="_TimChen" src="home/userImg/user-<?=$_SESSION['login']['strUserId']?>.jpg" />
 						<span style="color: #fff"><?=$_SESSION['login']['strName']?></span>
 						
 					</a>
 					<div class="aw-dropdown dropdown-list pull-right">
 						<ul class="aw-dropdown-list">
-							<li><a href="http://wenda.bootcss.com/inbox/"><i class="icon icon-inbox"></i> 私信<span class="badge badge-important hide" id="inbox_unread">0</span></a></li>
+							<li><a href="javascript:void(0)"><i class="icon icon-inbox"></i> 私信<span class="badge badge-important hide" id="inbox_unread">0</span></a></li>
 							<li class="hidden-xs"><a href="/index.php?module=user&action=profile"><i class="icon icon-setting"></i> 设置</a>
 							</li>
 							<li><a href="/index.php?module=sql&action=logOut"><i class="icon icon-logout"></i> 退出</a></li>
@@ -73,12 +73,52 @@
 		</div>
 	</div>
 
-	<script type="text/html" id="dropdownList">
-		<div aria-labelledby="dropdownMenu" role="menu" class="aw-dropdown">
-			<ul class="aw-dropdown-list">
-			{{#items}}
-				<li><a data-value="{{id}}">{{title}}</a></li>
-			{{/items}}
-			</ul>
-		</div>
-	</script>
+	<!-- 提问 modal -->
+<div class="modal fade" id="askModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header" style="background:#5bbf5a">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">提问</h4>
+      </div>
+      <div class="modal-body">
+        <form id="askForm">
+            <div class="form-group" >
+                <textarea class="form-control" style="height:60px;" cols="1" placeholder="写下你的问题" id="qsTitle" ></textarea>
+            </div>
+            <div class="form-group" >
+                <label style="margin-bottom:4px">问题内容 :</label>
+                <div class="summernote" id="qsContent"></div>
+            </div>
+            <div class="form-group">
+                <label style="margin-bottom:4px">选择话题 :</label><br>
+                <select class="form-control select2 select2-hidden-accessible" data-placeholder="选择一个话题" multiple=""  style="width: 100%;" tabindex="-1" aria-hidden="true" id="qsTopic">
+                <option value="10001">电影</option>
+                <option value="10002">IOS</option>
+                <option value="10003">互联网</option>
+                <option value="10004">创业</option>
+                <option value="10005">法律</option>
+                <option value="10006">时尚</option>
+                <option value="10007">美食</option>
+                <option value="10008">心理学</option>
+                <option value="10009">旅行</option>
+                <option value="100010">设计</option>
+                <option value="100011">汽车</option>
+                <option value="100012">健身</option>
+                <option value="100013">软件开发</option>
+                <option value="100014">环境</option>
+                <option value="100015">教育</option>
+                </select>
+            </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        <button type="button" class="btn btn-success" onclick="AWS.ajax_post('publish')">发布</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- end 提问 modal -->
+
+
