@@ -26,7 +26,7 @@
                     <div class="aw-mod aw-topic-bar" id="question_topic_editor" data-type="question" data-id="2374">
                         <div class="tag-bar clearfix">
                             <span class="topic-tag" data-id="5">
-                                <a href="http://wenda.bootcss.com/topic/bootstrap" class="text">{{list['tpName']}}</a>
+                                <a href="/index.php?module=topic&action=topic&tpId={{list['tpId']}}" class="text">{{list['tpName']}}</a>
                             </span>
                             
                         </div>
@@ -91,21 +91,6 @@
                             </div>
                         </div>
                         <!-- end 站内邀请 -->
-                        <!-- 相关链接 -->
-                        <div class="aw-question-related-box " style="display: none;">
-                            <form action="http://wenda.bootcss.com/publish/ajax/save_related_link/" method="post" onsubmit="return false" id="related_link_form">
-                                <div class="mod-head">
-                                    <h2>与内容相关的链接</h2>
-                                </div>
-                                <div class="mod-body clearfix">
-                                    <input type="hidden" name="item_id" value="2374">
-                                    <input type="text" class="form-control pull-left" name="link" value="http://">
-
-                                    <a onclick="AWS.ajax_post($('#related_link_form'));" class="pull-left btn btn-success">提交</a>
-                                </div>
-                            </form>
-                        </div>
-                        <!-- end 相关链接 -->
                         </div>
                         <!-- end 问题详细模块 -->
                         <div class="aw-mod aw-question-comment">
@@ -308,12 +293,12 @@
         <ul>
             {{each list as item i}}
             <li style="display: list-item;">
-                <a class="aw-user-img pull-left" href="http://wenda.bootcss.com/people/rex">
+                <a class="aw-user-img pull-left" href="/index.php?module=user&action=people$userId={{item['strUserId']}}">
                     <img class="img" alt="" src="home/userImg/user-{{item['strUserId']}}.jpg">
                 </a>
                 <div class="main">
                     <a class="pull-right btn btn-mini btn-success" data-qs=<?=$_GET['id']?> data-id={{item['strUserId']}} data-value={{item['strName']}} onclick="AWS.invite_user($(this),$(this).parents('li').find('img').attr('src'));">邀请</a>
-                    <a class="aw-user-name" href="http://wenda.bootcss.com/people/rex">{{item['strName']}}</a>
+                    <a class="aw-user-name" href="/index.php?module=user&action=people$userId={{item['strUserId']}}">{{item['strName']}}</a>
                     <p>
                        {{item['strDetail']}}
                     </p>

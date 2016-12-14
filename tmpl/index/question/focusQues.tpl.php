@@ -22,9 +22,7 @@
 	          <div class="aw-mod clearfix">
 		          <!-- tab切换 -->
 		          <ul class="nav nav-tabs aw-nav-tabs active hidden-xs">
-		          	<li><a href="#">写文章</a></li>
-		          	<li><a href="/index.php?module=index&action=answer">回答</a></li>
-		          	<h2 class="hidden-xs"><i class="fa fa-list-ul"></i> 动态</h2>
+		          	<h2 class="hidden-xs"><i class="fa fa-list-ul"></i> 我关注的问题</h2>
 		          </ul>
 		          <!-- end tab切换 -->
 		          <!-- 问答列表 -->
@@ -46,24 +44,6 @@
 	          							</a>
 	          						</h4>
 	          			      	</div>
-	          			      	{{if item['strUserId']}}
-	          			      	<div class="mod-body ">
-	          			      		<span>
-	          							<a href={{item['strUserId']}} style="font-weight:bold;color:#222">{{item['strName']}}</a> •                  
-	          							<small>{{item['strDetail']}}</small>
-	          						</span>
-	          						<div class="media" style="margin-top: 2px;" >
-	          							<div class="media-left">
-	          								<a href="#">
-	          								<img style="width: 198px;height: 115px;border-radius: 3px; " class="media-object" src={{item['strAnsImg']}} alt="...">
-	          								</a>
-	          							</div>
-	          							<div class="media-body">
-	          							{{item['shutAnsContent']}}
-	          							</div>
-	          						</div>
-	          			      	</div>
-	          			      	{{/if}}
 	          				</div>
 	          			   {{/each}}
 	          			</script>
@@ -83,7 +63,7 @@
 	            <div class="aw-mod side-nav">
 	              <div class="mod-body">
 					<ul>
-						<li><a href="/index.php?module=question&action=focusQues" rel="all__focus"><i class="icon icon-check"></i>我关注的问题</a></li>
+						<li><a href="index.php?module=question&action=focusQues" rel="all__focus"><i class="icon icon-check"></i>我关注的问题</a></li>
 						<li><a href="/index.php?module=topic&action=focusTop" rel="focus_topic__focus"><i class="icon icon-mytopic"></i>我关注的话题</a></li>
 						<li><a href="#" rel="invite_list__invite"><i class="icon icon-invite"></i>邀请我回复的问题</a></li>
 					</ul>
@@ -124,7 +104,7 @@
 	    $.ajax({
 	          type     : 'post',
 	          dataType : 'json',
-	          url      : '/index.php?module=sql&action=loadData',
+	          url      : '/index.php?module=sql&action=loadFocusQues',
 	          data     : {'page':'1'},
 	          success  : function(data){
 	                var content={

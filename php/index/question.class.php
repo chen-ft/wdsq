@@ -9,7 +9,7 @@ class Question  extends Home_Public
     	$this->display();
     }
 
-    Function showTopicImg(){
+    Function showFocusQues(){
     	$this->display();
     }
 

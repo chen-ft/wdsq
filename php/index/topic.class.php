@@ -15,4 +15,9 @@ class Topic extends Home_Public
 		$this->display();
 	}
 
+	function showFocusTop(){
+		
+		$this->display();
+	}
+
 }

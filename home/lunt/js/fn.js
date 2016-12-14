@@ -55,12 +55,12 @@ var AWS =
               $.post('/index.php?module=sql&action=getTopic',{id:$(_this).attr('data-id')},function(result){
                       //动态插入
                       var data =　{
-                          'topic_id': result['0'].tpId,
-                          'topic_pic': result['0'].tpId,
-                          'topic_title': result['0'].tpName,
-                          'topic_detail': result['0'].tpDetail.substr(0,60)+"...",
-                          'topic_questions': result['0'].tpQuestions,
-                          'topic_attemtions': result['0'].tpAttentions
+                          'topic_id': result.tpId,
+                          'topic_pic': result.tpId,
+                          'topic_title': result.tpName,
+                          'topic_detail': result.tpDetail.substr(0,60)+"...",
+                          'topic_questions': result.qsNum,
+                          'topic_attemtions': result.fcNum
                       }
 
                       var html = template('topicCard',data);
@@ -478,39 +478,36 @@ AWS.User =
   // 关注
   follow: function(selector, type, data_id)
   { 
+   
+    var addUrl = '/index.php?module=sql&action=focus&id='+data_id+'&type='+type;
+    var delUrl = '/index.php?module=sql&action=delFocus&id='+data_id;
 
     if (selector.html())
       {
           if (selector.hasClass('active'))
           {
-            selector.find('span').html('关注');
-            selector.removeClass('active');
-            selector.find('b').html(parseInt(selector.find('b').html()) - 1);
+            $.get(delUrl,function(result){
+              if (result == '0000') {
+                selector.find('span').html('关注');
+                selector.removeClass('active');
+                selector.find('b').html(parseInt(selector.find('b').html()) - 1);
+                
+              }
+            },'json');
           }
           else
           {
-            selector.find('span').html('取消关注');
-            selector.addClass('active');
-            selector.find('b').html(parseInt(selector.find('b').html()) + 1);
+            $.get(addUrl,function(result){
+               if (result == '0000') {
+                selector.find('span').html('取消关注');
+                selector.addClass('active');
+                selector.find('b').html(parseInt(selector.find('b').html()) + 1);
+              }
+            },'json');
           }
       }
 
-    /*  switch (type)
-      {
-        case 'question':
-          var url = '/index.php?module=sql&action=focusQuestion&id='+data_id;
-          break;
-
-        case 'topic':
-          var url = '/topic/ajax/focus_topic/topic_id-';
-          break;
-
-        case 'user':
-          var url = '/follow/ajax/follow_people/uid-';
-        break;
-      }
-
-     $.get(url, function (result)
+     /*$.get(getUrl, function (result)
       {
         if (result.errno == 1)
           {

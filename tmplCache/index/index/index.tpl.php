@@ -9,7 +9,6 @@
 
     <title>问答社区</title>
     <?php $this->loadTmplate(TEMPLATE_PATH . "public/css.tpl.php"); ?>
-
   </head>
   <body>
     <!-- start navigation -->
@@ -34,11 +33,12 @@
 	          			   {{each list as item i}}
 	          			    <div class="aw-item " data-history-id="">
 	          			      	<div class="mod-head">
-		          					<a data-id={{item['tpId']}}  class="aw-user-img aw-border-radius-5 pull-right" href="/index.php?module=question&action=topicImg&id={{item['tpId']}}" rel="nofollow">
+		          					<a data-id={{item['tpId']}}  class="aw-user-img aw-border-radius-5 pull-right" href="/index.php?module=topic&action=topic&tpId={{item['tpId']}}" rel="nofollow">
 		          						<img src="home/topicImg/topicImg_{{item['tpId']}}.jpg"/>
 		          					</a> 
 		          					<p class="text-color-999">
-		          						来自话题•   <a data-id={{item['tpId']}} class="aw-topic-name" href="/index.php?module=question&action=topicImg&id={{item['tpId']}}">{{item['tpName']}}</a>
+		          						来自话题•  <a data-id={{item['tpId']}} class="
+		          						aw-topic-name" href="/index.php?module=topic&action=topic&tpId={{item['tpId']}}">{{item['tpName']}}</a>
 		          					    <span class="pull-right more-operate"><a class="text-color-999" href="javascript:;" onclick="AWS.User.noinstrest($(this))">不感兴趣</a></span>
 		          					</p>
 	          						<h4>
@@ -83,8 +83,8 @@
 	            <div class="aw-mod side-nav">
 	              <div class="mod-body">
 					<ul>
-						<li><a href="#" rel="all__focus"><i class="icon icon-check"></i>我关注的问题</a></li>
-						<li><a href="#" rel="focus_topic__focus"><i class="icon icon-mytopic"></i>我关注的话题</a></li>
+						<li><a href="/index.php?module=question&action=focusQues" rel="all__focus"><i class="icon icon-check"></i>我关注的问题</a></li>
+						<li><a href="/index.php?module=topic&action=focusTop" rel="focus_topic__focus"><i class="icon icon-mytopic"></i>我关注的话题</a></li>
 						<li><a href="#" rel="invite_list__invite"><i class="icon icon-invite"></i>邀请我回复的问题</a></li>
 					</ul>
 				  </div>

@@ -85,22 +85,28 @@ class Sql extends Home_Public
  
 	   	$dataJson = json_encode($array);
 	   	echo $dataJson;
-
 	}
 
     Function showGetTopic(){
     	$pdo = $this->getConnect();
     	$dataId = $_POST['id'];
 
-    	$sql = "SELECT tpId,tpName,tpQuestions,tpAttentions,tpDetail from wd_topic where tpId=".$dataId;
-    	$rs = $pdo->prepare($sql);
-   		$rs->execute();
-        $array = [];
-   		while ( $row = $rs->fetchAll(PDO::FETCH_ASSOC)) {
-   			$array  = $row;
+    	$sql = "SELECT tpId,tpName,tpDetail from wd_topic where tpId=".$dataId;
+    	$row = $this->myFetchOne($sql);
+
+   		$sql = "SELECT COUNT(strType) AS num FROM wd_focus WHERE strFcId = ".$dataId." AND strType = 'topic'";
+   		$fcNum = $this->myFetchOne($sql);
+
+   		$sql = "SELECT COUNT(qsId) AS qsNum FROM wd_question WHERE tpId = ".$dataId;
+   		$qsNum = $this->myFetchOne($sql);
+
+   		foreach ($row as $key => $value) {
+   			$list[$key] = $value;
+   			$list['fcNum'] = $fcNum[num];
+   			$list['qsNum'] = $qsNum[qsNum];
    		}
 
-   		echo json_encode($array);
+   		echo json_encode($list);
     }
 
     Function showLoadQuestiton(){
@@ -439,6 +445,65 @@ class Sql extends Home_Public
 
     }
 
+    //添加关注
+    Function showFocus(){
+
+    	$pdo = $this->getConnect();
+    	$fcId = $_GET['id'];
+    	$type ="'".$_GET['type']."'";
+    	$userId = $_SESSION['login']['strUserId'];
+    	$sql = "insert into wd_focus(strType,strFcId,strUserId) values($type,$fcId,$userId)";
+    	$rs = $pdo->prepare($sql);
+    	if($rs->execute()){
+    		echo json_encode('0000');
+    	};
+    }
+
+    //取消关注
+    Function showDelFocus(){
+
+    	$pdo = $this->getConnect();
+    	$fcId = $_GET['id'];
+    	$userId = $_SESSION['login']['strUserId'];
+    	$sql = "DELETE FROM wd_focus WHERE strFcId =".$fcId." AND strUserId = ".$userId;
+    	$rs = $pdo->prepare($sql);
+    	if($rs->execute()){
+    		echo json_encode('0000');
+    	};
+    }
+
+    //关注问题
+     Function showLoadFocusQues(){
+
+		$pdo = $this->getConnect();
+		$sql = "SELECT strFcId FROM wd_focus WHERE strUserId = ".$_SESSION['login']['strUserId']." AND strType = 'question'";
+		$row = $this->myFetchAll($sql);
+		$where = $this->getWhere($row,'qsId','strFcId');
+
+		$string = "SELECT t.tpName,q.tpId,qsTitle FROM wd_question AS q LEFT JOIN wd_topic AS t ON q.tpId = t.tpId ";
+		$row = $this->myFetchAll($string.$where);
+		echo json_encode($row);
+	}
+
+	//关注话题
+	Function showFocusTopics(){
+
+		$pdo = $this->getConnect();
+		$sql = "SELECT strFcId FROM wd_focus WHERE strUserId = ".$_SESSION['login']['strUserId']." AND strType = 'topic'";
+		$row = $this->myFetchAll($sql);
+		$where = $this->getWhere($row,'tpId','strFcId');
+
+		$string = "SELECT tpName,tpId,tpDetail FROM wd_topic ";
+		$row = $this->myFetchAll($string.$where);
+		foreach ($row as $key => $value) {
+            $text = strip_tags($value['tpDetail']);
+            $row[$key]['stortDetail'] = mb_substr($text,'0','15','utf-8').'..'; 
+        }
+		echo json_encode($row);
+
+	}
+
+
 
 
 
@@ -463,8 +528,8 @@ class Sql extends Home_Public
     	$pdo = $this->getConnect();
     	$rs = $pdo->prepare($sql);
    		$rs->execute();
-   		$row = $rs->fetch(PDO::FETCH_ASSOC);
-   		return $row;
+   		$info = $rs->fetch(PDO::FETCH_ASSOC);
+   		return $info;
     }
 
     /**

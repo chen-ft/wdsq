@@ -25,7 +25,7 @@
 								<img src="home/topicImg/topicImg_<?=$_GET['tpId']?>.jpg" alt="问题" style="width: 50px;height: 50px;">
 								<h2 class="pull-left">{{topic['tpName']}}</h2>
 								<div class="aw-topic-operate text-color-999">
-									<a href="javascript:;" onclick="AWS.User.follow($(this), 'topic', 156);" class="follow btn btn-normal btn-success"><span>关注</span> <em>|</em> <b>3</b></a>
+									<a href="javascript:;" onclick="AWS.User.follow($(this), 'topic','<?=$_GET['tpId']?>');" class="follow btn btn-normal btn-success"><span>关注</span> <em>|</em> <b>3</b></a>
 								</div>
 							</div>
 						</div>

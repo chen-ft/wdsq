@@ -30,7 +30,6 @@ $(function(){
 	$('.select2').select2();
 
 
-
 	//详情提示框
 	AWS.show_card_box('.aw-user-img, .aw-topic-name','topic');
 
@@ -69,10 +68,12 @@ $(function(){
         $(this).attr('data-page',parseInt($(this).attr('data-page'))+1);
     });
 
+    //获取
+
 
 });
 
-function formatState (state) {
+/*function formatState (state) {
     if (!state.tpId) { return state.tpName; }//未找到结果时直接跳出函数
 
     var $state = $(
@@ -81,4 +82,4 @@ function formatState (state) {
     );//将API返回的结果转换为模板
     return $state;
 }
-
+*/
