@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>小微时贷消费金融后台登陆</title>
+        <title>问答社区后台登陆</title>
         <!-- Tell the browser to be responsive to screen width -->
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
         <?php $this->loadTmplate(TEMPLATE_PATH . "public/css.tpl.php"); ?>
@@ -11,16 +11,16 @@
     <body class="hold-transition login-page">
         <div class="login-box">
             <div class="login-logo">
-                <a><b>小微速贷</b></a>
+                <a><b>问答社区</b></a>
             </div><!-- /.login-logo -->
             <div class="login-box-body">
                 <p class="login-box-msg">Admin Sign In</p>
                 <form method="post">
                     <div class="form-group has-feedback">
-                        <input type="text" class="form-control" name="info[strOperation]" placeholder="Username" value="xing654">
+                        <input type="text" class="form-control" name="info[strOperation]" placeholder="Username" value="chen">
                     </div>
                     <div class="form-group has-feedback">
-                        <input type="password" class="form-control" name="info[strPass]" placeholder="Password" value="123456">
+                        <input type="password" class="form-control" name="info[strPass]" placeholder="Password" value="12345678">
                         <input type="hidden" name="module" value="index">
                         <input type="hidden" name="action" value="login">
                     </div>

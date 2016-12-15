@@ -39,10 +39,9 @@
                                     <table id="example1" class="table table-bordered table-striped">
                                         <thead>
                                             <tr>
-                                                <th>话题</th>
                                                 <th>问题编号</th>
-                                                <th>发起人</th>
                                                 <th>问题标题</th>
+                                                <th>举报内容</th>
                                                 <th>创建时间</th>
                                                 <th>操作</th>
                                             </tr>
@@ -52,10 +51,9 @@
                                         </tbody>
                                         <tfoot>
                                             <tr>
-                                                <th>话题</th>
                                                 <th>问题编号</th>
-                                                <th>发起人</th>
                                                 <th>问题标题</th>
+                                                <th>举报内容</th>
                                                 <th>创建时间</th>
                                                 <th>操作</th>
                                             </tr>
@@ -77,12 +75,11 @@
 <script id="user" type="text/html">
     {{each list as value index}}
     <tr>
-        <td>{{value['tpName']}}</td>
-        <td>{{value['qsId']}}</td>
-        <td>{{value['strName']}}</td>
+        <td>{{value['strQsId']}}</td>
         <td>{{value['qsTitle']}}</td>
-        <td>{{value['qsCreateTime']}}</td>
-        <td><button class="btn btn-block btn-primary" onclick="openUrl('{{value['qsId']}}');">问题编辑</button></td>
+        <td>{{value['strReason']}}</td>
+        <td>{{value['tCreateTime']}}</td>
+        <td><button class="btn btn-block btn-primary" onclick="openUrl('{{value['strQsId']}}');">编辑</button></td>
     </tr>
     {{/each}}
 </script>
@@ -91,7 +88,7 @@
         $("#example1").DataTable();
 
     });
-    $.post("/admin.php?module=ajax&action=questionList",
+    $.post("/admin.php?module=ajax&action=reportList",
         function(listData) {
             var data = {
             list: listData,
@@ -109,4 +106,5 @@
         });
         layer.full(index);
     }
+ 
 </script>

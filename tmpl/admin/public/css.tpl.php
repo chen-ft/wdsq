@@ -11,6 +11,14 @@
 <!-- AdminLTE Skins. Choose a skin from the css/skins
      folder instead of downloading all of them to reduce the load. -->
 <link rel="stylesheet" href="home/dist/css/skins/_all-skins.min.css">
+
+<!-- lunt Css -->
+<link href="home/lunt/css/common.css" rel="stylesheet">
+<link href="home/lunt/css/icon.css" rel="stylesheet">
+
+<!-- jQuery 2.1.4 -->
+<script src="home/plugins/jQuery/jQuery-2.1.4.min.js"></script>
+
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 <!--[if lt IE 9]>

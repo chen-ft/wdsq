@@ -17,10 +17,10 @@
                 <p class="login-box-msg">Admin Sign In</p>
                 <form method="post">
                     <div class="form-group has-feedback">
-                        <input type="text" class="form-control" name="info[strOperation]" placeholder="Username" value="xing654">
+                        <input type="text" class="form-control" name="info[strOperation]" placeholder="Username" value="chen">
                     </div>
                     <div class="form-group has-feedback">
-                        <input type="password" class="form-control" name="info[strPass]" placeholder="Password" value="123456">
+                        <input type="password" class="form-control" name="info[strPass]" placeholder="Password" value="12345678">
                         <input type="hidden" name="module" value="index">
                         <input type="hidden" name="action" value="login">
                     </div>

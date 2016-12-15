@@ -24,20 +24,17 @@ class Index extends Admin_Public {
             goBack('验证码错误', '');
         }
         //第二步：验证账号       
-        $cmd = 'cmdBranchUserLogin';
-        $token = API_TOKEN;
-        $strOperation = API_ID;
-        $strTradeNo = '132ss23432aa12334233';
-        $adviceURL = 'http://www.xwsdvip.com/adviceurl.php';
-        $arrData = $_POST['info'];
-        $strXml = $this->setPostXml($cmd, $token, $strOperation, $strTradeNo, $adviceURL, $arrData);
-        $strJson = CurlPost(API_HOST, $strXml);
-        $arrReturn = json_decode($strJson, TRUE);
-        if ('0000' != $arrReturn['ret']) {
-            goBack('账号密码错误', '/admin.php?module=index&action=login');
+        $pdo = $this->getConnect();
+        $sql = "SELECT * from wd_admin where strAdminUser='".$_POST['info']['strOperation']."' && strAdminPass=".$_POST['info']['strPass'];
+        $rs = $pdo->prepare($sql);
+        $rs->execute();
+        $row = $rs->fetch(PDO::FETCH_ASSOC);
+        if (empty($row)) {
+           goBack('账号密码错误', '/admin.php?module=index&action=login');
         }
+      
         //第三步：登录成功，存储信息
-        $_SESSION['user'] = $arrReturn['data']['content'];
+        $_SESSION['user'] = $row;
         goBack('登录成功', '/admin.php');
     }
 

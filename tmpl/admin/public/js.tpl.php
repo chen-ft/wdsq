@@ -1,5 +1,3 @@
-<!-- jQuery 2.1.4 -->
-<script src="home/plugins/jQuery/jQuery-2.1.4.min.js"></script>
 <!-- Bootstrap 3.3.5 -->
 <script src="home/bootstrap/js/bootstrap.min.js"></script>
 <!-- DataTables -->
@@ -13,3 +11,4 @@
 <script src="home/dist/js/app.min.js"></script>
 <script src="<?php echo CFG_JS_PATH; ?>/template/template.js"></script>
 <script src="<?php echo CFG_JS_PATH; ?>/layer/layer.js"></script>
+

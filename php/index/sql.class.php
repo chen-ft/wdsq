@@ -62,7 +62,6 @@ class Sql extends Home_Public
 
     Function showLoadData(){
 
-		$pdo = $this->getConnect();
 		$page= $_POST['page']*10;
 		$sql = 'SELECT q.tpId,t.tpName,q.qsId,a.strAnsAgree,q.qsTitle,u.strUserId,u.strName,
 				u.strDetail,a.strAnsContent,a.strAnsId,a.strAnsComment,a.strAnsImg,
@@ -72,12 +71,7 @@ class Sql extends Home_Public
 				GROUP BY q.qsId';
 
 		$limit = ' limit 0,'.$page;
-		$rs = $pdo->prepare($sql.$limit);
-		$rs->execute();
-		$array = [];
-		while ( $row = $rs->fetchAll(PDO::FETCH_ASSOC)) {
-			$array  = $row;
-		}
+        $array = $this->myFetchAll($sql.$limit);
 	   	foreach ($array as $key => $value) {
 	   		$text = strip_tags($value['strAnsContent']);
 	   		$array[$key]['shutAnsContent'] = mb_substr($text,'0','120','utf-8').'...'; 
