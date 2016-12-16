@@ -15,7 +15,7 @@ class Topic extends Home_Public
 		$this->display();
 	}
 
-	function showFocusTop(){
+	function showFocusTic(){
 		
 		$this->display();
 	}

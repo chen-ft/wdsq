@@ -20,7 +20,6 @@ var AWS =
   							_checkcash('user');
   							if (flag == 0) {
   								_getdata();
-
   							}
   						}
   					break;
@@ -30,10 +29,9 @@ var AWS =
                 _getdata();
               }else{
                 var flag = 0;
-                _checkcash('user');
+                _checkcash('topic');
                 if (flag == 0) {
                   _getdata();
-
                 }
               }
             break;
@@ -43,20 +41,30 @@ var AWS =
   				function _getdata(){ //获取数据
   					if (type == 'user') {
 
-  						//动态插入
+              $.post('/index.php?module=sql&action=getUser',{id:_this.attr('data-id')},function(result){
+                      //动态插入
+                      var data =　{
+                          'user_id': result.strUserId,
+                          'user_title': result.strName,
+                          'user_detail': result.strDetail.substr(0,60)+"...",
+                          'user_answers': result.usNum,
+                          'user_attemtions': result.fcNum
+                      }
 
-  						$('#aw-ajax-box').html();
-  						_init();
-  						AWS.G.cashUserData.push($('#aw-ajax-box').html());
+                      var html = template('userCard',data);
+                      $('#aw-ajax-box').html(html);
+                      _init();
+                      AWS.G.cashUserData.push($('#aw-ajax-box').html());
+
+                  },'json')
   					}
 
             if (type == 'topic') {
 
-              $.post('/index.php?module=sql&action=getTopic',{id:$(_this).attr('data-id')},function(result){
+              $.post('/index.php?module=sql&action=getTopic',{id:_this.attr('data-id')},function(result){
                       //动态插入
                       var data =　{
                           'topic_id': result.tpId,
-                          'topic_pic': result.tpId,
                           'topic_title': result.tpName,
                           'topic_detail': result.tpDetail.substr(0,60)+"...",
                           'topic_questions': result.qsNum,
@@ -77,7 +85,7 @@ var AWS =
   				function _checkcash(type){  //检测缓存
   					if (type == 'user') {
   						$.each(AWS.G.cashUserData,function(i,obj){
-  							if (obj.match('data-id="'+12345+'"')) {
+  							if (obj.match('data-id="'+_this.attr('data-id')+'"')) {
   								$('#aw-ajax-box').html(obj);
   								$('#aw-card-tips').removeAttr('style');
   								_init();
@@ -87,7 +95,7 @@ var AWS =
   					}
             if (type == 'topic') {
               $.each(AWS.G.cashUserData,function(i,obj){
-                if (obj.match('data-id="'+12345+'"')) {
+                if (obj.match('data-id="'+_this.attr('data-id')+'"')) {
                   $('#aw-ajax-box').html(obj);
                   $('#aw-card-tips').removeAttr('style');
                   _init();
@@ -174,7 +182,7 @@ var AWS =
     {
       $.post('/index.php?module=sql&action=inviterUser',
         {
-           "ques_id":selector.attr('data-qs'),
+           "ques_id":window.QUESTION_ID,
            "user_id":selector.attr('data-id'),
         },function(result){
              if (result == '0000') {
@@ -219,6 +227,67 @@ var AWS =
 
     },
 
+    add_more:function(selector,type){
+
+       $(selector).addClass('loading');
+       $page = $(selector).attr('data-page');
+
+       if(type == 'data'){
+         url = '/index.php?module=sql&action=loadData';
+       }else if(type == 'fcQues'){
+         url = '/index.php?module=sql&action=loadFocusQues';
+       }
+
+       switch(type)
+       {
+        case 'data':
+          url = '/index.php?module=sql&action=loadData';
+        break;
+        case 'fcQues':
+          url = '/index.php?module=sql&action=loadFocusQues';
+        break;
+        case 'invite':
+          url = '/index.php?module=sql&action=loadInvite';
+        break;
+        case 'fcTic':
+          url = '/index.php?module=sql&action=loadFocusTopics';
+        break;
+       }
+
+       $.ajax({
+          type     : 'post',
+          dataType : 'json',
+          url      : url,
+          data     : {page:$page},
+          success  : function(data){
+
+                if (Math.abs(data.length - $page*10)< 10) {
+                    var content={
+                      list : data,
+                    };
+                    var html = template('qList',content);
+                    $('#main_contents').html(html);
+                    $('#bp_more').removeClass('loading');
+
+                }else{
+
+                    $('#bp_more').removeClass('loading');
+                    $('#bp_more').find('span').html('没有更多了');
+
+                }
+
+          },
+          error    : function(){
+                    $('#bp_more').removeClass('loading');
+                    $('#bp_more').find('span').html('出现错误');
+          }
+       });
+
+
+       $(selector).attr('data-page',parseInt($(selector).attr('data-page'))+1);
+
+    },
+
     ajax_post:function(type,data,url)
     { 
       switch(type){
@@ -229,39 +298,8 @@ var AWS =
                 function(data){
                   if (data == '0000') {alert('发布成功');location.reload();}else{alert('出现错误')}
            },'json');
+
         break;
-        case 'bp_more':
-           $page = $('#bp_more').attr('data-page');
-           $.ajax({
-              type     : 'post',
-              dataType : 'json',
-              url      : '/index.php?module=sql&action=loadData',
-              data     : {page:$page},
-              success  : function(data){
-
-                    if (Math.abs(data.length - $page*10)< 10) {
-                        var content={
-                          list : data,
-                        };
-                        var html = template('qList',content);
-                        $('#main_contents').html(html);
-                        $('#bp_more').removeClass('loading');
-
-                    }else{
-
-                        $('#bp_more').removeClass('loading');
-                        $('#bp_more').find('span').html('没有更多了');
-
-                    }
-
-              },
-              error    : function(){
-                        $('#bp_more').removeClass('loading');
-                        $('#bp_more').find('span').html('出现错误');
-                        alert('1');
-              }
-           });
-      break;
       case 'replay':
         $.ajax({
               type     : 'post',
@@ -329,9 +367,6 @@ AWS.G =
 	loading_bg_count: 12,
 	loading_mini_bg_count: 9,
 	notification_timer: '',
-  qsId: '100100',
-  strUserId: '201000',
-  strAnsId: '1000',
 }
 
 //初始化
@@ -432,8 +467,24 @@ AWS.Init =
 
 
     });
+  },
 
-
+  init_focus_btn:function(selector,type){
+    //初始化关注按钮
+    switch(type){
+      case 'question':
+        url = "/index.php?module=sql&action=initInvite&qsId="+window.QUESTION_ID+"&type="+type;    
+      break;
+      case 'user':
+        url = "/index.php?module=sql&action=initInvite&userId="+$(selector).attr('data-id')+"&type="+type;    
+      break;
+    }
+    $.get(url,function(result){
+        if (result == '0000') {
+           $(selector).children('btn').find('span').html('取消关注');
+           $(selector).children('btn').addClass('active');
+        }
+    },'json');
   }
 }
 
@@ -690,7 +741,7 @@ AWS.Dropdown =
                    var signature = a.strDetail;
                  }
                  var imgUrl = 'home/userImg/user-'+a.strUserId+'.jpg';
-                 $(selector).parent().find('.aw-dropdown-list').append('<li class="user"><a data-qs="100101" data-id="201009"  data-value='+a.strName+'><img class="img" src='+imgUrl+' />'+a.strName+'<span class="aw-hide-txt">'+signature+'</span></a></li>');
+                 $(selector).parent().find('.aw-dropdown-list').append('<li class="user"><a data-id='+a.strUserId+' data-value='+a.strName+'><img class="img" src='+imgUrl+' />'+a.strName+'<span class="aw-hide-txt">'+signature+'</span></a></li>');
               });
            
               break;

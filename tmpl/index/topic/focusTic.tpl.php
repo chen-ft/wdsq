@@ -22,7 +22,7 @@
 	          <div class="aw-mod clearfix">
 		          <!-- tab切换 -->
 		          <ul class="nav nav-tabs aw-nav-tabs active hidden-xs">
-		          	<h2 class="hidden-xs"><i class="fa fa-list-ul"></i> 我关注的问题</h2>
+		          	<h2 class="hidden-xs"><i class="fa fa-list-ul"></i> 我关注的话题</h2>
 		          </ul>
 		          <!-- end tab切换 -->
 		          <div class="aw-mod aw-topic-list">
@@ -49,23 +49,18 @@
 	                        {{/each}}
 		          	 	</script>
 		          	 </div>
+		          	 <div class="mod-footer">
+			          	<!-- 加载更多内容 -->
+			          	<a id="bp_more" class="aw-load-more-content" data-page="2" onclick="AWS.add_more($(this),'fcTic')">
+			          		<span>更多</span>
+			          	</a>
+			          	<!-- end 加载更多内容 -->
+		             </div>
 		          </div>
 	          </div>
 	        </div> <!--end main-content -->
 	        <div class="col-md-1"></div>
-	        <div class="col-sm-12 col-md-3 aw-side-bar hidden-xs hidden-sm">
-	            <div class="aw-mod side-nav">
-	              <div class="mod-body">
-					<ul>
-						<li><a href="http://wenda.bootcss.com/home/#draft_list__draft" rel="draft_list__draft"><i class="icon icon-draft"></i>我的草稿</a></li>
-						<li><a href="http://wenda.bootcss.com/favorite/"><i class="icon icon-favor"></i>我的收藏</a></li>
-						<li><a href="http://wenda.bootcss.com/home/#all__focus" rel="all__focus"><i class="icon icon-check"></i>我关注的问题</a></li>
-						<li><a href="http://wenda.bootcss.com/home/#focus_topic__focus" rel="focus_topic__focus"><i class="icon icon-mytopic"></i>我关注的话题</a></li>
-						<li><a href="http://wenda.bootcss.com/home/#invite_list__invite" rel="invite_list__invite"><i class="icon icon-invite"></i>邀请我回复的问题</a></li>
-					</ul>
-				  </div>
-                </div>
-	        </div>
+	        <?php $this->loadTmplate(TEMPLATE_PATH . "public/right.tpl.php")?>
 	      </div>
 	    </div> 
 	  </div>
@@ -85,14 +80,14 @@
     <?php $this->loadTmplate(TEMPLATE_PATH . "public/js.tpl.php"); ?>
     <script>
     	$(document).ready(function(){
-    		$.post('/index.php?module=sql&action=focusTopics',function(result){
-    			console.log(result);
+			$('#topic').append('<p style="padding: 15px 0" align="center"><img src="home/lunt/css/img/loading_b.gif" alt="" /></p>');
+    		$.post('/index.php?module=sql&action=loadFocusTopics',{'page':1},function(result){
     			if (result != null) {
     				var data = {
     					list:result
     				}
     				var html = template('sub',data);
-    				$('#topic').append(html);
+    				$('#topic').html(html);
     			}
 
     		},'json')

@@ -50,7 +50,7 @@
 		          </div>
 		          <div class="mod-footer">
 		          	<!-- 加载更多内容 -->
-		          	<a id="bp_more" class="aw-load-more-content" data-page="2">
+		          	<a id="bp_more" class="aw-load-more-content" data-page="2" onclick="AWS.add_more($(this),'fcQues')">
 		          		<span>更多</span>
 		          	</a>
 		          	<!-- end 加载更多内容 -->
@@ -59,38 +59,7 @@
 	          </div>
 	        </div> <!--end main-content -->
 	        <div class="col-md-1"></div>
-	        <div class="col-sm-12 col-md-3 aw-side-bar hidden-xs hidden-sm">
-	            <div class="aw-mod side-nav">
-	              <div class="mod-body">
-					<ul>
-						<li><a href="index.php?module=question&action=focusQues" rel="all__focus"><i class="icon icon-check"></i>我关注的问题</a></li>
-						<li><a href="#" rel="focus_topic__focus"><i class="icon icon-mytopic"></i>我关注的话题</a></li>
-						<li><a href="#" rel="invite_list__invite"><i class="icon icon-invite"></i>邀请我回复的问题</a></li>
-					</ul>
-				  </div>
-                </div>
-	        	<div class="aw-mod aw-text-align-justify">
-	        		<div class="mod-head">
-	        			<a href="/index.php?module=topic&action=allTopic" class="pull-right">更多 &gt;</a>
-	        			<h3>热门话题</h3>
-	        		</div>
-	        		<div class="mod-body">
-	        			<dl>
-	        				<dt class="pull-left aw-border-radius-5">
-	        					<a href="http://wenda.golaravel.com/topic/Laravel教程"><img alt="" src="http://wenda.golaravel.com/static/common/topic-mid-img.png"></a>
-	        				</dt>
-	        				<dd class="pull-left">
-	        					<p class="clearfix">
-	        						<span class="topic-tag">
-	        							<a href="http://wenda.golaravel.com/topic/Laravel教程" class="text" data-id="3">Laravel教程</a>
-	        						</span>
-	        					</p>
-	        					<p><b>44</b> 个问题, <b>7</b> 人关注</p>
-	        				</dd>
-	        			</dl>
-	        		</div>
-	        	</div>
-	         </div>
+	        <?php $this->loadTmplate(TEMPLATE_PATH . "public/right.tpl.php")?>
 	      </div>
 	    </div> 
 	  </div>
@@ -117,35 +86,5 @@
 	     });
     </script>
 
-    <script type="text/html" id="topicCard">
-    	<div id="aw-card-tips" class="aw-card-tips aw-card-tips-topic">
-			<div class="aw-mod">
-				<div class="mod-head">
-					<a href="javascript:void(0)" class="img">
-						<img src="home/topicImg/topicImg_{{topic_id}}.jpg" style="width:45px;height:45px"/>
-					</a>
-					<p class="title">
-						'<a href="javascript:void(0)" class="name">{{topic_title}}</a>
-					</p>
-					<p class="aw-user-center-follow-meta" style="font-size:10px">
-						{{topic_detail}}
-					</p>
-				</div>
-				<div class="mod-footer clearfix">
-					<a href={{topic_id}} class="item">
-						<span class="value">{{topic_questions}}</span>
-						<span class="key">问题</span>
-					</a>
-					<a href={{topic_id}} class="item">
-						<span class="value">{{topic_attemtions}}</span>
-						<span class="key">关注者</span>
-					</a>
-					<a class="btn btn-normal btn-success btn-sm follow pull-right">
-						<span>关注</span>
-					</a>
-				</div>
-			</div>
-		</div>
-    </script>
   </body>
 </html>

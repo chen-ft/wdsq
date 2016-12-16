@@ -22,7 +22,7 @@
 	          <div class="aw-mod clearfix">
 		          <!-- tab切换 -->
 		          <ul class="nav nav-tabs aw-nav-tabs active hidden-xs">
-		          	<h2 class="hidden-xs"><i class="fa fa-list-ul"></i> 我关注的问题</h2>
+		          	<h2 class="hidden-xs"><i class="fa fa-list-ul"></i> 邀请我回复的问题</h2>
 		          </ul>
 		          <!-- end tab切换 -->
 		          <!-- 问答列表 -->
@@ -50,7 +50,7 @@
 		          </div>
 		          <div class="mod-footer">
 		          	<!-- 加载更多内容 -->
-		          	<a id="bp_more" class="aw-load-more-content" data-page="2" onclick="AWS.add_more($(this),'fcQues')">
+		          	<a id="bp_more" class="aw-load-more-content" data-page="2" onclick="AWS.add_more($(this),'invite')">
 		          		<span>更多</span>
 		          	</a>
 		          	<!-- end 加载更多内容 -->
@@ -73,7 +73,7 @@
 	    $.ajax({
 	          type     : 'post',
 	          dataType : 'json',
-	          url      : '/index.php?module=sql&action=loadFocusQues',
+	          url      : '/index.php?module=sql&action=loadInvite',
 	          data     : {'page':'1'},
 	          success  : function(data){
 	                var content={

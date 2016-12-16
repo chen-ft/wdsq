@@ -13,5 +13,9 @@ class Question  extends Home_Public
     	$this->display();
     }
 
+    Function showInvite(){
+    	$this->display();
+    }
+
 
 }

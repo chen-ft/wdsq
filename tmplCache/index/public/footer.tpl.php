@@ -29,6 +29,75 @@
 <!-- 弹出框 -->
 <div class="aw-ajax-box" id="aw-ajax-box"></div>
 <!-- 弹出框 -->
+
+<!-- 问题弹出卡片 -->
+<script type="text/html" id="topicCard">
+  <div id="aw-card-tips" class="aw-card-tips aw-card-tips-topic" data-id={{topic_id}}>
+    <div class="aw-mod">
+      <div class="mod-head">
+        <a href="javascript:void(0)" class="img">
+          <img src="home/topicImg/topicImg_{{topic_id}}.jpg" style="width:45px;height:45px"/>
+        </a>
+        <p class="title">
+          <a href="javascript:void(0)" class="name">{{topic_title}}</a>
+        </p>
+        <p class="aw-user-center-follow-meta" style="font-size:10px">
+          {{topic_detail}}
+        </p>
+      </div>
+      <div class="mod-footer clearfix">
+        <a href={{topic_id}} class="item">
+          <span class="value">{{topic_questions}}</span>
+          <span class="key">问题</span>
+        </a>
+        <a href={{topic_id}} class="item">
+          <span class="value">{{topic_attemtions}}</span>
+          <span class="key">关注者</span>
+        </a>
+        <a class="btn btn-normal btn-success btn-sm follow pull-right" onclick="AWS.User.follow($(this), 'topic', {{topic_id}})">
+          <span>关注</span>
+          <em>|</em><b>{{topic_attemtions}}</b>
+        </a>
+      </div>
+    </div>
+  </div>
+</script>
+<!-- 问题弹出卡片 -->
+
+<!-- 用户弹出卡片 -->
+<script type="text/html" id="userCard">
+  <div id="aw-card-tips" class="aw-card-tips aw-card-tips-user" data-id={{user_id}}>
+    <div class="aw-mod">
+      <div class="mod-head">
+        <a href="javascript:void(0)" class="img">
+          <img src="home/userImg/user-{{user_id}}.jpg" style="width:45px;height:45px"/>
+        </a>
+        <p class="title">
+          <a href="javascript:void(0)" class="name">{{user_title}}</a>
+        </p>
+        <p class="aw-user-center-follow-meta" style="font-size:10px">
+          {{user_detail}}
+        </p>
+      </div>
+      <div class="mod-footer clearfix">
+        <a href={{user_id}} class="item">
+          <span class="value">{{user_answers}}</span>
+          <span class="key">回答</span>
+        </a>
+        <a href={{user_id}} class="item">
+          <span class="value">{{user_attemtions}}</span>
+          <span class="key">关注者</span>
+        </a>
+        <a class="btn btn-normal btn-success btn-sm follow pull-right" onclick="AWS.User.follow($(this), 'user', {{user_id}})">
+          <span>关注</span>
+          <em>|</em><b>{{user_attemtions}}</b>
+        </a>
+      </div>
+    </div>
+  </div>
+</script>
+<!-- 用户弹出卡片 -->
+
 <!-- foot -->
 <footer style="margin-top: 70px;margin-bottom: 30px">
    <div class="container">

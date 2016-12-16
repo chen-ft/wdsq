@@ -6,7 +6,6 @@ $(function(){
           callbacks:{
              onImageUpload: function(files) {
                 img = sendQuestion(files[0]); 
-                // AWS.ajax_post('questionUp',files[0],'');
             }
           },
 	});
@@ -31,7 +30,8 @@ $(function(){
 
 
 	//详情提示框
-	AWS.show_card_box('.aw-user-img, .aw-topic-name','topic');
+    AWS.show_card_box('.aw-user-img, .aw-topic-name','topic');
+	AWS.show_card_box('.text-user-name','user');
 
 	//评论框
 	AWS.Init.init_comment_box('.add-comment');
@@ -47,6 +47,11 @@ $(function(){
         AWS.invite_user($(this),$(this).find('img').attr('src'));
     });
 
+    AWS.Init.init_focus_btn('.aw-side-bar a','question');
+    AWS.Init.init_focus_btn('.aw-card-tips-user','user');
+
+
+
     //小卡片mouseover
     $(document).on('mouseover', '#aw-card-tips', function ()
     {
@@ -61,25 +66,9 @@ $(function(){
         $(this).hide();
     });
 
-    // 加载更多
-    $('#bp_more').click(function(){
-        $(this).addClass('loading');
-        AWS.ajax_post('bp_more');
-        $(this).attr('data-page',parseInt($(this).attr('data-page'))+1);
-    });
+  
 
-    //获取
+
 
 
 });
-
-/*function formatState (state) {
-    if (!state.tpId) { return state.tpName; }//未找到结果时直接跳出函数
-
-    var $state = $(
-    		'<option value='+state.tpId+'>'+state.tpName+'</option>'
-
-    );//将API返回的结果转换为模板
-    return $state;
-}
-*/

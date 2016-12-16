@@ -81,6 +81,7 @@ class Sql extends Home_Public
 	   	echo $dataJson;
 	}
 
+
     Function showGetTopic(){
     	$pdo = $this->getConnect();
     	$dataId = $_POST['id'];
@@ -101,6 +102,28 @@ class Sql extends Home_Public
    		}
 
    		echo json_encode($list);
+    }
+
+    Function showGetUser(){
+        $pdo = $this->getConnect();
+        $dataId = $_POST['id'];
+
+        $sql = "SELECT strUserId,strName,strDetail from wd_user where strUserId=".$dataId;
+        $row = $this->myFetchOne($sql);
+
+        $sql = "SELECT COUNT(strType) AS num FROM wd_focus WHERE strFcId = ".$dataId." AND strType = 'user'";
+        $fcNum = $this->myFetchOne($sql);
+
+        $sql = "SELECT COUNT(id) AS usNum FROM wd_answer WHERE strUserId = ".$dataId;
+        $usNum = $this->myFetchOne($sql);
+
+        foreach ($row as $key => $value) {
+            $list[$key] = $value;
+            $list['fcNum'] = $fcNum[num];
+            $list['usNum'] = $usNum[usNum];
+        }
+
+        echo json_encode($list);
     }
 
     Function showLoadQuestiton(){
@@ -267,11 +290,12 @@ class Sql extends Home_Public
 
     //邀请用户
     Function showInviterUser(){
-    	// print_r($_POST);
+
     	$qsId = $_POST['ques_id'];
     	$userId = $_POST['user_id'];
+        $inviteId = $_SESSION['login']['strUserId'];
     	$pdo = $this->getConnect();
-    	$sql = "insert into wd_invite(qsId,strUserId,tCreateTime) values($qsId,$userId,CURDATE())";
+    	$sql = "insert into wd_invite(qsId,strUserId,strInviteId,tCreateTime) values($qsId,$userId,$inviteId,CURDATE())";
     	$rs  = $pdo->prepare($sql);
     	if ($rs->execute()) {
     		echo json_encode('0000');
@@ -282,9 +306,9 @@ class Sql extends Home_Public
     //取消邀请
     Function showCancelInvite(){
     	$qsId = $_POST['ques_id'];
-    	$userId = $_POST['user_id'];
+    	$inviteId = $_SESSION['login']['strUserId'];
     	$pdo = $this->getConnect();
-    	$sql = "DELETE from wd_invite WHERE qsId = ".$qsId." AND  strUserId = ".$userId;
+    	$sql = "DELETE from wd_invite WHERE qsId = ".$qsId." AND  strInviteId = ".$inviteId;
     	$rs  = $pdo->prepare($sql);
     	if ($rs->execute()) {
     		echo json_encode('0000');
@@ -469,33 +493,67 @@ class Sql extends Home_Public
     //关注问题
      Function showLoadFocusQues(){
 
-		$pdo = $this->getConnect();
+        $page= $_POST['page']*10; 
+        $limit = ' limit 0,'.$page;
+
 		$sql = "SELECT strFcId FROM wd_focus WHERE strUserId = ".$_SESSION['login']['strUserId']." AND strType = 'question'";
 		$row = $this->myFetchAll($sql);
 		$where = $this->getWhere($row,'qsId','strFcId');
 
 		$string = "SELECT t.tpName,q.tpId,qsTitle FROM wd_question AS q LEFT JOIN wd_topic AS t ON q.tpId = t.tpId ";
-		$row = $this->myFetchAll($string.$where);
+		$row = $this->myFetchAll($string.$where.$limit);
 		echo json_encode($row);
 	}
 
 	//关注话题
-	Function showFocusTopics(){
+	Function showLoadFocusTopics(){
 
-		$pdo = $this->getConnect();
+        $page= $_POST['page']*10; 
+        $limit = ' limit 0,'.$page;
+
 		$sql = "SELECT strFcId FROM wd_focus WHERE strUserId = ".$_SESSION['login']['strUserId']." AND strType = 'topic'";
 		$row = $this->myFetchAll($sql);
 		$where = $this->getWhere($row,'tpId','strFcId');
 
 		$string = "SELECT tpName,tpId,tpDetail FROM wd_topic ";
-		$row = $this->myFetchAll($string.$where);
+		$row = $this->myFetchAll($string.$where.$limit);
 		foreach ($row as $key => $value) {
             $text = strip_tags($value['tpDetail']);
             $row[$key]['stortDetail'] = mb_substr($text,'0','15','utf-8').'..'; 
         }
 		echo json_encode($row);
-
 	}
+
+    //获取邀请回答
+    Function showLoadInvite(){
+
+        $page= $_POST['page']*10; 
+        $limit = ' limit 0,'.$page;
+
+        $userId = $_SESSION['login']['strUserId'];
+
+
+    }
+
+    Function showInitInvite(){
+
+        $userId = $_SESSION['login']['strUserId'];
+
+        if ($_GET['type'] == 'question') {
+          $sql = "SELECT * FROM wd_focus WHERE strFcId = ".$_GET['qsId']." AND strUserId = ".$userId;
+        }
+        if ($_GET['type'] == 'topic') {
+          $sql = "SELECT * FROM wd_focus WHERE strFcId = ".$_GET['tpId']." AND strUserId = ".$userId;
+        }
+        if ($_GET['type'] == 'user') {
+          $sql = "SELECT * FROM wd_focus WHERE strFcId = ".$_GET['tpId']." AND strUserId = ".$userId;
+        }
+      
+        $info = $this->myFetchOne($sql);
+        if ($info) {
+            echo json_encode('0000');
+        }
+    }
 
 
 

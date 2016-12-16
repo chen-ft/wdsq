@@ -49,15 +49,17 @@
 	          			      	{{if item['strUserId']}}
 	          			      	<div class="mod-body ">
 	          			      		<span>
-	          							<a href={{item['strUserId']}} style="font-weight:bold;color:#222">{{item['strName']}}</a> •                  
+	          							<a class="text-user-name" data-id={{item['strUserId']}} href="/index.php?module=user&action=people&userId={{item['strUserId']}}" style="font-weight:bold;color:#222">{{item['strName']}}</a> •                  
 	          							<small>{{item['strDetail']}}</small>
 	          						</span>
 	          						<div class="media" style="margin-top: 2px;" >
+	          							{{if item['strAnsImg']}}
 	          							<div class="media-left">
 	          								<a href="#">
 	          								<img style="width: 198px;height: 115px;border-radius: 3px; " class="media-object" src={{item['strAnsImg']}} alt="...">
 	          								</a>
 	          							</div>
+	          							{{/if}}
 	          							<div class="media-body">
 	          							{{item['shutAnsContent']}}
 	          							</div>
@@ -70,7 +72,7 @@
 		          </div>
 		          <div class="mod-footer">
 		          	<!-- 加载更多内容 -->
-		          	<a id="bp_more" class="aw-load-more-content" data-page="2">
+		          	<a id="bp_more" class="aw-load-more-content" data-page="2" onclick="AWS.add_more($(this),'fcQues')">
 		          		<span>更多</span>
 		          	</a>
 		          	<!-- end 加载更多内容 -->
@@ -84,7 +86,7 @@
 	              <div class="mod-body">
 					<ul>
 						<li><a href="/index.php?module=question&action=focusQues" rel="all__focus"><i class="icon icon-check"></i>我关注的问题</a></li>
-						<li><a href="/index.php?module=topic&action=focusTop" rel="focus_topic__focus"><i class="icon icon-mytopic"></i>我关注的话题</a></li>
+						<li><a href="/index.php?module=topic&action=focusTic" rel="focus_topic__focus"><i class="icon icon-mytopic"></i>我关注的话题</a></li>
 						<li><a href="#" rel="invite_list__invite"><i class="icon icon-invite"></i>邀请我回复的问题</a></li>
 					</ul>
 				  </div>
@@ -97,12 +99,12 @@
 	        		<div class="mod-body">
 	        			<dl>
 	        				<dt class="pull-left aw-border-radius-5">
-	        					<a href="http://wenda.golaravel.com/topic/Laravel教程"><img alt="" src="http://wenda.golaravel.com/static/common/topic-mid-img.png"></a>
+	        					<a href="#"><img alt="" src="http://wenda.golaravel.com/static/common/topic-mid-img.png"></a>
 	        				</dt>
 	        				<dd class="pull-left">
 	        					<p class="clearfix">
 	        						<span class="topic-tag">
-	        							<a href="http://wenda.golaravel.com/topic/Laravel教程" class="text" data-id="3">Laravel教程</a>
+	        							<a href="#" class="text" data-id="3">教育</a>
 	        						</span>
 	        					</p>
 	        					<p><b>44</b> 个问题, <b>7</b> 人关注</p>
@@ -135,37 +137,6 @@
 	                $('#main_contents').html(html);
 	            }
 	     });
-    </script>
-
-    <script type="text/html" id="topicCard">
-    	<div id="aw-card-tips" class="aw-card-tips aw-card-tips-topic">
-			<div class="aw-mod">
-				<div class="mod-head">
-					<a href="javascript:void(0)" class="img">
-						<img src="home/topicImg/topicImg_{{topic_id}}.jpg" style="width:45px;height:45px"/>
-					</a>
-					<p class="title">
-						'<a href="javascript:void(0)" class="name">{{topic_title}}</a>
-					</p>
-					<p class="aw-user-center-follow-meta" style="font-size:10px">
-						{{topic_detail}}
-					</p>
-				</div>
-				<div class="mod-footer clearfix">
-					<a href={{topic_id}} class="item">
-						<span class="value">{{topic_questions}}</span>
-						<span class="key">问题</span>
-					</a>
-					<a href={{topic_id}} class="item">
-						<span class="value">{{topic_attemtions}}</span>
-						<span class="key">关注者</span>
-					</a>
-					<a class="btn btn-normal btn-success btn-sm follow pull-right">
-						<span>关注</span>
-					</a>
-				</div>
-			</div>
-		</div>
     </script>
   </body>
 </html>
