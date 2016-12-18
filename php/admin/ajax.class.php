@@ -61,15 +61,19 @@ class Ajax extends Admin_Public {
       $sql = "SELECT tpId FROM wd_topic";
       $rowTc = $this->myFetchAll($sql);
 
+      //随机数组
+      $a=array("#f56954","#00a65a","#f39c12","#00c0ef","#3c8dbc","#d2d6de","#FFEED8","#33338C");
       foreach ($rowTc as $key => $value) {
         $sql = "SELECT count(strType) AS value,tpName as label FROM wd_focus AS f LEFT JOIN wd_topic AS t ON f.strFcId=t.tpId  WHERE strFcId = ".$value['tpId']." AND strType = 'topic'";
         $rs = $pdo->prepare($sql);
         $rs->execute();
         $info = $rs->fetch(PDO::FETCH_ASSOC);
+        $info['color'] = $a[$key = ($key>16) ? ($key-16):(abs(7-$key))];
         $array[] = $info;
+       
       }
-
       echo json_encode($array);
+
 
     }
 

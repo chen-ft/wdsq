@@ -8,25 +8,45 @@
  			</ul>
  		</div>
  	</div>
- 	<div class="aw-mod aw-text-align-justify">
- 		<div class="mod-head">
- 			<a href="/index.php?module=topic&action=allTopic" class="pull-right">更多 &gt;</a>
- 			<h3>热门话题</h3>
- 		</div>
- 		<div class="mod-body">
- 			<dl>
- 				<dt class="pull-left aw-border-radius-5">
- 					<a href="#"><img alt="" src="http://wenda.golaravel.com/static/common/topic-mid-img.png"></a>
- 				</dt>
- 				<dd class="pull-left">
- 					<p class="clearfix">
- 						<span class="topic-tag">
- 							<a href="#" class="text" data-id="3">教育</a>
- 						</span>
- 					</p>
- 					<p><b>44</b> 个问题, <b>7</b> 人关注</p>
- 				</dd>
- 			</dl>
- 		</div>
- 	</div>
+	<div class="aw-mod new-topic">
+	    <div class="mod-head">
+	        <h3>话题云</h3>
+	    </div>
+	    <div class="mod-body clearfix">
+	        <div class="aw-topic-bar">
+	            <div class="topic-bar clearfix">
+	                <span class="topic-tag" data-id="1015">
+	                    <a class="text" href="/index.php?module=topic&action=topic&tpId=10008">心理学</a>
+	                </span>
+	                <span class="topic-tag" data-id="1014">
+	                    <a class="text" href="/index.php?module=topic&action=topic&tpId=10009">旅行</a>
+	                </span>
+	                <span class="topic-tag" data-id="1013">
+	                    <a class="text" href="/index.php?module=topic&action=topic&tpId=10010">设计</a>
+	                </span>
+	                <span class="topic-tag" data-id="1012">
+	                    <a class="text" href="/index.php?module=topic&action=topic&tpId=10011">汽车</a>
+	                </span>
+	                <span class="topic-tag" data-id="1011">
+	                    <a class="text" href="/index.php?module=topic&action=topic&tpId=10012">软件开发</a>
+	                </span>
+	                <span class="topic-tag" data-id="1010">
+	                    <a class="text" href="/index.php?module=topic&action=topic&tpId=10012">健身</a>
+	                </span>
+	                <span class="topic-tag" data-id="1009">
+	                    <a class="text" href="/index.php?module=topic&action=topic&tpId=10002">IOS</a>
+	                </span>
+	                <span class="topic-tag" data-id="1008">
+	                    <a class="text" href="/index.php?module=topic&action=topic&tpId=10006">时尚</a>
+	                </span>
+	                <span class="topic-tag" data-id="1007">
+	                    <a class="text" href="/index.php?module=topic&action=topic&tpId=10007">美食</a>
+	                </span>
+	                <span class="topic-tag" data-id="1006">
+	                    <a class="text" href="/index.php?module=topic&action=topic&tpId=10015">教育</a>
+	                </span>
+	            </div>
+	        </div>
+	    </div>
+	</div>
  </div>

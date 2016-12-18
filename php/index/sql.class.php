@@ -63,11 +63,12 @@ class Sql extends Home_Public
     Function showLoadData(){
 
 		$page= $_POST['page']*10;
-		$sql = 'SELECT q.tpId,t.tpName,q.qsId,a.strAnsAgree,q.qsTitle,u.strUserId,u.strName,
-				u.strDetail,a.strAnsContent,a.strAnsId,a.strAnsComment,a.strAnsImg,
-				a.strAnsAttentions  FROM wd_question AS q LEFT JOIN (select * from wd_answer 
-				ORDER BY strAnsAttentions desc) AS a ON q.qsId = a.strQsId LEFT JOIN wd_topic 
-				AS t ON q.tpId = t.tpId LEFT JOIN wd_user AS u ON a.strUserId = u.strUserId 
+		$sql = 'SELECT q.tpId,t.tpName,q.qsId,a.strAnsAgree,q.qsTitle,u.strUserId,
+               u.strName,u.strDetail,a.strAnsContent,a.strAnsId,a.strAnsComment,
+               a.strAnsImg,a.strAnsAttentions  FROM wd_question AS q LEFT JOIN 
+               (select * from wd_answer ORDER BY strAnsAgree desc) AS a ON q.qsId = a.strQsId LEFT JOIN 
+                wd_topic AS t ON q.tpId = t.tpId LEFT JOIN 
+                wd_user AS u ON a.strUserId = u.strUserId 
 				GROUP BY q.qsId';
 
 		$limit = ' limit 0,'.$page;
@@ -146,11 +147,17 @@ class Sql extends Home_Public
         	$content = "'".htmlspecialchars_decode($_POST['content'])."'";
         	$qsId = $_POST['qsId'];
         	$userId = $_SESSION['login']['strUserId'];
+            $ansId = $this->getLastId('strAnsId','wd_answer');
 
-        	$img = "'".$_SESSION['replay']['img']."'";
-        	$ansId = $this->getLastId('strAnsId','wd_answer');
-        	$sql = "insert into wd_answer(strAnsId,strQsId,strUserId,strAnsContent,strAnsImg,createTime) values($ansId,$qsId,$userId,$content,$img,CURDATE())";
+            if ($_SESSION['replay']) {
+                $img = "'".$_SESSION['replay']['img']."'";
+                $sql = "insert into wd_answer(strAnsId,strQsId,strUserId,strAnsContent,strAnsImg,createTime) values($ansId,$qsId,$userId,$content,$img,CURDATE())";
+            }
+
+            $img = '';
+        	$sql = "insert into wd_answer(strAnsId,strQsId,strUserId,strAnsContent,createTime) values($ansId,$qsId,$userId,$content,CURDATE())";
         	$rs = $pdo->prepare($sql);
+            $_SESSION['replay'] = '';
        		if ($rs->execute()) {
        			echo json_encode('0000');
        		}
@@ -529,8 +536,29 @@ class Sql extends Home_Public
 
         $page= $_POST['page']*10; 
         $limit = ' limit 0,'.$page;
-
         $userId = $_SESSION['login']['strUserId'];
+        $sql = "SELECT qsId,strInviteId FROM wd_invite WHERE strUserId = ".$userId;
+        $invitArr = $this->myFetchAll($sql);
+
+        $qsWhere = $this->getWhere($invitArr,'qsId','qsId');
+        $sql = "SELECT tpId,qsTitle FROM wd_question ".$qsWhere;
+        $qsArr = $this->myFetchAll($sql);
+
+        $inWhere = $this->getWhere($invitArr,'strUserId','strInviteId');
+        $sql = "SELECT strName FROM wd_user ".$inWhere;
+        $inArr = $this->myFetchAll($sql);
+
+        foreach ($invitArr as $key => $value) {
+            $invitArr[$key] = $value;
+            $invitArr[$key]['tpId'] = $qsArr[$key]['tpId'];
+            $invitArr[$key]['qsTitle'] = $qsArr[$key]['qsTitle'];
+            $invitArr[$key]['strName'] = $inArr[$key]['strName'];
+        }
+
+        echo json_encode($invitArr);
+
+
+
 
 
     }
@@ -546,13 +574,38 @@ class Sql extends Home_Public
           $sql = "SELECT * FROM wd_focus WHERE strFcId = ".$_GET['tpId']." AND strUserId = ".$userId;
         }
         if ($_GET['type'] == 'user') {
-          $sql = "SELECT * FROM wd_focus WHERE strFcId = ".$_GET['tpId']." AND strUserId = ".$userId;
+          $sql = "SELECT * FROM wd_focus WHERE strFcId = ".$_GET['userId']." AND strUserId = ".$userId;
         }
       
         $info = $this->myFetchOne($sql);
         if ($info) {
             echo json_encode('0000');
         }
+    }
+
+    Function showPeople(){
+
+        $userId = $_POST['useid'];
+
+        $sql = "SELECT strQsId,strAnsContent,strAnsAgree,createTime FROM wd_answer where strUserId = ".$userId;
+        $ques = $this->myFetchAll($sql);
+        $where = $this->getWhere($ques,'qsId','strQsId');
+
+        $sql = "SELECT qsTitle FROM wd_question ";
+        $qsTitle = $this->myFetchAll($sql.$where);
+      
+        foreach ($ques as $key => $value) {
+            $quesArr[$key] = $value;
+            $quesArr[$key]['qsTitle'] = $qsTitle[$key]['qsTitle'];
+        }
+
+
+        $sql = "SELECT qsId,qsTitle,qsCreateTime FROM wd_question where strUserId = ".$userId;
+        $ansArr = $this->myFetchAll($sql);
+
+        $list['quesArr'] = $ansArr;
+        $list['ansArr'] = $quesArr;
+        echo json_encode($list);
     }
 
 

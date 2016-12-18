@@ -35,8 +35,8 @@
 		          						<img src="home/topicImg/topicImg_{{item['tpId']}}.jpg"/>
 		          					</a> 
 		          					<p class="text-color-999">
-		          						来自话题•  <a data-id={{item['tpId']}} class="
-		          						aw-topic-name" href="/index.php?module=topic&action=topic&tpId={{item['tpId']}}">{{item['tpName']}}</a>
+		          						邀请来自•  <a data-id={{item['strInviteId']}} class="
+		          						aw-topic-name" href="javascript:void(0)">{{item['strName']}}</a>
 		          					    <span class="pull-right more-operate"><a class="text-color-999" href="javascript:;" onclick="AWS.User.noinstrest($(this))">不感兴趣</a></span>
 		          					</p>
 	          						<h4>
@@ -73,14 +73,13 @@
 	    $.ajax({
 	          type     : 'post',
 	          dataType : 'json',
-	          url      : '/index.php?module=sql&action=loadFocusQues',
+	          url      : '/index.php?module=sql&action=loadInvite',
 	          data     : {'page':'1'},
 	          success  : function(data){
 	                var content={
 	                    list : data,
 	                };
 	                var html = template('qList',content);
-	                template.config("escape", false);
 	                $('#main_contents').html(html);
 	            }
 	     });

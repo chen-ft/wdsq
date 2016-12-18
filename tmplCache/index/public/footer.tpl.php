@@ -26,6 +26,39 @@
 </div>
 <!-- end 举报 -->
 
+
+<!-- 私信 -->
+<div class="modal fade" id="privateForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header" style="background:#5bbf5a">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">新私信</h4>
+      </div>
+      <form id="report_pb" method="post" action="/index.php">
+           <input type="hidden" name="module" value="sql">
+           <input type="hidden" name="action" value="report">
+           <input type="hidden" name="strQsId" value=<?=$_GET['id']?>>
+           <input type="hidden" name="strUserId" value=<?=$_SESSION['login']['strUserId']?>>
+
+          <div class="modal-body">
+               <input id="invite-input" class="form-control" type="text" placeholder="搜索用户" name="recipient" value="Kahn">
+               <div class="aw-dropdown">
+                   <p class="title">没有找到相关结果</p>
+                   <ul class="aw-dropdown-list"></ul>
+               </div>
+               <textarea class="form-control" name="message" rows="3" placeholder="私信内容..."></textarea>
+          </div>
+           <div class="modal-footer">
+               <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+               <button class="btn btn-success" onclick="AWS.form_report($('#report_pb'));return false;">提交</button>
+           </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- end 私信 -->
+
 <!-- 弹出框 -->
 <div class="aw-ajax-box" id="aw-ajax-box"></div>
 <!-- 弹出框 -->
@@ -92,6 +125,7 @@
           <span>关注</span>
           <em>|</em><b>{{user_attemtions}}</b>
         </a>
+        <a class="text-color-999" style="margin-left: 50px;" onclick="AWS.dialog('inbox');"><i class="icon icon-inbox"></i></a>
       </div>
     </div>
   </div>

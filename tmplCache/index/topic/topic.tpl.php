@@ -24,8 +24,8 @@
 							<div class="mod-body">
 								<img src="home/topicImg/topicImg_<?=$_GET['tpId']?>.jpg" alt="问题" style="width: 50px;height: 50px;">
 								<h2 class="pull-left">{{topic['tpName']}}</h2>
-								<div class="aw-topic-operate text-color-999">
-									<a href="javascript:;" onclick="AWS.User.follow($(this), 'topic','<?=$_GET['tpId']?>');" class="follow btn btn-normal btn-success"><span>关注</span> <em>|</em> <b>3</b></a>
+								<div class="aw-topic-operate text-color-999" data-id=<?=$_GET['tpId']?>>
+									<a href="javascript:;" onclick="AWS.User.follow($(this), 'topic','<?=$_GET['tpId']?>');" class="follow btn btn-normal btn-success"><span>关注</span></a>
 								</div>
 							</div>
 						</div>
@@ -124,15 +124,15 @@
 						<!-- xx人关注该话题 -->
 						<div class="aw-mod topic-status">
 							<div class="mod-head">
-								<h3>3 人关注该话题</h3>
+								<h3>关注该话题用户</h3>
 							</div>
 							<div class="mod-body">
 								<div id="focus_users" class="aw-border-radius-5">
-									<a href="http://wenda.bootcss.com/people/joebnb">
+									<a href="#">
 									<img src="http://wenda.bootcss.com/static/common/avatar-mid-img.png" alt="joebnb"></a>
-								    <a href="http://wenda.bootcss.com/people/zhou">
+								    <a href="#">
 								    <img src="http://wenda.bootcss.com/static/common/avatar-mid-img.png" alt="zhou"></a> 
-								    <a href="http://wenda.bootcss.com/people/hmmy">
+								    <a href="#">
 								    <img src="http://wenda.bootcss.com/uploads/avatar/000/00/17/87_avatar_mid.jpg" alt="小郁闷儿">
 								    </a> 
 							    </div>
@@ -171,8 +171,11 @@
     				var html = template('sub',data);
     				$('#content').append(html);
     			}
+    		    AWS.Init.init_focus_btn('.aw-topic-operate','topic');
+
     		},'json')
     		
+
 
         });
     </script>

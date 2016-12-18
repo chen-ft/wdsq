@@ -12,6 +12,7 @@
 				<li class=<?php if(ACTION_NAME == 'index') echo "active";?> ><a href="/admin.php?module=user&action=index"><i class="fa fa-inbox"></i> 问题列表 </a></li>
 				<li class=<?php if(ACTION_NAME == 'report') echo "active";?> ><a href="/admin.php?module=report&action=report"><i class="fa fa-server"></i> 收到举报<span class="label label-primary pull-right"><?=$_SESSION['report']['num']?></span></a></li>
 				<li class=<?php if(ACTION_NAME == 'user') echo "active";?> ><a href="/admin.php?module=user&action=user"><i class="fa fa-server"></i> 用户管理</a></li>
+				<li class=<?php if(ACTION_NAME == 'topic') echo "active";?> ><a href="#"><i class="fa fa-server"></i> 话题管理</a></li>
 				<li><a href="javascript:void(0);" data-toggle="modal" data-target="#myModal"><i class="fa fa-envelope-o"></i> 添加客户</a></li>
 			</ul>
 		</div><!-- /.box-body -->

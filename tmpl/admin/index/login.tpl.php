@@ -14,7 +14,6 @@
                 <a><b>问答社区</b></a>
             </div><!-- /.login-logo -->
             <div class="login-box-body">
-                <p class="login-box-msg">Admin Sign In</p>
                 <form method="post">
                     <div class="form-group has-feedback">
                         <input type="text" class="form-control" name="info[strOperation]" placeholder="Username" value="chen">
@@ -35,10 +34,10 @@
                     </div>
                     <div class="row">
                         <div class="col-xs-4 col-xs-offset-2" style="margin-top: 20px;">  
-                            <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
+                            <button type="submit" class="btn btn-success btn-block btn-flat">登录</button>
                         </div><!-- /.col -->
                         <div class="col-xs-4" style="margin-top: 20px;">  
-                            <button type="reset" class="btn btn-primary btn-block btn-flat">Reset</button>
+                            <button type="reset" class="btn btn-success btn-block btn-flat">重置</button>
                         </div><!-- /.col -->
                     </div>
                 </form>

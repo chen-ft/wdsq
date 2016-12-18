@@ -47,10 +47,6 @@ $(function(){
         AWS.invite_user($(this),$(this).find('img').attr('src'));
     });
 
-    AWS.Init.init_focus_btn('.aw-side-bar a','question');
-    AWS.Init.init_focus_btn('.aw-card-tips-user','user');
-
-
 
     //小卡片mouseover
     $(document).on('mouseover', '#aw-card-tips', function ()

@@ -3,7 +3,7 @@
     <head>
         <meta charset=UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>小微时贷消费金融后台登陆</title>
+        <title>问答社区后台登陆</title>
         <!-- Tell the browser to be responsive to screen width -->
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
         <?php $this->loadTmplate(TEMPLATE_PATH . "public/css.tpl.php"); ?>
@@ -11,10 +11,9 @@
     <body class="hold-transition login-page">
         <div class="login-box">
             <div class="login-logo">
-                <a><b>小微速贷</b></a>
+                <a><b>问答社区</b></a>
             </div><!-- /.login-logo -->
             <div class="login-box-body">
-                <p class="login-box-msg">Admin Sign In</p>
                 <form method="post">
                     <div class="form-group has-feedback">
                         <input type="text" class="form-control" name="info[strOperation]" placeholder="Username" value="chen">
@@ -35,10 +34,10 @@
                     </div>
                     <div class="row">
                         <div class="col-xs-4 col-xs-offset-2" style="margin-top: 20px;">  
-                            <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
+                            <button type="submit" class="btn btn-success btn-block btn-flat">登录</button>
                         </div><!-- /.col -->
                         <div class="col-xs-4" style="margin-top: 20px;">  
-                            <button type="reset" class="btn btn-primary btn-block btn-flat">Reset</button>
+                            <button type="reset" class="btn btn-success btn-block btn-flat">重置</button>
                         </div><!-- /.col -->
                     </div>
                 </form>

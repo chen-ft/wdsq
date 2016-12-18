@@ -17,5 +17,10 @@ class Question  extends Home_Public
     	$this->display();
     }
 
+    Function showArticle(){
+        $this->display();
+    }
+
+
 
 }

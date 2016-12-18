@@ -42,7 +42,7 @@
 		          					    <span class="pull-right more-operate"><a class="text-color-999" href="javascript:;" onclick="AWS.User.noinstrest($(this))">不感兴趣</a></span>
 		          					</p>
 	          						<h4>
-	          							<a href="/index.php?module=question&action=question&id={{item['qsId']}}">{{item['qsTitle']}}
+	          							<a href="/index.php?module=question&action=question&id={{item['qsId']}}#answer-{{item['strAnsId']}}">{{item['qsTitle']}}
 	          							</a>
 	          						</h4>
 	          			      	</div>
@@ -85,9 +85,9 @@
 	            <div class="aw-mod side-nav">
 	              <div class="mod-body">
 					<ul>
-						<li><a href="/index.php?module=question&action=focusQues" rel="all__focus"><i class="icon icon-check"></i>我关注的问题</a></li>
-						<li><a href="/index.php?module=topic&action=focusTic" rel="focus_topic__focus"><i class="icon icon-mytopic"></i>我关注的话题</a></li>
-						<li><a href="#" rel="invite_list__invite"><i class="icon icon-invite"></i>邀请我回复的问题</a></li>
+						<li><a href="/index.php?module=question&action=focusQues"><i class="icon icon-check"></i>我关注的问题</a></li>
+						<li><a href="/index.php?module=topic&action=focusTic"><i class="icon icon-mytopic"></i>我关注的话题</a></li>
+						<li><a href="index.php?module=question&action=invite"><i class="icon icon-invite"></i>邀请我回复的问题</a></li>
 					</ul>
 				  </div>
                 </div>
@@ -99,17 +99,69 @@
 	        		<div class="mod-body">
 	        			<dl>
 	        				<dt class="pull-left aw-border-radius-5">
-	        					<a href="#"><img alt="" src="http://wenda.golaravel.com/static/common/topic-mid-img.png"></a>
+	        					<a href="/index.php?module=topic&action=topic&tpId=10005"><img alt="" src="home/topicImg/topicImg_10005.jpg"></a>
 	        				</dt>
 	        				<dd class="pull-left">
 	        					<p class="clearfix">
 	        						<span class="topic-tag">
-	        							<a href="#" class="text" data-id="3">教育</a>
+	        							<a href="/index.php?module=topic&action=topic&tpId=10005" class="text" data-id="3">法律</a>
 	        						</span>
 	        					</p>
-	        					<p><b>44</b> 个问题, <b>7</b> 人关注</p>
+	        					<p><b>4</b> 个问题, <b>7</b> 人关注</p>
 	        				</dd>
 	        			</dl>
+	        			<dl>
+                            <dt class="pull-left aw-border-radius-5">
+                                <a href="/index.php?module=topic&action=topic&tpId=10004"><img alt="" src="home/topicImg/topicImg_10004.jpg"></a>
+                            </dt>
+                            <dd class="pull-left">
+                                <p class="clearfix">
+	                                <span class="topic-tag">
+	                                    <a href="/index.php?module=topic&action=topic&tpId=10004" class="text">创业</a>
+	                                </span>&nbsp;
+                                </p>
+                                <p><b>12</b> 个问题, <b>1</b> 人关注</p>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt class="pull-left aw-border-radius-5">
+                                <a href="/index.php?module=topic&action=topic&tpId=10006"><img alt="" src="home/topicImg/topicImg_10006.jpg"></a>
+                            </dt>
+                            <dd class="pull-left">
+                                <p class="clearfix">
+	                                <span class="topic-tag">
+	                                    <a href="/index.php?module=topic&action=topic&tpId=10006" class="text">时尚</a>
+	                                </span>&nbsp;
+                                </p>
+                                <p><b>10</b> 个问题, <b>2</b> 人关注</p>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt class="pull-left aw-border-radius-5">
+                                <a href="/index.php?module=topic&action=topic&tpId=10008"><img alt="" src="home/topicImg/topicImg_10008.jpg"></a>
+                            </dt>
+                            <dd class="pull-left">
+                                <p class="clearfix">
+	                                <span class="topic-tag">
+	                                    <a href="/index.php?module=topic&action=topic&tpId=10008" class="text">心理学</a>
+	                                </span>&nbsp;
+                                </p>
+                                <p><b>5</b> 个问题, <b>10</b> 人关注</p>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt class="pull-left aw-border-radius-5">
+                                <a href="/index.php?module=topic&action=topic&tpId=10010"><img alt="" src="home/topicImg/topicImg_10010.jpg"></a>
+                            </dt>
+                            <dd class="pull-left">
+                                <p class="clearfix">
+	                                <span class="topic-tag">
+	                                    <a href="/index.php?module=topic&action=topic&tpId=10010" class="text">设计</a>
+	                                </span>&nbsp;
+                                </p>
+                                <p><b>9</b> 个问题, <b>3</b> 人关注</p>
+                            </dd>
+                        </dl>
 	        		</div>
 	        	</div>
 	         </div>

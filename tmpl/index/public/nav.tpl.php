@@ -51,8 +51,8 @@
 		<!-- 用户栏 -->
 		<div class="aw-user-nav">
 			<!-- 登陆&注册栏 -->
-			<a href="/index.php?module=user&action=people&userId=<?=$_SESSION['login']['strUserId']?>" class="aw-user-nav-dropdown">
-					<img alt="_TimChen" src="home/userImg/user-<?=$_SESSION['login']['strUserId']?>.jpg" />
+			<a href="/index.php?module=user&action=people" class="aw-user-nav-dropdown">
+					<img src="home/userImg/user-<?=$_SESSION['login']['strUserId']?>.jpg" />
 					<span style="color: #fff"><?=$_SESSION['login']['strName']?></span>
 					
 				</a>
@@ -68,7 +68,7 @@
 		</div>
 		<!-- end 用户栏 -->
 		<div class="aw-publish-btn">
-			<a class="btn-primary" onclick="AWS.dialog('askModal')"><i class="icon icon-ask"></i>提问</a>
+			<a class="btn-success" onclick="AWS.dialog('askModal')"><i class="icon icon-ask"></i>提问</a>
 		</div>
 	</div>
 </div>

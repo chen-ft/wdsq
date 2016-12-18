@@ -30,14 +30,16 @@
 </div>
 
 <script src="home/plugins/jQuery/jQuery-2.1.4.min.js" type="text/javascript"></script>
+<script src="<?php echo CFG_JS_PATH; ?>/layer/layer.js"></script>
 <script type="text/javascript">
 function check_login()
 {
  var name=$("#user_name").val();
  var pass=$("#password").val();
+ //登录
  $.post('/index.php?module=sql&action=loginYz',{name:name,pass:pass},function(data){
  	if (data == '0000') {
- 		alert("登录成功！");
+ 		layer.msg('登录成功！', {icon: 1});
 		window.location.href='/index.php';
  	}else{
  		$("#login_form").removeClass('shake_effect');  
@@ -54,11 +56,12 @@ function check_register(){
 	var name = $("#r_user_name").val();
 	var pass = $("#r_password").val();
 	var email = $("#r_email").val();
+	//注册
 	$.post('/index.php?module=sql&action=register',{name:name,pass:pass,email:email},function(data){
 		if (data == '0000') {
-			 alert("注册成功！");
+			 layer.msg('注册成功！', {icon: 1});
 		}else if(data == '2222'){
-			 alert("用户已存在");
+			  layer.msg('用户已存在', {icon: 7});
 		}else{
 			$("#login_form").removeClass('shake_effect');  
 			setTimeout(function()
@@ -68,7 +71,6 @@ function check_register(){
 		}
 
 	},'json');
-
 }
 $(function(){
 	$("#create").click(function(){

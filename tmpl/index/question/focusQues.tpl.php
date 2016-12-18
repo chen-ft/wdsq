@@ -37,7 +37,6 @@
 		          					<p class="text-color-999">
 		          						来自话题•  <a data-id={{item['tpId']}} class="
 		          						aw-topic-name" href="/index.php?module=topic&action=topic&tpId={{item['tpId']}}">{{item['tpName']}}</a>
-		          					    <span class="pull-right more-operate"><a class="text-color-999" href="javascript:;" onclick="AWS.User.noinstrest($(this))">不感兴趣</a></span>
 		          					</p>
 	          						<h4>
 	          							<a href="/index.php?module=question&action=question&id={{item['qsId']}}">{{item['qsTitle']}}
@@ -80,7 +79,6 @@
 	                    list : data,
 	                };
 	                var html = template('qList',content);
-	                template.config("escape", false);
 	                $('#main_contents').html(html);
 	            }
 	     });

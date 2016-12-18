@@ -126,7 +126,7 @@ select {
     background-color:#1abc9c
 }
 .btn-primary:active,.btn-primary:focus {
-    background-color:#2fe2bf
+    background-color:#fff
 }
 .btn-gray {
     border:none!important;
@@ -736,15 +736,14 @@ a.aw-load-more-content {
     margin:10px 0 10px 10px
 }
 .aw-logo {
-    width:90px;
+    width:80px;
     height:40px;
-    margin:7px 0 0 0
+    margin:7px 0 0 0;
 }
 .aw-logo a {
     display:block;
-    width:60px;
+    width:200px;
     height:38px;
-    background:url(img/logo.png) no-repeat
 }
 .aw-logo h1 {
     height:25px;
@@ -4008,7 +4007,7 @@ body {
     content:none
 }
 .aw-logo a {
-    width:38px!important;
+    width:68px!important;
     background:url(logo/bootstrap-punchout.png) no-repeat!important;
     background-size:contain!important
 }
@@ -4086,3 +4085,5 @@ body {
     color:#ccc;
     content:"|"
 }
+
+

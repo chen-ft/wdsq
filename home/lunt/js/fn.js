@@ -7,6 +7,7 @@ var AWS =
   		}
 
   		$(document).on('mouseover',selector,function(){
+
   			var _this = $(this);
   			clearTimeout(AWS.G.card_box_hide_timer);
 
@@ -37,6 +38,9 @@ var AWS =
             break;
 
   				}
+          //初始化关注
+          AWS.Init.init_focus_btn('.aw-card-tips-user','user');
+          AWS.Init.init_focus_btn('.aw-card-tips-topic','topic');
 
   				function _getdata(){ //获取数据
   					if (type == 'user') {
@@ -55,6 +59,9 @@ var AWS =
                       $('#aw-ajax-box').html(html);
                       _init();
                       AWS.G.cashUserData.push($('#aw-ajax-box').html());
+
+                      AWS.Init.init_focus_btn('.aw-card-tips-user','user');
+                      
 
                   },'json')
   					}
@@ -76,10 +83,10 @@ var AWS =
                       _init();
                       AWS.G.cashUserData.push($('#aw-ajax-box').html());
 
+                      AWS.Init.init_focus_btn('.aw-card-tips-topic','topic');
+
               },'json')
-
             }
-
   				}
 
   				function _checkcash(type){  //检测缓存
@@ -122,8 +129,10 @@ var AWS =
 
 	      			$('#aw-card-tips').css({left:left,top:top}).fadeIn(); 
 	      		}
+
+             
   			},time);
-  			
+  		
   		}); //mouseover
 
   		$(document).on('mouseout',selector,function(){
@@ -146,6 +155,10 @@ var AWS =
       if (type == 'report') {
         $('#reportForm').modal('show');
       }
+      if (type == 'inbox') {
+        $('#privateForm').modal('show');
+      }
+    
       
     },
     
@@ -478,11 +491,14 @@ AWS.Init =
       case 'user':
         url = "/index.php?module=sql&action=initInvite&userId="+$(selector).attr('data-id')+"&type="+type;    
       break;
+      case 'topic':
+        url = "/index.php?module=sql&action=initInvite&tpId="+$(selector).attr('data-id')+"&type="+type;    
+      break;
     }
     $.get(url,function(result){
         if (result == '0000') {
-           $(selector).children('btn').find('span').html('取消关注');
-           $(selector).children('btn').addClass('active');
+           $(selector).find('.btn span').html('取消关注');
+           $(selector).find('.btn').addClass('active');
         }
     },'json');
   }
