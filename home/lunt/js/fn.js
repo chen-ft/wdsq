@@ -158,8 +158,7 @@ var AWS =
       if (type == 'inbox') {
         $('#privateForm').modal('show');
       }
-    
-      
+       
     },
     
     // 表单提交
@@ -240,7 +239,8 @@ var AWS =
 
     },
 
-    add_more:function(selector,type){
+    add_more:function(selector,type)
+    {
 
        $(selector).addClass('loading');
        $page = $(selector).attr('data-page');
@@ -309,7 +309,7 @@ var AWS =
            $.post('/index.php?module=sql&action=publish',
                 {title:$('#qsTitle').val(),content:$('#qsContent').summernote('code'),topic:$('#qsTopic').select2('val'),qsId:AWS.G.num},
                 function(data){
-                  if (data == '0000') {alert('发布成功');location.reload();}else{alert('出现错误')}
+                  if (data == '0000') { layer.alert('发布成功',{icon:1});;location.reload();}else{ layer.alert('出现错误',{icon:5});}
            },'json');
 
         break;
@@ -321,12 +321,12 @@ var AWS =
               data     : {qsId:data,content:$('#answer').summernote('code')},
               success  : function(data){
                 if (data == '0000') {
-                  alert('回复成功');
+                  layer.alert('回复成功',{icon:1});
                   location.reload();
                 }
               },
               error    : function(){
-                  alert('出现错误');
+                 layer.alert('出现错误',{icon:5});
               }
           });
 
@@ -339,12 +339,12 @@ var AWS =
               data     : {content:data},
               success  : function(data){
                 if (data == '0000') {
-                  alert('回复成功');
+                  layer.alert('回复成功',{icon:1});
                   location.reload() 
                 }
               },
               error    : function(){
-                  alert('出现错误');
+                 layer.alert('出现错误',{icon:5});
               }
           });
       break;
@@ -360,6 +360,19 @@ var AWS =
             processData: false,  
             success: function(url) {  
                   $(".summernote").summernote('insertImage', url, 'image name'); 
+            }  
+        });  
+      break;
+      case 'agree':
+        $.ajax({  
+            type     : 'post',
+            dataType : 'json',
+            url      : '/index.php?module=sql&action=answerAgree',
+            data     : {strAnsId:data},
+            success: function(result) {  
+                if (result != 0000) {
+                  layer.alert('出现错误',{icon:5});
+                }
             }  
         });  
       break;
@@ -523,6 +536,7 @@ AWS.User =
   // 赞
   question_agree(selector)
   {
+      AWS.ajax_post('agree',$(selector).parent().attr('data-id'));
       $.tipsBox({
             obj: selector,
             str: "<b style='font-family:Microsoft YaHei;'>+1</b>",

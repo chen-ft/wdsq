@@ -82,7 +82,7 @@
         <td>{{value['strName']}}</td>
         <td>{{value['qsTitle']}}</td>
         <td>{{value['qsCreateTime']}}</td>
-        <td><button class="btn btn-block btn-primary" onclick="openUrl('{{value['qsId']}}');">问题编辑</button></td>
+        <td><button class="btn btn-block btn-success" onclick="openUrl('{{value['qsId']}}');">问题编辑</button></td>
     </tr>
     {{/each}}
 </script>

@@ -7,8 +7,10 @@
 <script src="home/plugins/select2/select2.min.js"></script>
 <script src="home/plugins/tabCloud/js/tab.js"></script>
 <script src="home/arttemplate/template.js"></script>
+<script src="<?php echo CFG_JS_PATH; ?>/layer/layer.js"></script>
 <script src="home/lunt/js/fn.js"></script>
 <script src="home/lunt/js/wdsq.js"></script>
 <script src="home/lunt/js/zan.js"></script>
+
 
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->

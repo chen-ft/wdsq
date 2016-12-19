@@ -67,7 +67,7 @@
                                             </p>
                                             <p class="text-color-999 aw-agree-by">
                                                 <span></span>
-                                                {{item['strAnsAttentions']}} 人赞同
+                                                {{item['strAnsAgree']}} 人赞同
                                             </p>
                                         </div>
                                     </div>

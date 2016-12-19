@@ -13,7 +13,7 @@ class Sql extends Home_Public
 	Function showPublish(){
 		if ($_POST['title']) {
 			//连接数据库
-			$pdo = $this->getConnect();
+			$pdo = $this->getInstance();
 			// 获取数据
 			$title   = "'".$_POST['title']."'";
 			$content = "'".htmlspecialchars_decode($_POST['content'])."'";
@@ -35,7 +35,7 @@ class Sql extends Home_Public
 	Function showTopic(){
 		//连接数据库
 		$search = $_GET['q'];
-		$pdo = $this->getConnect();
+		$pdo = $this->getInstance();
 		$sql = "select tpId,tpName from wd_topic where tpName like '%".$search."%' limit 6";
 		$rs  = $pdo->prepare($sql);
 		$rs->execute();
@@ -64,8 +64,7 @@ class Sql extends Home_Public
 
 		$page= $_POST['page']*10;
 		$sql = 'SELECT q.tpId,t.tpName,q.qsId,a.strAnsAgree,q.qsTitle,u.strUserId,
-               u.strName,u.strDetail,a.strAnsContent,a.strAnsId,a.strAnsComment,
-               a.strAnsImg,a.strAnsAttentions  FROM wd_question AS q LEFT JOIN 
+               u.strName,u.strDetail,a.strAnsContent,a.strAnsId,a.strAnsImg FROM wd_question AS q LEFT JOIN 
                (select * from wd_answer ORDER BY strAnsAgree desc) AS a ON q.qsId = a.strQsId LEFT JOIN 
                 wd_topic AS t ON q.tpId = t.tpId LEFT JOIN 
                 wd_user AS u ON a.strUserId = u.strUserId 
@@ -84,7 +83,7 @@ class Sql extends Home_Public
 
 
     Function showGetTopic(){
-    	$pdo = $this->getConnect();
+    	$pdo = $this->getInstance();
     	$dataId = $_POST['id'];
 
     	$sql = "SELECT tpId,tpName,tpDetail from wd_topic where tpId=".$dataId;
@@ -106,7 +105,7 @@ class Sql extends Home_Public
     }
 
     Function showGetUser(){
-        $pdo = $this->getConnect();
+        $pdo = $this->getInstance();
         $dataId = $_POST['id'];
 
         $sql = "SELECT strUserId,strName,strDetail from wd_user where strUserId=".$dataId;
@@ -127,14 +126,14 @@ class Sql extends Home_Public
         echo json_encode($list);
     }
 
-    Function showLoadQuestiton(){
+    Function showLoadQuestion(){
     	
     	$dataId = $_POST['id'];
 
     	$sql = "SELECT tpName,q.tpId,qsId,qsTitle,qsContent,qsCreateTime FROM wd_question AS q LEFT JOIN wd_topic AS t ON q.tpId = t.tpId WHERE qsId=".$dataId;
     	$array = $this->myFetchAll($sql);
 
-    	$ansArr = $this->myFetchAll("SELECT a.strUserId,u.strName,a.strAnsId,strAnsContent,strAnsAgree,strAnsAttentions,strAnsComment FROM wd_answer AS a INNER JOIN wd_user AS u ON a.strUserId = u.strUserId WHERE a.strQsId=".$dataId);
+    	$ansArr = $this->myFetchAll("SELECT a.strUserId,u.strName,a.strAnsId,strAnsContent,strAnsAgree FROM wd_answer AS a INNER JOIN wd_user AS u ON a.strUserId = u.strUserId WHERE a.strQsId=".$dataId);
 
     	$array['questions'] = $ansArr;
    		echo json_encode($array);
@@ -143,21 +142,25 @@ class Sql extends Home_Public
     Function showReplay(){
 
         if (!empty($_POST['content'])) {
-        	$pdo = $this->getConnect();
+        	$pdo = $this->getInstance();
         	$content = "'".htmlspecialchars_decode($_POST['content'])."'";
         	$qsId = $_POST['qsId'];
         	$userId = $_SESSION['login']['strUserId'];
             $ansId = $this->getLastId('strAnsId','wd_answer');
 
-            if ($_SESSION['replay']) {
+         /*   if ($_SESSION['replay']['img']) {
+                echo "1-";
                 $img = "'".$_SESSION['replay']['img']."'";
                 $sql = "insert into wd_answer(strAnsId,strQsId,strUserId,strAnsContent,strAnsImg,createTime) values($ansId,$qsId,$userId,$content,$img,CURDATE())";
-            }
-
-            $img = '';
-        	$sql = "insert into wd_answer(strAnsId,strQsId,strUserId,strAnsContent,createTime) values($ansId,$qsId,$userId,$content,CURDATE())";
+            }else{
+                echo "2-";
+                $img = '';
+            	$sql = "insert into wd_answer(strAnsId,strQsId,strUserId,strAnsContent,createTime) values($ansId,$qsId,$userId,$content,CURDATE())";
+            }*/
+            $img = "'".$_SESSION['replay']['img']."'";
+            $sql = "insert into wd_answer(strAnsId,strQsId,strUserId,strAnsContent,strAnsImg,createTime) values($ansId,$qsId,$userId,$content,$img,CURDATE())";
         	$rs = $pdo->prepare($sql);
-            $_SESSION['replay'] = '';
+            $_SESSION['replay']['img'] = '';
        		if ($rs->execute()) {
        			echo json_encode('0000');
        		}
@@ -177,9 +180,9 @@ class Sql extends Home_Public
     }
 
     Function showRegister(){
-    	$pdo = $this->getConnect();
+    	$pdo = $this->getInstance();
         $pass= $_POST['pass'];
-    	$email= $_POST['email'];
+    	$email="'".$_POST['email']."'";
     	$name= "'".$_POST['name']."'";
     	$id = $this->getLastId('strUserId','wd_user');
     	//判断是否已存在用户
@@ -211,7 +214,7 @@ class Sql extends Home_Public
 
     Function showSaveQsComment(){
     	if (!empty($_POST['content'])) {
-	    	$pdo = $this->getConnect();
+	    	$pdo = $this->getInstance();
 	    	$cmtId = $this->getLastId('strQsCmtId','wd_q_comment');
 	    	$qsId  = $_GET['ques_id'];
 	    	$userId = $_SESSION['login']['strUserId'];
@@ -242,7 +245,7 @@ class Sql extends Home_Public
 
     Function showSaveAnsComment(){
     	if (!empty($_POST['content'])) {
-	        $pdo = $this->getConnect();
+	        $pdo = $this->getInstance();
 	        $cmtId = $this->getLastId('strAnsCmtId','wd_a_comment');
 	        $qsId  = $_GET['ques_id'];
 	        $userId = $_SESSION['login']['strUserId'];
@@ -283,7 +286,6 @@ class Sql extends Home_Public
     	$path = "home/pageImg/".$imgName;
     	move_uploaded_file($tmp, $path);
     	$_SESSION['replay']['img'] = $path;
-
     	echo $path;
     }
 
@@ -301,20 +303,20 @@ class Sql extends Home_Public
     	$qsId = $_POST['ques_id'];
     	$userId = $_POST['user_id'];
         $inviteId = $_SESSION['login']['strUserId'];
-    	$pdo = $this->getConnect();
+    	$pdo = $this->getInstance();
     	$sql = "insert into wd_invite(qsId,strUserId,strInviteId,tCreateTime) values($qsId,$userId,$inviteId,CURDATE())";
     	$rs  = $pdo->prepare($sql);
     	if ($rs->execute()) {
     		echo json_encode('0000');
     	}
-    	
+
     }
 
     //取消邀请
     Function showCancelInvite(){
     	$qsId = $_POST['ques_id'];
     	$inviteId = $_SESSION['login']['strUserId'];
-    	$pdo = $this->getConnect();
+    	$pdo = $this->getInstance();
     	$sql = "DELETE from wd_invite WHERE qsId = ".$qsId." AND  strInviteId = ".$inviteId;
     	$rs  = $pdo->prepare($sql);
     	if ($rs->execute()) {
@@ -332,7 +334,7 @@ class Sql extends Home_Public
     //举报
     Function doReport(){
         if (!empty($_POST['reason'])) {
-            $pdo = $this->getConnect();
+            $pdo = $this->getInstance();
             $reson = "'".$_POST['reason']."'";
             $qsId = $_POST['strQsId'];
             $userId = $_POST['strUserId'];
@@ -355,7 +357,7 @@ class Sql extends Home_Public
             $sex = $_POST[info]['sex'];
             $userId = $_SESSION['login']['strUserId'];
 
-            $pdo = $this->getConnect();
+            $pdo = $this->getInstance();
             $sql = "UPDATE wd_user SET strSex = ".$sex.",strDetail = ".$detail.",strMobile = ".$mobile.",strBirthday = ".$birthday." WHERE strUserId = ".$userId;
             $rs  = $pdo->prepare($sql);
             if ($rs->execute()) {
@@ -376,7 +378,7 @@ class Sql extends Home_Public
     }
 
     Function doSetPass(){
-        $pdo = $this->getConnect();
+        $pdo = $this->getInstance();
         $sql = 'SELECT * FROM wd_user where strUserId = '.$_SESSION['login']['strUserId'].' and strPass = '.$_POST['old_password'];
         $row = $this->myFetchOne($sql);
         if (!$row) {
@@ -473,7 +475,7 @@ class Sql extends Home_Public
     //添加关注
     Function showFocus(){
 
-    	$pdo = $this->getConnect();
+    	$pdo = $this->getInstance();
     	$fcId = $_GET['id'];
     	$type ="'".$_GET['type']."'";
     	$userId = $_SESSION['login']['strUserId'];
@@ -487,7 +489,7 @@ class Sql extends Home_Public
     //取消关注
     Function showDelFocus(){
 
-    	$pdo = $this->getConnect();
+    	$pdo = $this->getInstance();
     	$fcId = $_GET['id'];
     	$userId = $_SESSION['login']['strUserId'];
     	$sql = "DELETE FROM wd_focus WHERE strFcId =".$fcId." AND strUserId = ".$userId;
@@ -608,6 +610,19 @@ class Sql extends Home_Public
         echo json_encode($list);
     }
 
+    Function showAnswerAgree(){
+        $pdo = $this->getInstance();
+        $ansId = $_POST['strAnsId'];
+        $sql = "UPDATE wd_answer SET strAnsAgree = strAnsAgree + 1 WHERE strAnsId = ".$ansId;
+        $rs = $pdo->prepare($sql);
+        if ($rs->execute()) {
+           echo json_encode('0000');
+        }
+
+
+
+    }
+
 
 
 
@@ -619,7 +634,7 @@ class Sql extends Home_Public
 	 * 方法封装
 	 */
     Function myFetchAll($sql){
-    	$pdo = $this->getConnect();
+    	$pdo = $this->getInstance(); 
     	$rs = $pdo->prepare($sql);
    		$rs->execute();
         $array = [];
@@ -630,7 +645,7 @@ class Sql extends Home_Public
     }
 
     Function myFetchOne($sql){
-    	$pdo = $this->getConnect();
+    	$pdo = $this->getInstance();
     	$rs = $pdo->prepare($sql);
    		$rs->execute();
    		$info = $rs->fetch(PDO::FETCH_ASSOC);
@@ -641,7 +656,6 @@ class Sql extends Home_Public
     * 获取最新id
     */
     Function getLastId($id,$table){
-        $this->getConnect();
         $sql = "SELECT max($id) as lastId FROM $table";
         $strLastId = $this->myFetchOne($sql);
         $lastId =  $strLastId['lastId'];

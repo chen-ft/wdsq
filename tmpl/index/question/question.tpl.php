@@ -114,7 +114,7 @@
                                             </p>
                                             <p class="text-color-999 aw-agree-by">
                                                 <span></span>
-                                                {{item['strAnsAttentions']}} 人赞同
+                                                {{item['strAnsAgree']}} 人赞同
                                             </p>
                                         </div>
                                     </div>
@@ -124,8 +124,8 @@
                                        </div>
                                    </div>
                                    <div class="mod-footer">
-                                        <div class="meta btn-group">
-                                            <a onclick="AWS.User.question_agree($(this));" class="aw-icon-agree-tips text-color-999" data-original-title="感谢热心的回复者" data-toggle="tooltip" title="" data-placement="bottom"><i class="icon icon-agree"></i>
+                                        <div class="meta btn-group" data-id={{item['strAnsId']}}>
+                                            <a onclick="AWS.User.question_agree($(this))" class="aw-icon-agree-tips text-color-999" data-original-title="感谢热心的回复者" data-toggle="tooltip" title="" data-placement="bottom"><i class="icon icon-agree"></i>
                                                 赞
                                             </a> &nbsp;&nbsp;
                                             <a class="text-color-999 add-comment" data-type="answer" data-id={{item['strAnsId']}}><i class="icon icon-comment"></i>
@@ -146,12 +146,6 @@
                                  {{/each}}
                             </div>
                             <div class="mod-footer">
-                                <div class="aw-load-more-content hide" id="load_uninterested_answers">
-                                    <span class="text-color-999 aw-alert-box text-color-999" href="javascript:;" tabindex="-1" onclick="AWS.alert('被折叠的回复是被你或者被大多数用户认为没有帮助的回复');">为什么被折叠?</span>
-                                    <a href="javascript:;" class="aw-load-more-content"><span class="hide_answers_count">0</span> 个回复被折叠</a>
-                                </div>
-
-                                <div class="hide aw-feed-list" id="uninterested_answers_list"></div>
                             </div>
                         </div>
                         <!-- end 问题详细模块 -->
@@ -171,7 +165,7 @@
                                 </div>
                                 <div class="mod-body">
                                     <div class="mod-head">
-                                        <div class="summernote1" id="answer">
+                                        <div class="summer" id="answer">
                                         </div>
                                     </div>
                                     <div class="mod-body clearfix">
@@ -227,13 +221,10 @@
     <?php $this->loadTmplate(TEMPLATE_PATH . "public/footer.tpl.php")?>
     <?php $this->loadTmplate(TEMPLATE_PATH . "public/js.tpl.php"); ?>
     <script>
-
-       
-
         $.ajax({
               type     : 'post',
               dataType : 'json',
-              url      : '/index.php?module=sql&action=loadQuestiton',
+              url      : '/index.php?module=sql&action=loadQuestion',
               data     : {'id':<?=$_GET['id'] ?>},
               success  : function(data){
                     var content={
@@ -246,10 +237,9 @@
                     $('#main').html(html);
                 }
          });
-
    
 
-        $('.summernote1').summernote({
+        $('.summer').summernote({
           height:300,
           callbacks:{
              onImageUpload: function(files) {
@@ -269,7 +259,7 @@
                 contentType: false,  
                 processData: false,  
                 success: function(url) {  
-                      $(".summernote1").summernote('insertImage', url, 'image name'); 
+                      $(".summer").summernote('insertImage', url, 'image name'); 
                 }  
             });  
         }

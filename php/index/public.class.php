@@ -2,6 +2,8 @@
 
 class Home_Public extends Cortrol {
 
+    public static $connect = null;
+
     Function Home_Public() {
         session_start();
         $this->Cortrol();
@@ -9,10 +11,12 @@ class Home_Public extends Cortrol {
         //$this->$moduleAction();
         return;
     }
+
+    private function __clone() {} 
     /**
      * 创建数据库连接
      */
-    Function getConnect(){
+    private static function getConnect(){
         try {
             $pdo = new PDO('mysql:host=120.27.103.38;dbname=wdsq','xwsd','xwsdliu2016');
             $pdo->query('set names utf8');
@@ -22,7 +26,13 @@ class Home_Public extends Cortrol {
         }
           return $pdo;
     }
-  
+
+    public Function getInstance(){
+        if (self::$connect == null) {
+            self::$connect = self::getConnect();
+        }
+        return self::$connect;
+    }
 
     /**
      * 验证是否登录

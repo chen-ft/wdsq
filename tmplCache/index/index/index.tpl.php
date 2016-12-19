@@ -22,7 +22,6 @@
 	          <div class="aw-mod clearfix">
 		          <!-- tab切换 -->
 		          <ul class="nav nav-tabs aw-nav-tabs active hidden-xs">
-		          	<li><a href="#">写文章</a></li>
 		          	<li><a href="/index.php?module=index&action=answer">回答</a></li>
 		          	<h2 class="hidden-xs"><i class="fa fa-list-ul"></i> 动态</h2>
 		          </ul>
